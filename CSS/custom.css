@@ -1,0 +1,19 @@
+.eventfeed-item .course-name {
+	color: #aaa;
+}
+
+.eventfeed-item .assignment-name {
+	font-size: 1.5em;
+}
+
+.eventfeed-item .notifications {
+	width: 64px;
+}
+.eventfeed-item .important,
+.eventfeed-item .question {
+	width: 32px;
+	text-align: center;
+	display: inline-block;
+	font-size: 1.5em;
+	color: #38c;
+}
