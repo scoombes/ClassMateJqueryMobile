@@ -26,10 +26,6 @@ $(document).on("pagecontainershow", function(event, ui) {
 
 $(document).ready(function()
 {
-    //$("#confirmsignup").on("click", function() {$.mobile.changePage("eventfeed.html", {transition: "none"})});
-
-    $("#signupbtn").on("click", function() {$.mobile.changePage("register.html", {transition: "none"})});
-    
-    $("#loginbtn").on("click", function() {$.mobile.changePage("eventfeed.html", {transition: "none"})});
-
+    $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
+    $("#loginbtn").on("click", function(event) {$.mobile.changePage("eventfeed.html", {transition: "none"}); event.preventDefault(); });
 });
