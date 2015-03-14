@@ -16,27 +16,33 @@
 
 </head>
     <body>
-        <div data-role="page" id="login" data-title="Event Feed - ClassMate">
+        <div data-role="page" id="register" data-title="Event Feed - ClassMate">
 
             <header data-role="header" data-position="fixed">
-                <h2>Login</h2>
+                <h2>Sign Up</h2>
                 <a href="#" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-btn-right ui-corner-all"> </a>
             </header>
 
             <section data-role="content">
-                <h2>Login to ClassMate</h2>
-                <form data-ajax="false">
-                    <label for="email">Student Email:</label>
-                    <input type="email" name="email" id="email" value="" placeholder="jdoe-cc@conestogac.on.ca">
+                <h2>Sign Up for ClassMate</h2>
+                <form id="signupform" action="eventfeed.html">
+                    <label for="signupemail">Student Email:</label>
+                    <input type="email" name="signupemail" id="signupemail" value="" placeholder="jdoe-cc@conestogac.on.ca">
                     
-                    <label for="password">Password:</label>
-                    <input type="password" name="password" id="password" value="" autocomplete="off">
-                    
-                    <input type="checkbox" name="remember" id="remember" checked="">
-                    <label for="remember">Remember Me</label>
+                    <label for="signuppassword">Password:</label>
+                    <input type="password" name="signuppassword" id="signuppassword" value="" autocomplete="off">
+
+                    <label for="confirmsignuppassword">Confirm Password:</label>
+                    <input type="password" name="confirmsignuppassword" id="confirmsignuppassword" value="" autocomplete="off">
+
+                    <!--Need to replace just need something to break up page-->
+                    <br/><hr/><br/>
+
+                    <label for="signupschool">School:</label>
+                    <input type="text" name="signupschool" id="singupschool">
+
     
-                    <button id="loginbtn" class="ui-btn-active ui-shadow ui-btn ui-corner-all ui-icon-lock ui-btn-icon-left" >Log In</button>
-                    <button id="signupbtn" class="ui-shadow ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left" >Sign Up</button>
+                    <button id="confirmsignup"class="ui-btn-active ui-shadow ui-btn ui-corner-all ui-icon-lock ui-btn-icon-left">Confirm Sign Up</button>
                 </form>
         	</section>
 

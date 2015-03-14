@@ -22,4 +22,13 @@ $(document).on("pagecontainershow", function(event, ui) {
 
         new Chart(context).Pie(pieData, { animation: false, segmentStrokeColor: "#303030", segmentStrokeWidth: 2 });
     });
-})
+});
+
+$(document).ready(function()
+{
+    //$("#confirmsignup").on("click", function() {$.mobile.changePage("eventfeed.html", {transition: "none"})});
+
+    $("#signupbtn").on("click", function() {$.mobile.changePage("register.html", {transition: "none"})});
+    $("#loginbtn").on("click", function() {$.mobile.changePage("eventfeed.html", {transition: "none"})});
+
+});
