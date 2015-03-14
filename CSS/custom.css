@@ -26,3 +26,8 @@
 .center-text{
 	text-align: center;
 }
+
+.ui-btn-big {
+	height: 28px;
+	line-height: 28px;
+}
