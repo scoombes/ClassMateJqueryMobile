@@ -1,12 +1,9 @@
 $(document).on("pagecontainershow", function(event, ui) {
     var activePage = $.mobile.pageContainer.pagecontainer("getActivePage").prop('id');
-    if (activePage != "eventfeed") {
-        return;
-    }
 
     Chart.defaults.global.showTooltips = false;
 
-    $(".pie").each(function() {
+    $(ui.toPage).find(".pie").each(function() {
         var context = $(this)[0].getContext('2d');
 
         var pieData = [
