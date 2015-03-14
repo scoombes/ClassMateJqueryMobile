@@ -16,7 +16,7 @@
 
 </head>
     <body>
-        <div data-role="page" id="createevent" data-title="Event Feed - ClassMate">
+        <div data-role="page" id="eventdetails" data-title="Event Feed - ClassMate">
 
             <header data-role="header" data-position="fixed">
                 <h2>Event Details</h2>
@@ -30,22 +30,19 @@
             </header>
 
             <section data-role="content">
-                <h2>Assignment 1 detail</h2>
+                <h2>Assignment 1 details</h2>
                 <form id="createevent" action="eventfeed.html">
 
                     <label for="detailscours">Course</label>
                     <input type="text" id="detailscourse" name="detailscourse" readonly>
                     
-                    <label for="eventdue">Due Date:</label>
-                    <input type="date" name="eventdue" id="eventdue" value="" autocomplete="off">
+                    <label for="detailsdue">Due Date:</label>
+                    <input type="date" name="detailsdue" id="detailsdue" value="" autocomplete="off">
 
                     <!--If a test or quiz is selected there would be a time option-->
 
-                    <label for="eventworth">Percent Of Final Grade:</label>
-                    <input type="number" name="eventworth" id="eventworth" value="" autocomplete="off">
-
-    
-                    <button id="confirmsignup"class="ui-btn-active ui-shadow ui-btn">Submit Event</button>
+                    <label for="detailsworth">Percent Of Final Grade:</label>
+                    <input type="number" name="detailsworth" id="detailsworth" value="" autocomplete="off">
                 </form>
         	</section>
 
