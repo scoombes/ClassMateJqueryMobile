@@ -33,16 +33,27 @@
                 <h2>Assignment 1 details</h2>
                 <form id="createevent" action="eventfeed.html">
 
-                    <label for="detailscours">Course</label>
-                    <input type="text" id="detailscourse" name="detailscourse" readonly>
+                    <label for="detailscourse">Course:</label>
+                    <input type="text" id="detailscourse" name="detailscourse" value="PROG 2070" readonly>
                     
                     <label for="detailsdue">Due Date:</label>
-                    <input type="date" name="detailsdue" id="detailsdue" value="" autocomplete="off">
+                    <input type="date" name="detailsdue" id="detailsdue" value="2015-03-13" readonly>
 
                     <!--If a test or quiz is selected there would be a time option-->
 
                     <label for="detailsworth">Percent Of Final Grade:</label>
-                    <input type="number" name="detailsworth" id="detailsworth" value="" autocomplete="off">
+                    <input type="text" name="detailsworth" id="detailsworth" value="8%" readonly>
+                    
+                    <fieldset data-role="controlgroup" data-type="horizontal">
+                        
+                        <input type="radio" name="votes" id="confirm" value="confirm">
+                        <label for="confirm" class="ui-icon-arrow-u">12</label>
+
+                        <input type="radio" name="votes" id="question" value="question">
+                        <label for="question">6</label>
+
+                    </fieldset>
+
                 </form>
         	</section>
 

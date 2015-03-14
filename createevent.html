@@ -20,13 +20,7 @@
 
             <header data-role="header" data-position="fixed">
                 <h2>Create an Assignment or Test</h2>
-                <a href="#" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-btn-right ui-corner-all"> </a>
-                <div data-role="navbar">
-                    <ul>
-                        <li><a href="eventfeed.html" data-icon="calendar" data-theme="c" class="ui-btn-active ui-state-persist">Event Feed</a></li>
-                        <li><a href="courses.html" data-icon="grid" data-theme="c">Courses</a></li>
-                    </ul>
-                </div>
+                <a href="courses.html" class="ui-btn ui-icon-arrow-l ui-btn-icon-notext ui-btn-left ui-corner-all"> </a>
             </header>
 
             <section data-role="content">
@@ -49,6 +43,9 @@
                         <option>Quiz</option>
                     </select>
                     
+                    <label for="eventname">Assignment Name:</label>
+                    <input type="text" name="eventname" id="eventname" value="" autocomplete="off">
+
                     <label for="eventdue">Due Date:</label>
                     <input type="date" name="eventdue" id="eventdue" value="" autocomplete="off">
 
