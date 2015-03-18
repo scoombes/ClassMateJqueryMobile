@@ -25,4 +25,10 @@ $(document).ready(function()
 {
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
     $("#loginbtn").on("click", function(event) {$.mobile.changePage("eventfeed.html", {transition: "none"}); event.preventDefault(); });
+    $(".create-post-btn").on("click", showCreatePost);
 });
+
+function showCreatePost()
+{
+    $(".create-post").toggle(".hidden");
+}

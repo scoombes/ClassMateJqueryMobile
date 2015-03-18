@@ -35,3 +35,7 @@
 .votes{
 	float: right;
 }
+
+.hidden{
+	display: none;
+}

@@ -47,14 +47,25 @@
                     <fieldset data-role="controlgroup" data-type="horizontal">
                         
                         <input type="radio" name="votes" id="confirm" value="confirm">
-                        <label for="confirm" class="ui-icon-arrow-u">12</label>
+                        <label for="confirm" data-icon="arrow-u">12</label>
 
                         <input type="radio" name="votes" id="question" value="question">
                         <label for="question">6</label>
 
                     </fieldset>
+                </form>
+                <a href="#" class="ui-btn create-post-btn">Create Post</a>
+                <form class="hidden create-post">
+                    <label for="create-event-post-title">Post Title</label>
+                    <input type="text" id="create-event-post-title" class="create-post-title" />
+
+                    <label for="create-event-post-body">Post Body</label>
+                    <textarea id="create-event-post-body" class="create-post-body"></textarea>
+
+                    <button type="submit">Submit Post</button>
 
                 </form>
+
         	</section>
 
             <footer data-role="footer" data-position="fixed">
