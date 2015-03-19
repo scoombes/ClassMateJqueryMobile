@@ -41,13 +41,33 @@ function setVote()
     var voteWorth;
     if ($(this).prop("id") == "up-vote")
     {
+        if ($("#down-vote").hasClass("ui-btn-d")) 
+        {
+            $("#down-vote").text(parseInt($("#down-vote").text()) - 1);
+        }
+
+        if (!$("#up-vote").hasClass("ui-btn-c")) 
+        {
+            $("#up-vote").text(parseInt($("#up-vote").text()) + 1);
+        }
+
         $("#down-vote").removeClass("ui-btn-d");
         $("#up-vote").addClass("ui-btn-c");
+        
     }
     else
     {
-        $("#down-vote").addClass("ui-btn-d");
-        $("#up-vote").removeClass("ui-btn-c");
-    }
+        if ($("#up-vote").hasClass("ui-btn-c")) 
+        {
+            $("#up-vote").text(parseInt($("#up-vote").text()) - 1);
+        }
 
+        if (!$("#down-vote").hasClass("ui-btn-d"))
+        {
+            $("#down-vote").text(parseInt($("#down-vote").text()) + 1);
+        }
+
+        $("#up-vote").removeClass("ui-btn-c");
+        $("#down-vote").addClass("ui-btn-d");
+    }
 }

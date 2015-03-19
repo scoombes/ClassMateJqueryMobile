@@ -47,9 +47,5 @@
 }
 
 #vote-buttons{
-
-}
-
-.up-vote{
-	color: blue;
+	float: right;
 }
