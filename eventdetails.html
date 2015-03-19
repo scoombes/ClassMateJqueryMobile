@@ -23,8 +23,8 @@
                 <a href="#" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-btn-right ui-corner-all"> </a>
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="eventfeed.html" data-icon="calendar" data-theme="c" class="ui-btn-active ui-state-persist">Event Feed</a></li>
-                        <li><a href="courses.html" data-icon="grid" data-theme="c">Courses</a></li>
+                        <li><a href="eventfeed.html" data-icon="calendar" data-theme="b" class="ui-btn-active ui-state-persist">Event Feed</a></li>
+                        <li><a href="courses.html" data-icon="grid" data-theme="b">Courses</a></li>
                     </ul>
                 </div>
             </header>
@@ -43,7 +43,11 @@
                     </div>
                 </div>
 
-                
+                <fieldset data-role="controlgroup" data-type="horizontal" id="vote-buttons">
+                    <a href="#" id="up-vote" class="ui-btn ui-icon-arrow-u ui-btn-icon-top">12</a>
+                    <a href="#" id="down-vote"class="ui-btn ui-icon-arrow-d ui-btn-icon-top">2</a>
+                </fieldset>
+
                 <a href="#" class="ui-btn create-post-btn">Create Post</a>
                 <form class="hidden create-post" action="event-post.html">
                     <label for="create-event-post-title">Post Title</label>

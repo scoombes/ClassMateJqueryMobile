@@ -1,3 +1,5 @@
+@import "classmate.min.css";
+
 .eventfeed-item .course-name {
 	color: #aaa;
 }
@@ -42,4 +44,12 @@
 
 .comment {
 	border-left: 12px solid #ccc;
+}
+
+#vote-buttons{
+
+}
+
+.up-vote{
+	color: blue;
 }

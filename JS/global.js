@@ -26,9 +26,28 @@ $(document).ready(function()
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
     $("#loginbtn").on("click", function(event) {$.mobile.changePage("eventfeed.html", {transition: "none"}); event.preventDefault(); });
     $(".create-post-btn").on("click", showCreatePost);
+    $("#up-vote").on("click", setVote);
+    $("#down-vote").on("click", setVote)
 });
 
 function showCreatePost()
 {
     $(".create-post").toggle(".hidden");
+}
+
+function setVote()
+{
+    //sadface
+    var voteWorth;
+    if ($(this).prop("id") == "up-vote")
+    {
+        $("#down-vote").removeClass("ui-btn-d");
+        $("#up-vote").addClass("ui-btn-c");
+    }
+    else
+    {
+        $("#down-vote").addClass("ui-btn-d");
+        $("#up-vote").removeClass("ui-btn-c");
+    }
+
 }
