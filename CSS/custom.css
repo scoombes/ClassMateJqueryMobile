@@ -39,3 +39,7 @@
 .hidden{
 	display: none;
 }
+
+.comment {
+	border-left: 12px solid #ccc;
+}
