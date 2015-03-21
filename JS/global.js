@@ -21,7 +21,7 @@ $(document).on("pagecontainershow", function(event, ui) {
     });
 
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
-    $("#loginbtn").on("click", function(event) {$.mobile.changePage("eventfeed.html", {transition: "none"}); event.preventDefault(); });
+    $("#loginbtn").on("click", function(event) {$.mobile.changePage("event-feed.html", {transition: "none"}); event.preventDefault(); });
     $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
     $("#down-vote").on("click", setVote)
