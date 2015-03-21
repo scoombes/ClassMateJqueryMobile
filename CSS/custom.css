@@ -49,3 +49,21 @@
 #vote-buttons{
 	float: right;
 }
+
+.vote-bar {
+	position: absolute;
+	left: 2px;
+	top: 4px;
+	bottom: 4px;
+	width: 8px;
+	border: 1px solid #ddd;
+	background-color: #ddd;
+}
+
+.upvote-bar {
+	background-color: #0071bc;
+}
+
+.downvote-bar {
+	background-color: #c1272d;
+}
