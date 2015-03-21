@@ -52,10 +52,10 @@
 
 .vote-bar {
 	position: absolute;
-	left: 2px;
+	right: 8px;
 	top: 4px;
 	bottom: 4px;
-	width: 8px;
+	width: 16px;
 	border: 1px solid #ddd;
 	background-color: #ddd;
 }
