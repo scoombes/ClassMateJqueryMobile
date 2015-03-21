@@ -19,26 +19,18 @@ $(document).on("pagecontainershow", function(event, ui) {
 
         new Chart(context).Pie(pieData, { animation: false, segmentStrokeColor: "#303030", segmentStrokeWidth: 2 });
     });
-});
 
-$(document).ready(function()
-{
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
     $("#loginbtn").on("click", function(event) {$.mobile.changePage("eventfeed.html", {transition: "none"}); event.preventDefault(); });
-    $(".create-post-btn").on("click", showCreatePost);
+    $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
     $("#down-vote").on("click", setVote)
 });
 
-function showCreatePost()
-{
-    $(".create-post").toggle(".hidden");
-}
-
 function setVote()
 {
-    //sadface
     var voteWorth;
+
     if ($(this).prop("id") == "up-vote")
     {
         if ($("#down-vote").hasClass("ui-btn-d")) 
@@ -53,7 +45,8 @@ function setVote()
 
         $("#down-vote").removeClass("ui-btn-d");
         $("#up-vote").addClass("ui-btn-c");
-        
+
+        voteWorth=1;
     }
     else
     {
@@ -69,5 +62,9 @@ function setVote()
 
         $("#up-vote").removeClass("ui-btn-c");
         $("#down-vote").addClass("ui-btn-d");
+
+        voteWorth=-1;
     }
+
+    //whole buncha logic to add vote to the sweet sweet database of ours
 }

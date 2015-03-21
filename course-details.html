@@ -23,8 +23,8 @@
                 <a href="#" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-btn-right ui-corner-all"> </a>
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="eventfeed.html" data-icon="calendar" data-theme="c">Event Feed</a></li>
-                        <li><a href="courses.html" data-icon="grid" data-theme="c" class="ui-btn-active ui-state-persist">Courses</a></li>
+                        <li><a href="eventfeed.html" data-icon="calendar" data-theme="b">Event Feed</a></li>
+                        <li><a href="courses.html" data-icon="grid" data-theme="b" class="ui-btn-active ui-state-persist">Courses</a></li>
                     </ul>
                 </div>
             </header>
@@ -102,7 +102,18 @@
                 </ul>
 				
 				<h2>Posts</h2>
-                <a href="createevent.html" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left">Create Post</a>
+                <a href="#" class="ui-btn create-post-btn">Create Post</a>
+                <form class="hidden create-post" action="course-post.html">
+                    <label for="create-event-post-title">Post Title</label>
+                    <input type="text" id="create-event-post-title" class="create-post-title" />
+
+                    <label for="create-event-post-body">Post Body</label>
+                    <textarea id="create-event-post-body" class="create-post-body"></textarea>
+
+                    <button type="submit">Submit Post</button>
+
+                </form>
+
                 <ul data-role="listview" data-inset="true">
                     <li class="eventfeed-item">
                         <a href="course-post.html">
