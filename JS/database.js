@@ -12,6 +12,7 @@ function intializeDatabase() {
 	User.initialize();
 	Course.initialize();
 	EventType.initialize();
+	Comment.initialize();
 }
 
 function nukeDatabase() {
@@ -19,6 +20,7 @@ function nukeDatabase() {
 	User.nuke();
 	Course.initialize();
 	EventType.initialize();
+	Comment.initialize();
 }
 
 intializeDatabase();
