@@ -11,7 +11,7 @@ var User =
 			+ " user_id INTEGER NOT NULL PRIMARY KEY,"
 			+ " student_email VARCHAR NOT NULL,"
 			+ " password VARCHAR NOT NULL,"
-			+ " first_name VARCHAR NOT NULL"
+			+ " first_name VARCHAR NOT NULL,"
 			+ " last_name VARCHAR NOT NULL)";
 
 			transaction.executeSql(sqlString, [], null, errorHandler);

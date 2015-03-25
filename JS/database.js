@@ -9,10 +9,16 @@ function errorHandler(transaction, error) {
 
 function intializeDatabase() {
 	Event.initialize();
+	User.initialize();
+	Course.initialize();
+	EventType.initialize();
 }
 
 function nukeDatabase() {
 	Event.nuke();
+	User.nuke();
+	Course.initialize();
+	EventType.initialize();
 }
 
 intializeDatabase();
