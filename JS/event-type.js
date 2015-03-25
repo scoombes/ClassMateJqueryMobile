@@ -1,4 +1,4 @@
-var Event_Type = 
+var EventType = 
 {
 	initialize: function() {
 		db.transaction(function(transaction) {
@@ -17,7 +17,7 @@ var Event_Type =
 	nuke: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "DROP TABLE IF EXISTS event_type;";
-			transaction.executeSql(sqlString, [type_name], null, errorHandler);
+			transaction.executeSql(sqlString, [type_name], Event_Type.initialize, errorHandler);
 		}, errorHandler);
 	}
 };
