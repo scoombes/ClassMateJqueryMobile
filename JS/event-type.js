@@ -3,7 +3,7 @@ var EventType =
 	initialize: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS event_type ("
-				+ "type_id INTEGER NOT NULL PRIMARY KEY,"
+				+ "id INTEGER NOT NULL PRIMARY KEY,"
 				+ "type_name VARCHAR(20) NOT NULL);";
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		}, errorHandler);

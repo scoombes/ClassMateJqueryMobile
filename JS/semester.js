@@ -3,7 +3,7 @@ var Semester =
 	initialize: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS semester ("
-				+ "semester_id INTEGER NOT NULL PRIMARY KEY,"
+				+ "id INTEGER NOT NULL PRIMARY KEY,"
 				+ "semester_name VARCHAR(10) NOT NULL);";
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		}, errorHandler);
@@ -16,7 +16,7 @@ var Semester =
 	},
 	nuke: function() {
 		db.transaction(function(transaction) {
-			var sqlString = "DELETE FROM semester WHERE semester_name=?;";
+			var sqlString = "DROP TABLE IF EXISTS semester;";
 			transaction.executeSql(sqlString, [semester_name], Semester.initialize, errorHandler);
 		}, errorHandler);
 	}
