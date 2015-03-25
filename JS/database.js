@@ -17,8 +17,9 @@ function intializeDatabase() {
 function nukeDatabase() {
 	Event.nuke();
 	User.nuke();
-	Course.initialize();
-	EventType.initialize();
+	Course.nuke();
+	EventType.nuke();
+	Course.nuke();
 }
 
 intializeDatabase();
