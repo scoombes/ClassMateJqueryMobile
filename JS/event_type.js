@@ -14,9 +14,9 @@ var Event_Type =
 			transaction.executeSql(sqlString, [type_name], null, errorHandler);
 		}, errorHandler);
 	},
-	remove: function(type_name) {
+	nuke: function() {
 		db.transaction(function(transaction) {
-			var sqlString = "DELETE FROM event_type WHERE type_name=?;";
+			var sqlString = "DROP TABLE IF EXISTS event_type;";
 			transaction.executeSql(sqlString, [type_name], null, errorHandler);
 		}, errorHandler);
 	}

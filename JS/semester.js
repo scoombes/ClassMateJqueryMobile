@@ -14,7 +14,7 @@ var Semester =
 			transaction.executeSql(sqlString, [semester_name], null, errorHandler);
 		}, errorHandler);
 	},
-	remove: function(semester_name) {
+	nuke: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "DELETE FROM semester WHERE semester_name=?;";
 			transaction.executeSql(sqlString, [semester_name], null, errorHandler);
