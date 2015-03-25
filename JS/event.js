@@ -25,8 +25,7 @@ var Event =
 				+ "creator"
 				+ ") VALUES (?,?,?,?,?)";
 
-			transaction.executeSql(sql, 
-				[event_type, due_date, final_grade_weight, description, creator], null, errorHandler);
+			transaction.executeSql(sql, [event_type, due_date, final_grade_weight, description, creator], null, errorHandler);
 		}, errorHandler);
 	}, 
 	nuke: function() {
