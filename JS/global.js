@@ -18,6 +18,19 @@ $(document).on("pagecontainershow", function(event, ui) {
     $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
     $("#down-vote").on("click", setVote)
+
+    $("#add-course-form").on("submit", function(event) {
+        event.preventDefault();
+
+        var courseCode = $(this).find('#course-code').val();
+        var courseSection = $(this).find('#course-section').val();
+        var courseName = $(this).find('#course-name').val();
+        var semester = 1;
+        var year = $(this).find("#course-year").val();
+        var teacherName = $(this).find("#teacher-name").val();
+
+        Course.insert(courseCode, courseSection, courseName, semester, year, teacherName);
+    });
 });
 
 $("#eventtype").on("change", function () {
