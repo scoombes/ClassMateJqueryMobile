@@ -5,7 +5,11 @@ var EventType =
 			var sqlString = "CREATE TABLE IF NOT EXISTS event_type ("
 				+ "id INTEGER NOT NULL PRIMARY KEY,"
 				+ "type_name VARCHAR(20) NOT NULL);";
-			transaction.executeSql(sqlString, [], null, errorHandler);
+			transaction.executeSql(sqlString, [], function() {
+				EventType.insert("Assignment");
+				EventType.insert("Test");
+				EventType.insert("Exam");
+			}, errorHandler);
 		}, errorHandler);
 	},
 	insert: function(type_name) {
@@ -17,7 +21,7 @@ var EventType =
 	nuke: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "DROP TABLE IF EXISTS event_type;";
-			transaction.executeSql(sqlString, [type_name], Event_Type.initialize, errorHandler);
+			transaction.executeSql(sqlString, [], EventType.initialize, errorHandler);
 		}, errorHandler);
 	}
 };
