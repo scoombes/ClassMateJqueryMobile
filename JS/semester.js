@@ -5,7 +5,17 @@ var Semester =
 			var sqlString = "CREATE TABLE IF NOT EXISTS semester ("
 				+ "id INTEGER NOT NULL PRIMARY KEY,"
 				+ "semester_name VARCHAR(10) NOT NULL);";
+
 			transaction.executeSql(sqlString, [], null, errorHandler);
+
+			transaction.executeSql("SELECT * FROM semester", [], function(transaction, resultset) {
+				if (resultset.rows.length == 0) {
+					EventType.insert("Fall");
+					EventType.insert("Winter");
+					EventType.insert("Spring");
+				}
+			}, errorHandler);
+
 		}, errorHandler);
 	},
 	insert: function(semester_name) {
