@@ -26,7 +26,8 @@ var User =
 	},
 	nuke: function() {
 		db.transaction(function (transaction) {
-			transaction.executeSql("DROP TABLE IF EXISTS user",[], User.initialize, errorHandler);
+			transaction.executeSql("DROP TABLE IF EXISTS user",[], 
+				User.initialize, errorHandler);
 		}, errorHandler);
 	}
 }
