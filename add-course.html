@@ -46,7 +46,7 @@
                     <li><a href="course-details.html">INFO2040-2 - Mobile Application Design</a></li>
                 </ul>
                 <h3>Create Course</h3>
-                <form action="course-details.html">
+                <form id="add-course-form" action="course-details.html">
                     <label for="course-code">Course Code:</label>
                     <input type="text" name="course-code" id="course-code" value="" placeholder="E.g. PROG3180">
 
@@ -60,13 +60,13 @@
 
                     <fieldset data-role="controlgroup" data-type="horizontal">
                         <legend>Semester</legend>
-                        <input name="radio-choice-b" id="radio-choice-c" value="fall" checked="checked" type="radio">
+                        <input name="semester" id="radio-choice-c" value="fall" checked="checked" type="radio">
                         <label for="radio-choice-c">Fall</label>
                         
-                        <input name="radio-choice-b" id="radio-choice-d" value="winter" type="radio">
+                        <input name="semester" id="radio-choice-d" value="winter" type="radio">
                         <label for="radio-choice-d">Winter</label>
                         
-                        <input name="radio-choice-b" id="radio-choice-e" value="spring" type="radio">
+                        <input name="semester" id="radio-choice-e" value="spring" type="radio">
                         <label for="radio-choice-e">Spring</label>
                     </fieldset>
 
