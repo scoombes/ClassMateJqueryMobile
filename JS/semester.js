@@ -17,7 +17,7 @@ var Semester =
 	nuke: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "DROP TABLE IF EXISTS semester;";
-			transaction.executeSql(sqlString, [semester_name], Semester.initialize, errorHandler);
+			transaction.executeSql(sqlString, [], Semester.initialize, errorHandler);
 		}, errorHandler);
 	}
 };

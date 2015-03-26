@@ -14,13 +14,13 @@ var Post =
 	insert: function(title, body, author, postDateTime) {
 		db.transaction(function(transaction) {
 			var sqlString = "INSERT INTO post (title, body, author, postDateTime) VALUES (?, ?, ?, ?);";
-			transaction.executeSql(sqlString, [semester_name], null, errorHandler);
+			transaction.executeSql(sqlString, [title, body, author, postDateTime], null, errorHandler);
 		}, errorHandler);
 	},
 	nuke: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "DROP TABEL IF EXISTS post;";
-			transaction.executeSql(sqlString, [semester_name], Post.initialize, errorHandler);
+			transaction.executeSql(sqlString, [], Post.initialize, errorHandler);
 		}, errorHandler);
 	}
 };
