@@ -5,11 +5,17 @@ var EventType =
 			var sqlString = "CREATE TABLE IF NOT EXISTS event_type ("
 				+ "id INTEGER NOT NULL PRIMARY KEY,"
 				+ "type_name VARCHAR(20) NOT NULL);";
-			transaction.executeSql(sqlString, [], function() {
-				EventType.insert("Assignment");
-				EventType.insert("Test");
-				EventType.insert("Exam");
+
+			transaction.executeSql(sqlString, [], null, errorHandler);
+
+			transaction.executeSql("SELECT * FROM event_type", [], function(transaction, resultset) {
+				if (resultset.rows.length == 0) {
+					EventType.insert("Assignment");
+					EventType.insert("Test");
+					EventType.insert("Exam");
+				}
 			}, errorHandler);
+			
 		}, errorHandler);
 	},
 	insert: function(type_name) {
