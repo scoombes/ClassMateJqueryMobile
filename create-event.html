@@ -51,9 +51,9 @@
 
                     <label for="eventtype">Type of Event:</label>
                     <select id="eventtype">
-                        <option>Assignment</option>
-                        <option>Test/Exam</option>
-                        <option>Quiz</option>
+                        <option value="1">Assignment</option>
+                        <option value="2">Test</option>
+                        <option value="3">Exam</option>
                     </select>
                     
                     <label for="eventname">Assignment Name:</label>
@@ -62,11 +62,16 @@
                     <label for="eventdue">Due Date:</label>
                     <input type="date" name="eventdue" id="eventdue" value="" autocomplete="off">
 
-                    <!--If a test or quiz is selected there would be a time option-->
+                    <div id="eventtimediv">
+                        <label for="eventtime">Time:</label>
+                        <input type="time" name="eventtime" id="eventtime" value="" autocomplete="off">
+                    </div>
 
                     <label for="eventworth">Percent Of Final Grade:</label>
                     <input type="number" name="eventworth" id="eventworth" value="" autocomplete="off">
 
+                    <label for="eventdescription">Description:</label>
+                    <textarea name="eventdescription" id="eventdescription" value="" autocomplete="off"></textarea>
     
                     <button id="confirmsignup"class="ui-btn-active ui-shadow ui-btn">Submit Event</button>
                 </form>

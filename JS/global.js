@@ -20,6 +20,18 @@ $(document).on("pagecontainershow", function(event, ui) {
     $("#down-vote").on("click", setVote)
 });
 
+$("#eventtype").on("change", function () {
+    if ($("#eventtype").val() == 1) {
+        $("#eventtimediv").hide();
+    } else {
+        $("#eventtimediv").show();
+    }
+})
+
+$("#createevent").on("submit", function () {
+
+});
+
 function setVote()
 {
     var voteWorth;
