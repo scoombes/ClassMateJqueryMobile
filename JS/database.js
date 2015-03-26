@@ -16,6 +16,7 @@ function intializeDatabase() {
 	EventPost.initialize();
 	CoursePost.initialize();
 	UserCourse.initialize();
+	Vote.initialize();
 }
 
 function nukeDatabase() {
@@ -27,6 +28,7 @@ function nukeDatabase() {
 	EventPost.nuke();
 	CoursePost.nuke();
 	UserCourse.nuke();
+	Vote.nuke();
 }
 
 intializeDatabase();
