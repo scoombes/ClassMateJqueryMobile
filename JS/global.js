@@ -14,10 +14,13 @@ $(document).on("pagecontainershow", function(event, ui) {
     });
 
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
-    $("#loginbtn").on("click", function(event) {$.mobile.changePage("event-feed.html", {transition: "none"}); event.preventDefault(); });
+    //$("#loginbtn").on("click", function(event) {$.mobile.changePage("event-feed.html", {transition: "none"}); event.preventDefault(); });
     $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
     $("#down-vote").on("click", setVote)
+
+    //validations
+    addValidations();
 
     $("#add-course-form").on("submit", function(event) {
         event.preventDefault();
@@ -85,4 +88,26 @@ function setVote()
     }
 
     //whole buncha logic to add vote to the sweet sweet database of ours
+}
+
+function handleLoginForm()
+{
+    if ($("#login-form").valid()) 
+    {
+        $("#loginmessage").text("stuff");
+    }
+}
+
+function handleSignupForm()
+{
+    if ($("#signup-form").valid()) 
+        {
+            alert("something");
+            var email = $("#signup-email").val();
+            var password = $("#signup-password").val();
+            var fName = $("#signupfname").val();
+            var lName = $("#signuplname").val();
+
+            User.register(email, password, fname, lName);
+        }
 }

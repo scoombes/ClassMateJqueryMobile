@@ -18,11 +18,35 @@ var User =
 		}, errorHandler);
 	},
 	insert: function(email, password, first_name, last_name) {
-		dv.transaction(function (transaction)
-		{
+		db.transaction(function (transaction){
 			transaction.executeSql("INSERT INTO user (student_email, password, first_name, last_name) "
 				+ "VALUES (?, ?, ?, ?)",[email, password, first_name, last_name], null, errorHandler);
 		},errorHandler);
+	},
+	register: function(email, password, first_name, last_name){
+		db.transaction(function (transaction){
+			transaction.executeSql("SELECT * FROM user WHERE student_email = ?",[email],
+				function (transaction, resultset){
+					alert("the shit");
+					if (resultset.rows.length == 0) 
+					{
+						alert("huhu");
+						User.insert(email, password, first_name, last_name);
+						$("#loginmessage").text("Account created, login to authenticate")
+						$.mobile.changePage("login.html", {transition: "none"}); event.preventDefault();
+					}
+					else
+					{
+						alert("what?"); 
+					}
+				}, errorHandler);
+		}, errorHandler);
+	},
+	read: function(id){
+		db.transaction(function (transaction) {
+			transaction.executeSql("SELECT * FROM user WHERE id = ?",[id],
+				null, errorHandler);
+		}, errorHandler);
 	},
 	nuke: function() {
 		db.transaction(function (transaction) {

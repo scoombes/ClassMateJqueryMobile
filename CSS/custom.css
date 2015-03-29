@@ -67,3 +67,12 @@
 .downvote-bar {
 	background-color: #c1272d;
 }
+
+.error {
+    color:red;
+    display:block;
+}
+
+#loginmessage{
+	color:green;
+}
