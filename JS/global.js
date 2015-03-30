@@ -94,7 +94,10 @@ function handleLoginForm()
 {
     if ($("#login-form").valid()) 
     {
-        $("#loginmessage").text("stuff");
+        var email = $("#email").val();
+        var password = $("#password").val();
+
+        User.login(email, password);
     }
 }
 
@@ -102,12 +105,11 @@ function handleSignupForm()
 {
     if ($("#signup-form").valid()) 
         {
-            alert("something");
             var email = $("#signup-email").val();
             var password = $("#signup-password").val();
             var fName = $("#signupfname").val();
             var lName = $("#signuplname").val();
 
-            User.register(email, password, fname, lName);
+            User.register(email, password, fName, lName);
         }
 }
