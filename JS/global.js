@@ -34,6 +34,8 @@ $(document).on("pagecontainershow", function(event, ui) {
 
         Course.insert(courseCode, courseSection, courseName, semester, year, teacherName);
     });
+
+    $.mobile.defaultPageTransition = 'none';
 });
 
 $("#eventtype").on("change", function () {
