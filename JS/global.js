@@ -1,4 +1,4 @@
-$(document).on("pagecontainershow", function(event, ui) {
+$(document).on("pagecontainerbeforeshow", function(event, ui) {
     var activePage = $.mobile.pageContainer.pagecontainer("getActivePage").prop('id');
 
     $(ui.toPage).find('.vote-bar').each(function() {
@@ -13,15 +13,13 @@ $(document).on("pagecontainershow", function(event, ui) {
         $(this).find('.downvote-bar').css('height', downvotePercent + '%');
     });
 
+    var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
+    checkPage(activepage);
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
-    //$("#loginbtn").on("click", function(event) {$.mobile.changePage("event-feed.html", {transition: "none"}); event.preventDefault(); });
     $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
     $("#down-vote").on("click", setVote);
     $("#logout-button").on("click", logOut);
-
-    //validations
-    addValidations();
 
     $("#add-course-form").on("submit", function(event) {
         event.preventDefault();
@@ -39,13 +37,40 @@ $(document).on("pagecontainershow", function(event, ui) {
     $.mobile.defaultPageTransition = 'none';
 });
 
+function checkPage(activepage)
+{
+    switch(activepage)
+    {
+        case "login":
+            loginValidations();
+            checkRememberMe();
+            break;
+        case "register":
+            registerValidations();
+        default:
+            break;
+    }
+}
+
+function checkRememberMe()
+{
+    if (localStorage.getItem("rem") != null && localStorage.getItem("rem") === "true")
+    {
+        $.mobile.changePage("event-feed.html", {transition: "none"});
+    }
+    else
+    {
+        localStorage.clear();
+    }
+}
+
 $("#eventtype").on("change", function () {
     if ($("#eventtype").val() == 1) {
         $("#eventtimediv").hide();
     } else {
         $("#eventtimediv").show();
     }
-})
+});
 
 $("#createevent").on("submit", function () {
 
