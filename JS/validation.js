@@ -1,4 +1,4 @@
-function addValidations()
+function loginValidations()
 {
 	$("#login-form").validate(
 	{
@@ -29,7 +29,9 @@ function addValidations()
 			}
 		},
 	});
+}
 
+function registerValidations() {
 	$("#signup-form").validate(
 	{
 		submitHandler: handleSignupForm,
@@ -84,6 +86,24 @@ function addValidations()
 				required: "Enter your Last Name"
 			}
 		}
+	});
+}
+
+
+//template function for validations
+function Validations() {
+	$("#").validate( 
+	{
+		submitHandler: handleLoginForm,
+		errorPlacement: errorLocation,
+		rules:
+		{
+			
+		},
+		messages:
+		{
+			
+		},
 	});
 }
 

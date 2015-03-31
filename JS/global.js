@@ -18,7 +18,8 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
     $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
-    $("#down-vote").on("click", setVote)
+    $("#down-vote").on("click", setVote);
+    $("#logout-button").on("click", logOut);
 
     //validations
     addValidations();
@@ -35,6 +36,8 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
 
         Course.insert(courseCode, courseSection, courseName, semester, year, teacherName);
     });
+
+    $.mobile.defaultPageTransition = 'none';
 });
 
 function checkPage(activepage)
@@ -140,4 +143,9 @@ function handleSignupForm()
 
             User.register(email, password, fName, lName);
         }
+}
+
+function logOut() {
+    localStorage.clear();
+    $.mobile.changePage("login.html", {transition: "none"});
 }
