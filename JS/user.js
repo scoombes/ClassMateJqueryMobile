@@ -50,9 +50,12 @@ var User =
 						var row = resultset.rows.item(0);
 						if (row["student_email"] == email && row["password"] == password) 
 						{
-							//login good
 							localStorage.setItem("uid", row["id"]);
 							localStorage.setItem("uname", row["first_name"] + " " + row["last_name"]);
+							if ($("#remember").prop("checked", true)) 
+							{
+								localStorage.setItem("rem", "true");
+							}
 							$.mobile.changePage("event-feed.html", {transition: "none"});
 						}
 						else
@@ -62,7 +65,7 @@ var User =
 					}
 					else
 					{
-						//the database is done broke
+						$("#loginmessage").text("Incorrect username or password please try again");
 					}
 				},errorHandler)
 		})
