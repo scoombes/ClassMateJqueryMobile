@@ -21,9 +21,6 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
     $("#down-vote").on("click", setVote);
     $("#logout-button").on("click", logOut);
 
-    //validations
-    addValidations();
-
     $("#add-course-form").on("submit", function(event) {
         event.preventDefault();
 
@@ -45,11 +42,11 @@ function checkPage(activepage)
     switch(activepage)
     {
         case "login":
-            loginValidation();
+            loginValidations();
             checkRememberMe();
             break;
         case "register":
-            registerValidation();
+            registerValidations();
         default:
             break;
     }
