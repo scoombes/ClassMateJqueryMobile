@@ -30,6 +30,7 @@
 
     <script src="JS/database.js" type="text/javascript"></script>
     <script src="JS/global.js" type="text/javascript"></script>
+    <script src="JS/settings.js" type="text/javascript"></script>
 </head>
     <body>
         <div data-role="page" id="login" data-title="Event Feed - ClassMate">
@@ -41,15 +42,7 @@
 
             <section data-role="content">
                 <h2>Settings</h2>
-                <div data-role="fieldcontain">
-                    <fieldset data-role="controlgroup" data-type="horizontal">
-                        <input type="radio" name="stay-logged-option" id="stay-logged-in" checked="checked" />
-                        <label for="stay-logged-in">Stay Logged In</label>
-                        <input type="radio" name="stay-logged-option" id="log-out-exit" />
-                        <label for="log-out-exit">Log Out on Exit</label>
-                    </fieldset>
-                    <button>Log Out</button>
-                </div>
+                <button id="logout-button">Log Out</button>
         	</section>
 
             <footer data-role="footer" data-position="fixed">

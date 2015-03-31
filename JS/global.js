@@ -17,7 +17,8 @@ $(document).on("pagecontainershow", function(event, ui) {
     //$("#loginbtn").on("click", function(event) {$.mobile.changePage("event-feed.html", {transition: "none"}); event.preventDefault(); });
     $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
-    $("#down-vote").on("click", setVote)
+    $("#down-vote").on("click", setVote);
+    $("#logout-button").on("click", logOut);
 
     //validations
     addValidations();
@@ -114,4 +115,9 @@ function handleSignupForm()
 
             User.register(email, password, fName, lName);
         }
+}
+
+function logOut() {
+    localStorage.clear();
+    $.mobile.changePage("login.html", {transition: "none"});
 }
