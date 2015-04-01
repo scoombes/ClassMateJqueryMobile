@@ -89,6 +89,57 @@ function registerValidations() {
 	});
 }
 
+//template function for validations
+function addCourseValidations() {
+	$("#add-course-form").validate( 
+	{
+		//change submit handler
+		submitHandler: handleAddCourse,
+		rules:
+		{
+			"course-code": {
+				required: true
+			},
+			"course-section": {
+				required: true
+			},
+			"course-name": {
+				required: true
+			},
+			"semester": {
+				required: true
+			},
+			"course-year": {
+				required: true
+			},
+			"teacher-name": {
+				required: true
+			}
+		},
+		messages:
+		{
+			"course-code": {
+				required: "Please enter the course code"
+			},
+			"course-section": {
+				required: "Please enter the section"
+			},
+			"course-name": {
+				required: "Please enter the course name"
+			},
+			"semester": {
+				required: "Please select a semester"
+			},
+			"course-year": {
+				required: "Please enter the year"
+			},
+			"teacher-name": {
+				required: "Please enter the teacher's name"
+			}
+		},
+	});
+}
+
 
 //template function for validations
 function Validations() {
