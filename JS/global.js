@@ -21,6 +21,8 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
     $("#up-vote").on("click", setVote);
     $("#down-vote").on("click", setVote);
     $("#logout-button").on("click", logOut);
+    $("#add-course-form").hide();
+    $("#toggle-create-course").on("click", toggleCreateCourse);
 
     $("#add-course-form").on("submit", function(event) {
         event.preventDefault();
@@ -147,4 +149,16 @@ function handleSignupForm()
 function logOut() {
     localStorage.clear();
     $.mobile.changePage("login.html", {transition: "none"});
+}
+
+function toggleCreateCourse() {
+    if ($("#add-course-form").is(":hidden")) {
+        $("#add-course-form").show();
+        $("#toggle-create-course").removeClass("ui-icon-carat-l");
+        $("#toggle-create-course").addClass("ui-icon-carat-d");
+    } else {
+        $("#add-course-form").hide();
+        $("#toggle-create-course").removeClass("ui-icon-carat-d");
+        $("#toggle-create-course").addClass("ui-icon-carat-l");
+    }
 }
