@@ -82,9 +82,18 @@ var User =
 		});
 	},
 	getCurrent: function() {
-		return {
-			id: localStorage.getItem('uid'),
-			name: localStorage.getItem('uname')
+		if(localStorage.getItem("uid") != null && localStorage.getItem("uname") != null)
+		{
+			return {		
+				id: localStorage.getItem('uid'),
+				name: localStorage.getItem('uname')		
+			}
+		}
+		else
+		{
+			return null;
+			localStorage.clear();
+			$.mobile.changePage("login.html", {transition: "none"});
 		}
 	}
 }
