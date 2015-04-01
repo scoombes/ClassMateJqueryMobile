@@ -15,7 +15,7 @@ var UserCourse =
 		}, errorHandler);
 	},
 	insert: function(course_id, user_id) {
-		dv.transaction(function (transaction)
+		db.transaction(function (transaction)
 		{
 			transaction.executeSql("INSERT INTO user_course (course_id, user_id) "
 				+ "VALUES (?, ?)",[course_id, user_id], null, errorHandler);

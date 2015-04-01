@@ -24,19 +24,6 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
     $("#add-course-form").hide();
     $("#toggle-create-course").on("click", toggleCreateCourse);
 
-    $("#add-course-form").on("submit", function(event) {
-        event.preventDefault();
-
-        var courseCode = $(this).find('#course-code').val();
-        var courseSection = $(this).find('#course-section').val();
-        var courseName = $(this).find('#course-name').val();
-        var semester = 1;
-        var year = $(this).find("#course-year").val();
-        var teacherName = $(this).find("#teacher-name").val();
-
-        Course.insert(courseCode, courseSection, courseName, semester, year, teacherName);
-    });
-
     $.mobile.defaultPageTransition = 'none';
 });
 
@@ -51,9 +38,22 @@ function checkPage(activepage)
             break;
         case "register":
             registerValidations();
+            break;
+        case "add-course":
+            addCourseValidations();
+            break;
+        case "courses":
+            Course.readAll(handleCoursesLoad);
         default:
             break;
     }
+}
+
+function handleCoursesLoad(transaction, results) {
+    for (var i = 0; i < results.rows.length; i++) {
+        var course = results.rows.item(i);
+        //TODO
+    };
 }
 
 function checkRememberMe()
@@ -146,6 +146,19 @@ function handleSignupForm()
         }
 }
 
+function handleAddCourse() {
+
+        var courseCode = $('#course-code').val();
+        var courseSection = $('#course-section').val();
+        var courseName = $('#course-name').val();
+        var semester = 1;
+        var year = $("#course-year").val();
+        var teacherName = $("#teacher-name").val();
+
+        Course.insert(courseCode, courseSection, courseName, semester, year, teacherName);
+        UserCourse.insert(User.getCurrent().id, 1);
+    }
+
 function logOut() {
     localStorage.clear();
     $.mobile.changePage("login.html", {transition: "none"});
@@ -154,11 +167,11 @@ function logOut() {
 function toggleCreateCourse() {
     if ($("#add-course-form").is(":hidden")) {
         $("#add-course-form").show();
-        $("#toggle-create-course").removeClass("ui-icon-carat-l");
+        $("#toggle-create-course").removeClass("ui-icon-carat-r");
         $("#toggle-create-course").addClass("ui-icon-carat-d");
     } else {
         $("#add-course-form").hide();
         $("#toggle-create-course").removeClass("ui-icon-carat-d");
-        $("#toggle-create-course").addClass("ui-icon-carat-l");
+        $("#toggle-create-course").addClass("ui-icon-carat-r");
     }
 }
