@@ -12,9 +12,19 @@ var Vote =
 	},
 	insert: function(event_id, user_id, value) {
 		db.transaction(function(transaction) {
-			var sqlString = "INSERT INTO vote (event_id, user_id, value) VALUES (?, ?, ?);";
-			transaction.executeSql(sqlString, [event_id, user_id, value], null, errorHandler);
+			var sqlString = "SELECT * FROM vote WHERE event_id=? AND user_id=?;";
+			transaction.executeSql(sqlString, [event_id, user_id], function (transaction, results) {
+				if (results.rows.length === 0) {
+					sqlString = "INSERT INTO vote (event_id, user_id, value) VALUES (?, ?, ?);";
+				}
+				else {
+					sqlString = "UPDATE vote SET event_id=?, user_id=?, value=? "
+						+ "WHERE event_id=? AND user_id=?;";
+				}
+				transaction.executeSql(sqlString, [event_id, user_id, value], null, errorHandler);
+			}, errorHandler);
 		}, errorHandler);
+		
 	},
 	nuke: function() {
 		db.transaction(function(transaction) {

@@ -162,3 +162,11 @@ function toggleCreateCourse() {
         $("#toggle-create-course").addClass("ui-icon-carat-l");
     }
 }
+
+function displayEvents(transaction, results) {
+    alert(results.rows.length);
+    for (var i=0; i < results.rows.length; i++)
+    {
+            
+    }
+}
