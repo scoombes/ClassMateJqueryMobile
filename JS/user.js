@@ -81,5 +81,11 @@ var User =
 			transaction.executeSql("DROP TABLE IF EXISTS user",[], 
 				User.initialize, errorHandler);
 		});
+	},
+	getCurrent: function() {
+		return {
+			id: localStorage.getItem('uid'),
+			name: localStorage.getItem('uname')
+		}
 	}
 }
