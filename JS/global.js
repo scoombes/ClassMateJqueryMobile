@@ -15,6 +15,7 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
 
     var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
     checkPage(activepage);
+
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
     $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
@@ -42,6 +43,7 @@ function checkPage(activepage)
     switch(activepage)
     {
         case "login":
+            alert("loginpage")
             loginValidations();
             checkRememberMe();
             break;

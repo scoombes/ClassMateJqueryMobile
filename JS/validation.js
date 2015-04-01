@@ -94,6 +94,7 @@ function registerValidations() {
 function Validations() {
 	$("#").validate( 
 	{
+		//change submit handler
 		submitHandler: handleLoginForm,
 		errorPlacement: errorLocation,
 		rules:
