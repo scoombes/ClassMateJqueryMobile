@@ -91,9 +91,10 @@ var User =
 		}
 		else
 		{
-			return null;
+			
 			localStorage.clear();
 			$.mobile.changePage("login.html", {transition: "none"});
+			return null;
 		}
 	}
 }
