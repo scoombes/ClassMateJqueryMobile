@@ -30,8 +30,7 @@ var User =
 					if (resultset.rows.length == 0) 
 					{
 						User.insert(email, password, first_name, last_name);
-						$("#loginmessage").text("Account created, login to authenticate");
-						$.mobile.changePage("login.html", {transition: "none"});
+						$.mobile.changePage("event-feed.html", {transition: "none"});
 						event.preventDefault();
 					}
 					else
