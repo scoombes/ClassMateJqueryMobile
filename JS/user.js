@@ -94,6 +94,7 @@ var User =
 			
 			localStorage.clear();
 			$.mobile.changePage("login.html", {transition: "none"});
+			$("#loginmessage").text("There was an unexpected error, login again to continue");
 			return null;
 		}
 	}
