@@ -37,6 +37,7 @@ var User =
 					else
 					{
 						$("#signup-error").text("That email address is already in use");
+						$("#signup-detail").focus();
 					}
 				}, errorHandler);
 		});
