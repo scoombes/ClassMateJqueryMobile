@@ -32,7 +32,6 @@ function checkPage(activepage)
     switch(activepage)
     {
         case "login":
-            alert("loginpage")
             loginValidations();
             checkRememberMe();
             break;
@@ -44,6 +43,7 @@ function checkPage(activepage)
             break;
         case "courses":
             Course.readAll(handleCoursesLoad);
+            break;
         default:
             break;
     }
