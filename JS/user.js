@@ -20,7 +20,10 @@ var User =
 	insert: function(email, password, first_name, last_name) {
 		db.transaction(function (transaction){
 			transaction.executeSql("INSERT INTO user (student_email, password, first_name, last_name) "
-				+ "VALUES (?, ?, ?, ?)",[email, password, first_name, last_name], null, errorHandler);
+				+ "VALUES (?, ?, ?, ?)",[email, password, first_name, last_name], 
+				function (){
+					User.login(email, password);
+				}, errorHandler);
 		});
 	},
 	register: function(email, password, first_name, last_name){
@@ -30,8 +33,6 @@ var User =
 					if (resultset.rows.length == 0) 
 					{
 						User.insert(email, password, first_name, last_name);
-						$.mobile.changePage("event-feed.html", {transition: "none"});
-						event.preventDefault();
 					}
 					else
 					{
@@ -90,11 +91,10 @@ var User =
 			}
 		}
 		else
-		{
-			
+		{			
 			localStorage.clear();
-			$.mobile.changePage("login.html", {transition: "none"});
 			$("#loginmessage").text("There was an unexpected error, login again to continue");
+			$.mobile.changePage("login.html", {transition: "none"});
 			return null;
 		}
 	}
