@@ -51,8 +51,15 @@ function checkPage(activepage)
 
 function handleCoursesLoad(transaction, results) {
     for (var i = 0; i < results.rows.length; i++) {
-        var course = results.rows.item(i);
-        //TODO
+        var course = {
+            code: results.rows.item(i)['course_code'],
+            courseName: results.rows.item(i)['course_name'],
+            teacherName: results.rows.item(i)['teacher_name'],
+            semester: results.rows.item(i)['semester'],
+            year: results.rows.item(i)['year']
+        };
+
+        console.log(course);
     };
 }
 
@@ -146,18 +153,18 @@ function handleSignupForm()
         }
 }
 
-function handleAddCourse() {
-
-        var courseCode = $('#course-code').val();
-        var courseSection = $('#course-section').val();
-        var courseName = $('#course-name').val();
-        var semester = 1;
-        var year = $("#course-year").val();
-        var teacherName = $("#teacher-name").val();
-
-        Course.insert(courseCode, courseSection, courseName, semester, year, teacherName);
-        UserCourse.insert(User.getCurrent().id, 1);
-    }
+function handleAddCourse(transaction, results) {
+    var courseCode = $('#course-code').val();
+    var courseSection = $('#course-section').val();
+    var courseName = $('#course-name').val();
+    var semester = 1;
+    var year = $("#course-year").val();
+    var teacherName = $("#teacher-name").val();
+                  
+    Course.insert(courseCode, courseSection, courseName, semester, year, teacherName, User.getCurrent().id, function(transaction, results) {
+        UserCourse.insert(User.getCurrent().id, results.insertId);
+    });
+}
 
 function logOut() {
     localStorage.clear();

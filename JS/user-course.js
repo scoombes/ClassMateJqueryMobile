@@ -14,7 +14,7 @@ var UserCourse =
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		}, errorHandler);
 	},
-	insert: function(course_id, user_id) {
+	insert: function(user_id, course_id) {
 		db.transaction(function (transaction)
 		{
 			transaction.executeSql("INSERT INTO user_course (course_id, user_id) "

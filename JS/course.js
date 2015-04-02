@@ -17,7 +17,7 @@ var Course =
 
 		}, errorHandler);
 	},
-	insert: function(course_code, section, name, semester_id, year, teacher_name, creator_id) {
+	insert: function(course_code, section, name, semester_id, year, teacher_name, creator_id, successCallback) {
 		db.transaction(function(transaction) {
 			var sql = "INSERT INTO course ("
 				+ "course_code,"
@@ -29,7 +29,7 @@ var Course =
 				+ "creator_id"
 				+ ") VALUES (?,?,?,?,?,?,?)";
 
-			transaction.executeSql(sql, [course_code, section, name, semester_id, year, teacher_name, creator_id], null, errorHandler);
+			transaction.executeSql(sql, [course_code, section, name, semester_id, year, teacher_name, creator_id], successCallback, errorHandler);
 		}, errorHandler);
 	}, 
 	readAll: function(successCallback) {
