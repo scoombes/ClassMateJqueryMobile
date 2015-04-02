@@ -36,7 +36,7 @@ var User =
 					}
 					else
 					{
-						//needs to alert the user that the email address is already in use 
+						$("#signup-error").text("That email address is already in use");
 					}
 				}, errorHandler);
 		});
