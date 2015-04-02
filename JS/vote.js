@@ -26,6 +26,20 @@ var Vote =
 		}, errorHandler);
 		
 	},
+	read: function (userId, eventId) {
+		db.transaction(function(transaction) {
+			var sqlString = "SELECT value FROM vote "
+				+ "WHERE user_id=? AND event_id=?;";
+			transaction.executeSql(sqlString, [userId, eventId], null, errorHandler);
+		}, errorHandler);
+	},
+	readAll: function(eventId) {
+		(db.transaction(function(transaction) {
+					var sqlString = "SELECT  COUNT(value)upvote FROM vote WHERE value > 0 "
+						+ "AND event_id=?;";
+					transaction.executeSql(sqlString, [eventId], null, errorHandler);
+				}, errorHandler);)
+	},
 	nuke: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "DROP TABLE IF EXISTS vote;";
