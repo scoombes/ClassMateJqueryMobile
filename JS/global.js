@@ -50,18 +50,35 @@ function checkPage(activepage)
 }
 
 function handleCoursesLoad(transaction, results) {
+    var courseList = $('.course-list');
+    courseList.empty();
+    
     for (var i = 0; i < results.rows.length; i++) {
         var course = {
             code: results.rows.item(i)['course_code'],
-            courseName: results.rows.item(i)['course_name'],
+            name: results.rows.item(i)['name'],
             teacherName: results.rows.item(i)['teacher_name'],
             semester: results.rows.item(i)['semester'],
             year: results.rows.item(i)['year']
         };
 
-        var courseElement = $('<li>').load('templates/course-item-template.html');
-        courseElement.appendTo($('.course-list'));
+        var courseElement = $('<li>').addClass('eventfeed-item');
+        
+        var link = $('<a>').prop('href', 'course-details.html');
+        link.append($('<h1>').addClass('course-code').html(course.code + "-" + course.section));
+        link.append($('<h2>').addClass('course-description').text(course.name));
+        
+        var p = $('<p>');
+        p.append($('<span>').addClass('teacher').text(course.teacherName));
+        p.append($('<span>').text(' - '));
+        p.append($('<span>').addClass('date').text(course.semester + " " + course.year));
+
+        p.appendTo(link);
+        link.appendTo(courseElement);
+        courseElement.appendTo(courseList);
     };
+
+    courseList.listview('refresh');
 }
 
 function checkRememberMe()
