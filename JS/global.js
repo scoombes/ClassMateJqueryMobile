@@ -59,7 +59,8 @@ function handleCoursesLoad(transaction, results) {
             year: results.rows.item(i)['year']
         };
 
-        console.log(course);
+        var courseElement = $('<li>').load('templates/course-item-template.html');
+        courseElement.appendTo($('.course-list'));
     };
 }
 
