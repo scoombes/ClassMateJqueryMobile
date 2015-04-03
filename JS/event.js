@@ -33,7 +33,7 @@ var Event =
 
 			transaction.executeSql(sql, [course_id, event_type, name, due_date, time, final_grade_weight, description, creator_id],
 			 function (transaction, resultSet){
-			 	$.mobile.changePage("event-feed.html", {transition: "none"});
+				$.mobile.changePage("event-feed.html", {transition: "none"});
 			 }, errorHandler);
 		}, errorHandler);
 	}, 
@@ -62,5 +62,5 @@ var Event =
 }
 
 function aname() {
-    
+	
 }

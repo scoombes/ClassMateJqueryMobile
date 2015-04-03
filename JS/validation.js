@@ -142,7 +142,7 @@ function addCourseValidations() {
 
 function createEventValidations() {
 	$.validator.addMethod("regex", function(value, element, regexpr) {          
-			    return regexpr.test(value);
+				return regexpr.test(value);
 				});
 	$("#create-event").validate( 
 	{

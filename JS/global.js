@@ -47,6 +47,7 @@ function checkPage(activepage)
         case "createevent":
             createEventValidations();
             Course.populateList();
+            $("#eventcourse").selectmenu("refresh");
             break;
         default:
             break;

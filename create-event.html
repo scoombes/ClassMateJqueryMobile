@@ -42,27 +42,26 @@
             <section data-role="content">
                 <h2>Create event</h2>
                 <form id="create-event">
-                    <div data-set="fieldcontainer">
+                    
                         <label for="eventcourse">Course:</label>
-                        <select id="eventcourse" name="eventcourse"><span />
-                            <option value=""> </option>
+                        <select id="eventcourse" name="eventcourse">
                         </select>
-                    </div>
+                   
                     <div data-set="fieldcontainer">
                         <label for="eventtype">Type of Event:</label>
                         <select id="eventtype" onchange="toggleTime();">
                             <option value="1">Assignment</option>
                             <option value="2">Test</option>
                             <option value="3">Exam</option>
-                        </select><span />
+                        </select><span></span>
                     </div>
                     <div data-set="fieldcontainer">
                         <label for="eventname">Assignment Name:</label>
-                        <input type="text" name="eventname" id="eventname" value="" autocomplete="off"><span />
+                        <input type="text" name="eventname" id="eventname" value="" autocomplete="off"><span></span>
                     </div>
                     <div data-set="fieldcontainer">
                         <label for="eventdue">Due Date:</label>
-                        <input type="date" name="eventdue" id="eventdue" value="" autocomplete="off"><span />
+                        <input type="date" name="eventdue" id="eventdue" value="" autocomplete="off"><span></span>
                     </div>
                     <div data-set="fieldcontainer">
                         <div id="eventtimediv" class="hidden">

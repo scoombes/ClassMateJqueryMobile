@@ -44,8 +44,8 @@ var Course =
 		db.transaction(function(transaction){
 			transaction.executeSql("SELECT * FROM course ORDER BY course_code DESC",[],
 				function(transaction, resultSet){
-					//var row = resultSet.rows.item();
-					var options, row;
+					var row;
+				    var options = '<option value="" selected>Select a course</option>';
 					for (var i = resultSet.rows.length - 1; i >= 0; i--) 
 					{
 						row = resultSet.rows.item(i);
