@@ -60,3 +60,7 @@ var Event =
 		}, errorHandler);
 	}
 }
+
+function aname() {
+    
+}

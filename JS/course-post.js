@@ -15,7 +15,7 @@ var CoursePost =
 		}, errorHandler);
 	},
 	insert: function(course_id, post_id) {
-		dv.transaction(function (transaction)
+		db.transaction(function (transaction)
 		{
 			transaction.executeSql("INSERT INTO course_post (course_id, post_id) "
 				+ "VALUES (?, ?)",[course_id, post_id], null, errorHandler);
