@@ -44,6 +44,10 @@ function checkPage(activepage)
         case "courses":
             Course.readAll(handleCoursesLoad);
             break;
+        case "createevent":
+            createEventValidations();
+            Course.populateList();
+            break;
         default:
             break;
     }
@@ -92,18 +96,6 @@ function checkRememberMe()
         localStorage.clear();
     }
 }
-
-$("#eventtype").on("change", function () {
-    if ($("#eventtype").val() == 1) {
-        $("#eventtimediv").hide();
-    } else {
-        $("#eventtimediv").show();
-    }
-});
-
-$("#createevent").on("submit", function () {
-
-});
 
 function setVote()
 {
@@ -184,6 +176,22 @@ function handleAddCourse(transaction, results) {
     });
 }
 
+function handleCreateEvent()
+{
+    if ($("#create-event").valid()) 
+    {
+        var course = $("#eventcourse").val();
+        var eventype = $("#eventtype").val();
+        var name = $("#eventname").val();
+        var duedate = $("#eventdue").val();
+        var eventtime = $("#eventtime").val();
+        var eventworth = $("#eventworth").val();
+        var description = $("#eventdescription").val();
+
+        Event.insert(course, eventype, name, duedate, eventtime, eventworth, description, User.getCurrent().id);
+    }
+}
+
 function logOut() {
     localStorage.clear();
     $.mobile.changePage("login.html", {transition: "none"});
@@ -206,5 +214,17 @@ function displayEvents(transaction, results) {
     for (var i=0; i < results.rows.length; i++)
     {
             
+    }
+}
+
+function toggleTime()
+{
+    if ($("#eventtype").val() == "1") 
+    {
+        $("#eventtimediv").addClass("hidden");
+    }
+    else
+    {
+        $("#eventtimediv").removeClass("hidden");
     }
 }

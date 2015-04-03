@@ -140,7 +140,63 @@ function addCourseValidations() {
 	});
 }
 
+function createEventValidations() {
+	$.validator.addMethod("regex", function(value, element, regexpr) {          
+			    return regexpr.test(value);
+				});
+	$("#create-event").validate( 
+	{
+		submitHandler: handleCreateEvent,
+		errorPlacement: errorLocation,
+		rules:
+		{
+			eventname:
+			{
+				required: true
+			},
+			eventcourse:
+			{
+				required: true
+			},
+			eventdue:
+			{
+				required: true,
+				date: true
+			},
+			eventtime:
+			{
+				required: function(element)
+				{
+					return $("#eventtype").val() != "1";
+				},
+				regex: /^(0?[1-9]|1[012])(:[0-5]\d) [AP][M]$/
+			}
 
+		},
+		messages:
+		{
+			
+			eventname:
+			{
+				required: "The name of the event is required"
+			},
+			eventcourse:
+			{
+				required: "Select the course of the event"
+			},
+			eventdue:
+			{
+				required: "A due date for event is required",
+				date: "Improper date format"
+			},
+			eventtime:
+			{
+				required: "A time must be entered",
+				regex: "improper time format"
+			}
+		}
+	});
+}
 //template function for validations
 function Validations() {
 	$("#").validate( 
@@ -164,3 +220,4 @@ function errorLocation(error, element)
 {
 	error.appendTo(element.parent().next());
 }
+
