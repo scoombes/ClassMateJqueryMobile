@@ -41,41 +41,43 @@
 
             <section data-role="content">
                 <h2>Create event</h2>
-                <form id="createevent" action="event-feed.html">
-                    <label for="eventcourse">Course:</label>
-                    <select id="eventcourse">
-                        <option>PROG2070-2</option>
-                        <option>PROG2000-2</option>
-                        <option>PROG3080-2</option>
-                        <option>INFO2000-2</option>
-                        <option>INFO1234-1</option>
-                    </select>
-                    
-
-                    <label for="eventtype">Type of Event:</label>
-                    <select id="eventtype">
-                        <option value="1">Assignment</option>
-                        <option value="2">Test</option>
-                        <option value="3">Exam</option>
-                    </select>
-                    
-                    <label for="eventname">Assignment Name:</label>
-                    <input type="text" name="eventname" id="eventname" value="" autocomplete="off">
-
-                    <label for="eventdue">Due Date:</label>
-                    <input type="date" name="eventdue" id="eventdue" value="" autocomplete="off">
-
-                    <div id="eventtimediv">
-                        <label for="eventtime">Time:</label>
-                        <input type="time" name="eventtime" id="eventtime" value="" autocomplete="off">
+                <form id="create-event">
+                    <div data-set="fieldcontainer">
+                        <label for="eventcourse">Course:</label>
+                        <select id="eventcourse" name="eventcourse"><span />
+                            <option value=""> </option>
+                        </select>
                     </div>
-
-                    <label for="eventworth">Percent Of Final Grade:</label>
-                    <input type="number" name="eventworth" id="eventworth" value="" autocomplete="off">
-
-                    <label for="eventdescription">Description:</label>
-                    <textarea name="eventdescription" id="eventdescription" value="" autocomplete="off"></textarea>
-    
+                    <div data-set="fieldcontainer">
+                        <label for="eventtype">Type of Event:</label>
+                        <select id="eventtype" onchange="toggleTime();">
+                            <option value="1">Assignment</option>
+                            <option value="2">Test</option>
+                            <option value="3">Exam</option>
+                        </select><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="eventname">Assignment Name:</label>
+                        <input type="text" name="eventname" id="eventname" value="" autocomplete="off"><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="eventdue">Due Date:</label>
+                        <input type="date" name="eventdue" id="eventdue" value="" autocomplete="off"><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <div id="eventtimediv" class="hidden">
+                            <label for="eventtime">Time:</label>
+                            <input type="time" name="eventtime" id="eventtime" value="" autocomplete="off"><span />
+                        </div>
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="eventworth">Percent Of Final Grade:</label>
+                        <input type="number" name="eventworth" id="eventworth" value="" autocomplete="off"><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="eventdescription">Description:</label>
+                        <textarea name="eventdescription" id="eventdescription" value="" autocomplete="off"></textarea><span />
+                    </div>
                     <button id="confirmsignup"class="ui-btn-active ui-shadow ui-btn">Submit Event</button>
                 </form>
         	</section>
