@@ -174,12 +174,18 @@ function createEventElement(dbItem) {
     
     var display = $("<a>");
     display.attr("event-id", event.id);
-    display.attr("event_course_info", dbItem["course_code"] + "-" + dbItem["section"]);
-    display.attr("event_course_id", dbItem["course_id"]);
+    display.attr("event-course-info", dbItem["course_code"] + "-" + dbItem["section"]);
+    display.attr("event-course-id", dbItem["course_id"]);
 
     display.click(function()
     {
-        $.mobile.changePage("event-details.html", { data: { "event_id": $(this).attr("event-id") }, reloadPage: true, changeHash: true });
+        $.mobile.changePage("event-details.html", {
+            data: {
+                "event_id": $(this).attr("event-id"),
+                "event_cc_sec": $(this).attr("event-course-info"),
+                "event_c_id": $(this).attr("event-course-id")
+            }, reloadPage: true, changeHash: true
+        });
     });
 
     display.append($("<h3>").addClass("course-name").text(event.courseCode));
@@ -209,11 +215,11 @@ function createEventElement(dbItem) {
 
     //Vote.readEventVotes(event.id, setEventVoteBar);
 
-    display.click(function()
-    {
-        var id = eventElement.attr("data-row-id");
-        localStorage.setItem("row-id", id);
-    });
+    //display.click(function()
+    //{
+    //    var id = eventElement.attr("data-row-id");
+    //    localStorage.setItem("row-id", id);
+    //});
 
     display.appendTo(eventElement);
 
