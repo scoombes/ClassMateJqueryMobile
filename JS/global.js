@@ -7,7 +7,6 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
     checkPage(activepage);
 
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
-    $(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
     $("#up-vote").on("click", setVote);
     $("#down-vote").on("click", setVote);
     $("#logout-button").on("click", logOut);

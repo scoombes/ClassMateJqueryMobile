@@ -12,9 +12,6 @@ function intializeDatabase() {
 	User.initialize();
 	Course.initialize();
 	EventType.initialize();
-	Comment.initialize();
-	EventPost.initialize();
-	CoursePost.initialize();
 	UserCourse.initialize();
 	Vote.initialize();
 	Semester.initialize();
@@ -26,8 +23,6 @@ function nukeDatabase() {
 	Course.nuke();
 	EventType.nuke();
 	Course.nuke();
-	EventPost.nuke();
-	CoursePost.nuke();
 	UserCourse.nuke();
 	Vote.nuke();
 	Semester.nuke();
