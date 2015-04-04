@@ -25,10 +25,10 @@ var Vote =
 			}, errorHandler);
 		}, errorHandler);
 	},
-	read: function (event_id, user_id) {
+	read: function (event_id, user_id, check_if_vote) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM vote WHERE event_id=? AND user_id=?;";
-			transaction.executeSql(sqlString, [event_id, user_id], null, errorHandler);
+			transaction.executeSql(sqlString, [event_id, user_id], check_if_vote, errorHandler);
 		}, errorHandler);
 	},
 	remove: function(event_id, user_id) {
