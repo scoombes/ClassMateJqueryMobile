@@ -258,10 +258,26 @@ function toggleCreateCourse() {
 }
 
 function displayEvents(transaction, results) {
-    alert(results.rows.length);
     for (var i=0; i < results.rows.length; i++)
     {
-            
+        var courseName;
+        db.transaction(function (transaction) {
+            transaction.executeSql("SELECT * FROM course WHERE id=?",[id],
+                function (transaction, results) {
+                    courseName = results.rows.item(0).name;
+                }, errorHandler);
+        });
+        var eventListHtml = '<li id="' + results.rows.item(i).id + '" class="eventfeed-item">'
+            + '<a href="event-details.html">'
+            + '<div class="vote-bar">'
+            + '<div class="upvote-bar"></div>'
+            + '<div class="downvote-bar"></div>'
+            + '</div>'
+            + '<h3 class="course-name">' + courseName + '</h3>'
+            + '<h2 class="assignment-name">' + results.rows.item(i).name + '</h2>'
+            + '<h3 class="due-date">' + results.rows.item(i).due_date + '</h3></a></li>';
+        $("#event-feed-list").append(eventListHtml);
+        Vote.readAll(results.rows.item(i).id);
     }
 }
 
@@ -275,4 +291,12 @@ function toggleTime()
     {
         $("#eventtimediv").removeClass("hidden");
     }
+}
+
+function setEventVoteValues(eventId, upvotes, downvotes) {
+    var upvotePercent = upvotes / (upvotes + downvotes);
+    var downvotePercent = downvotes / (upvotes + downvotes);
+
+    $("#event-id-" + eventId + " .upvote-bar").css('height', upvotePercent + '%');
+    $("#event-id-" + eventId + " .downvote-bar-bar").css('height', upvotePercent + '%');
 }

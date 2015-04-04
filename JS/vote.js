@@ -40,9 +40,18 @@ var Vote =
 				+ "WHERE value < 0 AND event_id=" + eventId;
 			var sqlString = "SELECT upvoteTable.upvote, downvoteTable.downvote FROM (" + upvoteSql + ") upvoteTable "
 				+ "JOIN (" + downvoteSql + ") downvoteTable ON upvoteTable.event_id = downvoteTable.event_id;";
-			transaction.executeSql(sqlString, [], function (tx, rs) {
-				alert(rs.rows.item(0).upvote + ", " + RS.rows.item(0).downvote);
+			transaction.executeSql(sqlString, [], function (transaction, results, setEventVoteValues, eventId) {
+				for (var i = 0; i < results.rows.length; i++) {
+					setEventVoteValues(eventId, results.rows.item(i).upvote, results.rows.item(i).downvote);
+				}
 			}, errorHandler);
+		}, errorHandler);
+	},
+	remove: function(event_id, user_id) {
+		db.transaction(function(transaction) {
+			var sqlString = "DELETE FROM vote "
+				+ "WHERE event_id=? AND user_id=?;";
+			transaction.executeSql(sqlString, [eventId, userId], null, errorHandler);
 		}, errorHandler);
 	},
 	nuke: function() {

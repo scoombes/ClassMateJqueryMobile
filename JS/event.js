@@ -43,7 +43,7 @@ var Event =
 				null, errorHandler);
 		});
 	},
-	readAll: function(success) {
+	readAll: function(displayEvents) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM event "
 				+ "JOIN user_course "
@@ -52,7 +52,7 @@ var Event =
 			    + "ORDER BY due_date ASC";
 
 			transaction.executeSql(sqlString, [User.getCurrent().id],
-				success, errorHandler);
+				displayEvents, errorHandler);
 		});
 	},
 	nuke: function() {
