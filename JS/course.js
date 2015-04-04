@@ -37,13 +37,15 @@ var Course =
 			var sql = "SELECT * FROM course "
 				+ "JOIN user_course "
 				+ "ON course.id = user_course.course_id "
-				+ "WHERE user_course.user_id = ?";
+				+ "JOIN semester ON course.semester_id = semester.id "
+				+ "WHERE user_course.user_id = ? "
+				+ "ORDER BY course_code DESC";
 			transaction.executeSql(sql, [userId], successCallback, errorHandler);
 		}, errorHandler);
 	},
 	readAll: function(successCallback) {
 		db.transaction(function(transaction) {
-			var sql = "SELECT * FROM course";
+			var sql = "SELECT * FROM course ORDER BY course_code DESC";
 
 			transaction.executeSql(sql, [], successCallback, errorHandler);
 		}, errorHandler);
@@ -62,7 +64,7 @@ var Course =
 	},
 	populateList: function(){
 		db.transaction(function(transaction){
-			transaction.executeSql("SELECT * FROM course ORDER BY course_code DESC",[],
+			transaction.executeSql("SELECT * FROM course ORDER BY course_code ASC",[],
 				function(transaction, resultSet){
 					var row;
 					var options = '<option selected="selected" value="">Select a course</option>';

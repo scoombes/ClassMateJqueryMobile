@@ -72,7 +72,7 @@ function handleAddCoursesLoadExisting(transaction, results) {
             section: results.rows.item(i)['section'],
             name: results.rows.item(i)['name'],
             teacherName: results.rows.item(i)['teacher_name'],
-            semester: results.rows.item(i)['semester'],
+            semester: results.rows.item(i)['semester.semester_name'],
             year: results.rows.item(i)['year']
         };
 
@@ -109,7 +109,7 @@ function handleCoursesLoad(transaction, results) {
             section: results.rows.item(i)['section'],
             name: results.rows.item(i)['name'],
             teacherName: results.rows.item(i)['teacher_name'],
-            semester: results.rows.item(i)['semester'],
+            semester: results.rows.item(i)['semester_name'],
             year: results.rows.item(i)['year']
         };
 
