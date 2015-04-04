@@ -178,7 +178,7 @@ function createEventElement(dbItem) {
         courseCode: dbItem["course_code"] + "-" + dbItem["section"],
         name: dbItem["name"],
         dueDate: dbItem["due_date"],
-        id: dbItem["id"]
+        id: dbItem["event_id"]
     };
 
     var eventElement = $("<li>").addClass("eventfeed-item");
@@ -190,6 +190,12 @@ function createEventElement(dbItem) {
     display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
     display.append($("<div>").addClass("vote-bar").append($("<div>").addClass("upvote-bar"))
                                                 .append($("<div>").addClass("downvote-bar")));
+
+    display.click(function()
+    {
+        var id = eventElement.attr("data-row-id");
+        localStorage.setItem("row-id", id);
+    });
 
     display.appendTo(eventElement);
 
@@ -217,13 +223,6 @@ function handleEventFeed(transaction, results)
         eventElement.appendTo(eventList);
     }
     eventList.listview("refresh");
-
-    $(".eventfeed-item").click(function()
-    {
-        var id = this.getAttribute("data-row-id");
-
-        localStorage.setItem("row-id", id);
-    });
 }
 
 function getDate(date)
