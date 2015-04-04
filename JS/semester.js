@@ -9,10 +9,10 @@ var Semester =
 			transaction.executeSql(sqlString, [], null, errorHandler);
 
 			transaction.executeSql("SELECT * FROM semester", [], function(transaction, resultset) {
-				if (resultset.rows.length == 0) {
-					EventType.insert("Fall");
-					EventType.insert("Winter");
-					EventType.insert("Spring");
+				if (resultset.rows.length === 0) {
+					Semester.insert("Fall");
+					Semester.insert("Winter");
+					Semester.insert("Spring");
 				}
 			}, errorHandler);
 

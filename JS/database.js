@@ -17,6 +17,7 @@ function intializeDatabase() {
 	CoursePost.initialize();
 	UserCourse.initialize();
 	Vote.initialize();
+	Semester.initialize();
 }
 
 function nukeDatabase() {
@@ -29,6 +30,7 @@ function nukeDatabase() {
 	CoursePost.nuke();
 	UserCourse.nuke();
 	Vote.nuke();
+	Semester.nuke();
 }
 
 intializeDatabase();
