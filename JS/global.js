@@ -51,7 +51,7 @@ function checkPage(activepage)
             Course.populateList();
             break;
         case "eventfeed":
-            Event.readAll(handleEventFeed);
+            Event.getAll(handleEventFeed);
             break;
         case "eventdetails":
             Event.read(localStorage.getItem("row-id"));
