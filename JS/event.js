@@ -62,7 +62,7 @@ var Event =
 	},
 	getEventsForCourse: function(courseId, successCallback) {
 		db.transaction(function(transaction) {
-			var sql = "SELECT * FROM event "
+			var sql = "SELECT *, event.id AS event_id  FROM event "
 					+ "JOIN course ON event.course_id = course.id "
 					+ "WHERE course_id = ? "
 					+ "ORDER BY due_date ASC";
