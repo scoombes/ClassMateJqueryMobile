@@ -4,7 +4,7 @@ var Event =
 		db.transaction(function(transaction) {
 			var sql = "CREATE TABLE IF NOT EXISTS event ("
 				+ "id INTEGER PRIMARY KEY,"
-				+ "course_id VARCHAR NOT NULL,"
+				+ "course_id INTEGER NOT NULL,"
 				+ "event_type INTEGER NOT NULL,"
 				+ "name VARCHAR NOT NULL,"
 				+ "due_date DATE NOT NULL,"
@@ -47,6 +47,15 @@ var Event =
 				    $("#details-grade").text(result.rows.item(0)["final_grade_weight"]);
 				    $("#details-description").text(result.rows.item(0)["description"]);
 				}, errorHandler);
+		});
+	},
+	getEventsForCourse: function(courseId, successCallback) {
+		db.transaction(function(transaction) {
+			var sql = "SELECT * FROM event "
+					 + "WHERE course_id = ? "
+					 + "ORDER BY due_date ASC";
+
+			transaction.executeSql(sql, [courseId], successCallback, errorHandler);
 		});
 	},
 	getAll: function(displayEvents) {
