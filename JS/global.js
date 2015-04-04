@@ -2,17 +2,6 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
     //who put this here? - Sean
     //var activePage = $.mobile.pageContainer.pagecontainer("getActivePage").prop('id');
 
-    $(ui.toPage).find('.vote-bar').each(function() {
-        var upvoteCount = Math.floor((Math.random() * 20) + 1);
-        var downvoteCount = Math.floor((Math.random() * 20) + 1);
-        var totalVotes = upvoteCount + downvoteCount;
-
-        var upvotePercent = (upvoteCount / totalVotes) * 100;
-        var downvotePercent = (downvoteCount / totalVotes) * 100;
-
-        $(this).find('.upvote-bar').css('height', upvotePercent + '%');
-        $(this).find('.downvote-bar').css('height', downvotePercent + '%');
-    });
 
     var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
     checkPage(activepage);
