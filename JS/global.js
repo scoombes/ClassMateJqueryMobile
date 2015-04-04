@@ -72,9 +72,13 @@ function eventFeedDetailsSetup()
     
     Event.read(event_id, function(transaction, result)
     {
-        
+        var event = result.rows.item(0);
+
         $("#details-name").text(result.rows.item(0)["name"] + " Details");
         $("#details-due").text(result.rows.item(0)["due_date"]);
+
+        $("#up-vote").text(result.rows.item(0)['upvotes'] || 0);
+        $("#down-vote").text(result.rows.item(0)['downvotes'] || 0);
 
         if (result.rows.item(0)["final_grade_weight"] != "") {
             $("#detail-grade-parent").removeClass("hidden");
