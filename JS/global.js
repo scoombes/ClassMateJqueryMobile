@@ -109,6 +109,8 @@ function eventFeedDetailsSetup()
 			$("#details-description").text("");
 		}
 	});
+
+	Vote.read(event_id, User.getCurrent().id, userEventVote);
 }
 
 function formatTime(eventTime)
