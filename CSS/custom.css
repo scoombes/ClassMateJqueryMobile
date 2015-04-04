@@ -42,10 +42,6 @@
 	display: none;
 }
 
-.comment {
-	border-left: 12px solid #ccc;
-}
-
 #vote-buttons{
 	float: right;
 }
