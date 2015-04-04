@@ -6,12 +6,12 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
 	var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
 	checkPage(activepage);
 
-    $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
-    $("#up-vote").on("click", setVote);
-    $("#down-vote").on("click", setVote);
-    $("#logout-button").on("click", logOut);
-    $("#add-course-form").hide();
-    $("#toggle-create-course").on("click", toggleCreateCourse);
+	$("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
+	$("#up-vote").on("click", setVote);
+	$("#down-vote").on("click", setVote);
+	$("#logout-button").on("click", logOut);
+	$("#add-course-form").hide();
+	$("#toggle-create-course").on("click", toggleCreateCourse);
 
 	$.mobile.defaultPageTransition = 'none';
 });
@@ -71,8 +71,6 @@ function eventFeedDetailsSetup()
 	
 	Event.read(event_id, function(transaction, result)
 	{
-		alert("event.read");
-
 		$("#detail-course").text(event_cc_sec);
 		$("#detail-course").prop("href", "course-details.html?course_id=" + event_c_id);
 
@@ -281,7 +279,6 @@ function createEventElement(dbItem) {
 
 function handleEventFeed(transaction, results)
 {
-	alert("event.getall");
 	var eventList = $("#event-feed-list");
 	eventList.empty();
 
@@ -373,16 +370,16 @@ function setVote()
 	var currentEventId = paramValue[0];
 	var currentUserId = User.getCurrent().id;
 
-    Vote.insert(currentEventId, currentUserId, voteWorth);
+	Vote.insert(currentEventId, currentUserId, voteWorth);
 }
 
 function userEventVote(transaction, results) {
 	if (results.rows.item(0).value > 0) {
 		$("#down-vote").removeClass("ui-btn-d");
-    	$("#up-vote").addClass("ui-btn-c");
+		$("#up-vote").addClass("ui-btn-c");
 	} else {
 		$("#up-vote").removeClass("ui-btn-c");
-    	$("#down-vote").addClass("ui-btn-d");
+		$("#down-vote").addClass("ui-btn-d");
 	}
 }
 
