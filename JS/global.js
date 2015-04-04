@@ -6,22 +6,12 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
 	var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
 	checkPage(activepage);
 
-<<<<<<< HEAD
-	$("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
-	$(".create-post-btn").on("click", function(){$(".create-post").toggle(".hidden")});
-	$("#up-vote").on("click", setVote);
-	$("#down-vote").on("click", setVote);
-	$("#logout-button").on("click", logOut);
-	$("#add-course-form").hide();
-	$("#toggle-create-course").on("click", toggleCreateCourse);
-=======
     $("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
     $("#up-vote").on("click", setVote);
     $("#down-vote").on("click", setVote);
     $("#logout-button").on("click", logOut);
     $("#add-course-form").hide();
     $("#toggle-create-course").on("click", toggleCreateCourse);
->>>>>>> d062127a3d03b433b1de84b4d90d020af76f66a8
 
 	$.mobile.defaultPageTransition = 'none';
 });
@@ -70,7 +60,6 @@ function eventFeedDetailsSetup()
 	var parameters = document.URL.split('?')[1].split('&');
 	var paramValue = [];
 
-<<<<<<< HEAD
 	for (var i = 0; i < parameters.length; i++)
 	{
 		paramValue.push(parameters[i].split('=')[1]);
@@ -120,50 +109,6 @@ function eventFeedDetailsSetup()
 			$("#details-description").text("");
 		}
 	});
-=======
-    var parameters = document.URL.split('?')[1].split('&');
-    var paramValue = [];
-
-    for (var i = 0; i < parameters.length; i++)
-    {
-        paramValue.push(parameters[i].split('=')[1]);
-    }
-
-    event_id = paramValue[0];
-    event_cc_sec = paramValue[1];
-    event_c_id = paramValue[2];
-    
-    Event.read(event_id, function(transaction, result)
-    {
-        $("#detail-course").text(event_cc_sec);
-        $("#detail-course").prop("href", "course-details.html?course_id=" + event_c_id);
-
-        $("#details-name").text(result.rows.item(0)["name"] + " Details");
-        $("#details-due").text(result.rows.item(0)["due_date"]);
-
-        $("#up-vote").text(result.rows.item(0)['upvotes'] || 0);
-        $("#down-vote").text(result.rows.item(0)['downvotes'] || 0);
-
-        if (result.rows.item(0)["final_grade_weight"] != "") {
-            $("#detail-grade-parent").removeClass("hidden");
-            $("#details-grade").text(result.rows.item(0)["final_grade_weight"]);
-        }
-        else {
-            $("#detail-grade-parent").addClass("hidden");
-            $("#details-grade").text("");
-        }
-
-        if (result.rows.item(0)["description"] != "") {
-            $("#detail-description-parent").removeClass("hidden");
-            $("#details-description").text(result.rows.item(0)["description"]);
-        }
-        else {
-            $("#detail-description-parent").addClass("hidden");
-            $("#details-description").text("");
-        }
-    });
-	Vote.read(event_id, User.getCurrent().id, userEventVote);
->>>>>>> d062127a3d03b433b1de84b4d90d020af76f66a8
 }
 
 function formatTime(eventTime)
@@ -428,39 +373,16 @@ function setVote()
 	var currentEventId = paramValue[0];
 	var currentUserId = User.getCurrent().id;
 
-<<<<<<< HEAD
-	Vote.read(currentEventId, currentUserId, userVoteStatus);
-=======
     Vote.insert(currentEventId, currentUserId, voteWorth);
->>>>>>> d062127a3d03b433b1de84b4d90d020af76f66a8
 }
 
 function userEventVote(transaction, results) {
-	if (results.rows.length > 0) {
-<<<<<<< HEAD
-		currentEventId = results.rows.item(0).event_id;
-		currentUserId = results.rows.item(0).user_id;
-		Vote.remove(results.rows.item(0).event_id, results.rows.item(0).user_id);
+	if (results.rows.item(0).value > 0) {
+		$("#down-vote").removeClass("ui-btn-d");
+    	$("#up-vote").addClass("ui-btn-c");
 	} else {
-		var parameters = document.URL.split('?')[1].split('&');
-		var paramValue = [];
-
-		for (var i = 0; i < parameters.length; i++)
-		{
-			paramValue.push(parameters[i].split('=')[1]);
-		}
-
-		currentEventId = paramValue[0];
-		currentUserId = User.getCurrent().id;
-=======
-		if (results.rows.item(0).value > 0) {
-			$("#down-vote").removeClass("ui-btn-d");
-        	$("#up-vote").addClass("ui-btn-c");
-		} else {
-			$("#up-vote").removeClass("ui-btn-c");
-        	$("#down-vote").addClass("ui-btn-d");
-		}
->>>>>>> d062127a3d03b433b1de84b4d90d020af76f66a8
+		$("#up-vote").removeClass("ui-btn-c");
+    	$("#down-vote").addClass("ui-btn-d");
 	}
 }
 
