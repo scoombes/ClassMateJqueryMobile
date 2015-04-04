@@ -49,7 +49,7 @@ var Event =
 				}, errorHandler);
 		});
 	},
-	readAll: function(displayEvents) {
+	getAll: function(displayEvents) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM event "
 				+ "JOIN user_course "
