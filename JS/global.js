@@ -175,7 +175,7 @@ function handleCourseDetail(transaction, results) {
 function createEventElement(dbItem) {
     var event =
     {
-        courseCode: localStorage.getItem("cc") + "-" + localStorage.getItem("sec"),
+        courseCode: dbItem["course_code"] + "-" + dbItem["section"],
         name: dbItem["name"],
         dueDate: dbItem["due_date"],
         id: dbItem["id"]
