@@ -200,12 +200,6 @@ function createEventElement(dbItem) {
     display.find('.upvote-bar').css('height', upvotePercent + '%');
     display.find('.downvote-bar').css('height', downvotePercent + '%');
 
-    /*
-    $('[data-row-id=' + event.id + '] .upvote-bar').css('height', upvotePercent + '%');
-    $('[data-row-id=' + event.id + '] .downvote-bar').css('height', downvotePercent + '%');*/
-
-    //Vote.readEventVotes(event.id, setEventVoteBar);
-
     display.click(function()
     {
         var id = eventElement.attr("data-row-id");
@@ -382,15 +376,5 @@ function toggleTime()
     else
     {
         $("#eventtimediv").removeClass("hidden");
-    }
-}
-
-function setEventVoteBar(transaction, results) {
-    if (results.rows.length > 0) {
-        var upvotePercent = 100 * results.rows.item(0).upvote / (results.rows.item(0).upvote + results.rows.item(0).downvote);
-        var downvotePercent = 100 * results.rows.item(0).downvote / (results.rows.item(0).upvote + results.rows.item(0).downvote);
-        alert(results.rows.item(0).eventId + ", " + upvotePercent + ", " + downvotePercent);
-        $('[data-row-id=' + results.rows.item(0).eventId + '] .upvote-bar').css('height', upvotePercent + '%');
-        $('[data-row-id=' + results.rows.item(0).eventId + '] .downvote-bar').css('height', downvotePercent + '%');
     }
 }

@@ -25,24 +25,6 @@ var Vote =
 			}, errorHandler);
 		}, errorHandler);
 	},
-	read: function (eventId, userId) {
-		db.transaction(function (transaction) {
-			var sqlString = "SELECT value FROM vote "
-				+ "WHERE user_id=? AND event_id=?;";
-			transaction.executeSql(sqlString, [userId, eventId], null, errorHandler);
-		}, errorHandler);
-	},
-	readEventVotes: function (eventId, setEventVoteBar) {
-		db.transaction(function (transaction) {
-			var upvoteSql = "SELECT  COUNT(value) AS upvote, event_id AS eventId FROM vote "
-				+ "WHERE value > 0 AND event_id=" + eventId;
-			var downvoteSql = "SELECT  COUNT(value) AS downvote, event_id AS eventId FROM vote "
-				+ "WHERE value < 0 AND event_id=" + eventId;
-			var sqlString = "SELECT upvoteTable.upvote, downvoteTable.downvote FROM (" + upvoteSql + ") upvoteTable "
-				+ "JOIN (" + downvoteSql + ") downvoteTable ON upvoteTable.eventId = downvoteTable.eventId;";
-			transaction.executeSql(sqlString, [], setEventVoteBar, errorHandler);
-		});
-	},
 	remove: function(event_id, user_id) {
 		db.transaction(function (transaction) {
 			var sqlString = "DELETE FROM vote "
