@@ -192,15 +192,12 @@ function createEventElement(dbItem) {
     display.append($("<h2>").addClass("assignment-name").text(event.name));
     display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
 
+    var voteBar = $("<div>").addClass("vote-bar");
+    voteBar.append($("<div>").addClass("upvote-bar"));
+    voteBar.append($("<div>").addClass("downvote-bar"));
+    display.append(voteBar);
 
-    //display.append($("<div>").addClass("vote-bar").append($("<div>").addClass("upvote-bar"))
-    //                                            .append($("<div>").addClass("downvote-bar")));
-
-    display.append($("<div>").addClass("vote-bar"));
-    display.append($("<div>").addClass("upvote-bar"));
-    display.append($("<div>").addClass("downvote-bar"));
-
-    var upvotes = dbItem['upvotes'];
+    var upvotes = dbItem['upvotes'] || 0;
     var downvotes = dbItem['downvotes'] || 0;
 
     var upvotePercent = upvotes / (upvotes + downvotes) * 100;
