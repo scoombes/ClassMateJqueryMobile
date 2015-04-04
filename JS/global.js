@@ -172,6 +172,8 @@ function createEventElement(dbItem) {
 
     var eventElement = $("<li>").addClass("eventfeed-item");
     eventElement.attr("data-row-id", event.id);
+    eventElement.attr("course-info", dbItem["course_code"] + "-" + dbItem["section"]);
+    eventElement.attr("course-id", dbItem["course_id"]);
 
     var display = $("<a>").prop("href", "event-details.html");
     display.append($("<h3>").addClass("course-name").text(event.courseCode));
