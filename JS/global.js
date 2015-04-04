@@ -275,7 +275,7 @@ function handleAddCourse(transaction, results) {
     var courseCode = $('#course-code').val();
     var courseSection = $('#course-section').val();
     var courseName = $('#course-name').val();
-    var semester = 1;
+    var semester = $('input[name=semester]:checked').val();
     var year = $("#course-year").val();
     var teacherName = $("#teacher-name").val();
                   
