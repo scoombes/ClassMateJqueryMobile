@@ -204,16 +204,6 @@ function handleEventFeed(transaction, results)
 
     for (var i = 0; i < results.rows.length; i++)
     {
-        var courseID = results.rows.item(i)["course_id"];
-
-        Course.getCourse(courseID, function (transaction, result)
-        {
-            var code = result.rows.item(0)["course_code"];
-            var section = result.rows.item(0)["section"];
-            localStorage.setItem("cc", code);
-            localStorage.setItem("sec", section);
-        });
-
         var eventElement = createEventElement(results.rows.item(i));
         eventElement.appendTo(eventList);
     }
