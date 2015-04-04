@@ -99,7 +99,7 @@ function eventFeedDetailsSetup()
             $("#details-description").text("");
         }
     });
-
+	Vote.read(event_id, User.getCurrent().id, userEventVote);
 }
 
 function handleAddCoursesLoadExisting(transaction, results) {
@@ -352,6 +352,18 @@ function setVote()
 	var currentUserId = User.getCurrent().id;
 
     Vote.insert(currentEventId, currentUserId, voteWorth);
+}
+
+function userEventVote(transaction, results) {
+	if (results.rows.length > 0) {
+		if (results.rows.item(0).value > 0) {
+			$("#down-vote").removeClass("ui-btn-d");
+        	$("#up-vote").addClass("ui-btn-c");
+		} else {
+			$("#up-vote").removeClass("ui-btn-c");
+        	$("#down-vote").addClass("ui-btn-d");
+		}
+	}
 }
 
 function handleLoginForm()

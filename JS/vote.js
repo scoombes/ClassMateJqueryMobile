@@ -1,6 +1,6 @@
 var Vote = 
 {
-	initialize: function() {
+	initialize: function () {
 		db.transaction(function (transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS vote ("
 				+ "event_id INTEGER NOT NULL, "
@@ -10,7 +10,7 @@ var Vote =
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		}, errorHandler);
 	},
-	insert: function(event_id, user_id, value) {
+	insert: function (event_id, user_id, value) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM vote WHERE event_id=? AND user_id=?;";
 			var params;
@@ -28,7 +28,13 @@ var Vote =
 			}, errorHandler);
 		}, errorHandler);
 	},
-	remove: function(event_id, user_id) {
+	read: function (event_id, user_id, set_initial_user_vote) {
+			db.transaction(function (transaction) {
+			var sqlString = "SELECT * FROM vote WHERE event_id=? AND user_id=?;";
+			transaction.executeSql(sqlString, [event_id, user_id], set_initial_user_vote, errorHandler);
+		}, errorHandler);
+	},
+	remove: function (event_id, user_id) {
 		db.transaction(function (transaction) {
 			var sqlString = "DELETE FROM vote "
 				+ "WHERE event_id=? AND user_id=?;";
