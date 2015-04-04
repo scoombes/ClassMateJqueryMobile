@@ -74,6 +74,7 @@ var Course =
 							+ '</option>';
 					}
 					$("#eventcourse").html(options);
+                    
 				}, errorHandler);
 		});
 	},
