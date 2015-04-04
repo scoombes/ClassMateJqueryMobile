@@ -64,7 +64,7 @@ var Course =
 	},
 	populateList: function(){
 		db.transaction(function(transaction){
-			transaction.executeSql("SELECT * FROM course ORDER BY course_code ASC",[],
+			transaction.executeSql("SELECT * FROM course ORDER BY course_code COLLATE NOCASE DESC",[],
 				function(transaction, resultSet){
 					var row;
 					var options = '<option selected="selected" value="">Select a course</option>';
