@@ -37,37 +37,10 @@ var Event =
 			 }, errorHandler);
 		}, errorHandler);
 	}, 
-	read: function (id) {
+	read: function (id, successCallBack) {
 		db.transaction(function (transaction) {
 			transaction.executeSql("SELECT * FROM event WHERE id = ?",[id],
-				function(transaction, result)
-				{
-				    $("#details-name").text(result.rows.item(0)["name"] + " Details");
-				    $("#details-due").text(result.rows.item(0)["due_date"]);
-
-				    if (result.rows.item(0)["final_grade_weight"] != "")
-				    {
-				        $("#detail-grade-parent").removeClass("hidden");
-				        $("#details-grade").text(result.rows.item(0)["final_grade_weight"]);
-				    }
-				    else
-				    {
-				        $("#detail-grade-parent").addClass("hidden");
-				        $("#details-grade").text("");
-				    }
-
-				    if (result.rows.item(0)["description"] != "")
-				    {
-				        $("#detail-description-parent").removeClass("hidden");
-				        $("#details-description").text(result.rows.item(0)["description"]);
-				    }
-				    else
-				    {
-				        $("#detail-description-parent").addClass("hidden");
-				        $("#details-description").text("");
-				    }
-				    
-				}, errorHandler);
+				successCallBack, errorHandler);
 		});
 	},
 	getEventsForCourse: function(courseId, successCallback) {
