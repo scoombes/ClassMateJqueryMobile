@@ -15,11 +15,15 @@ var UserCourse =
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		}, errorHandler);
 	},
-	insert: function(user_id, course_id) {
+	insert: function(user_id, course_id, successCallback, errorCallback) {
 		db.transaction(function (transaction)
 		{
 			transaction.executeSql("INSERT INTO user_course (course_id, user_id) "
-				+ "VALUES (?, ?)",[course_id, user_id], null, errorHandler);
+				+ "VALUES (?, ?)",
+				[course_id, user_id],
+				successCallback,
+				errorCallback || errorHandler);
+			
 		},errorHandler);
 	},
 	nuke: function() {

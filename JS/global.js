@@ -93,8 +93,11 @@ function handleAddCoursesLoadExisting(transaction, results) {
 
 function addExistingCourse() {
     var id = $(this).attr('data-course-id');
-    UserCourse.insert(User.getCurrent().id, id);
-    $.mobile.changePage('courses.html');
+    UserCourse.insert(User.getCurrent().id, id, function() {
+        $.mobile.changePage('courses.html'); 
+    }, function() {
+        alert('You are already in that course');
+    });
 }
 
 
@@ -278,7 +281,6 @@ function handleAddCourse(transaction, results) {
                   
     Course.insert(courseCode, courseSection, courseName, semester, year, teacherName, User.getCurrent().id, function(transaction, results) {
         UserCourse.insert(User.getCurrent().id, results.insertId);
-
         $.mobile.changePage("courses.html");
     });
 }
