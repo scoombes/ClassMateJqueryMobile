@@ -47,7 +47,7 @@ var Vote =
 		db.transaction(function (transaction) {
 			var sqlString = "DELETE FROM vote "
 				+ "WHERE event_id=? AND user_id=?;";
-			transaction.executeSql(sqlString, [eventId, userId], null, errorHandler);
+			transaction.executeSql(sqlString, [event_id, user_id], null, errorHandler);
 		}, errorHandler);
 	},
 	nuke: function() {

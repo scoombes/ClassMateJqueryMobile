@@ -191,7 +191,7 @@ function createEventElement(dbItem) {
     voteBar.append($("<div>").addClass("downvote-bar"));
     display.append(voteBar);
 
-    var upvotes = dbItem['upvotes'];
+    var upvotes = dbItem['upvotes'] || 0;
     var downvotes = dbItem['downvotes'] || 0;
 
     var upvotePercent = upvotes / (upvotes + downvotes) * 100;
