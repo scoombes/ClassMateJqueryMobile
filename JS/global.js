@@ -188,6 +188,8 @@ function createEventElement(dbItem) {
     display.append($("<h3>").addClass("course-name").text(event.courseCode));
     display.append($("<h2>").addClass("assignment-name").text(event.name));
     display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
+    display.append($("<div>").addClass("vote-bar").append($("<div>").addClass("upvote-bar"))
+                                                .append($("<div>").addClass("downvote-bar")));
 
     display.appendTo(eventElement);
 
