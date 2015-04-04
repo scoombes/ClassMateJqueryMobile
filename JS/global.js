@@ -180,10 +180,13 @@ function createEventElement(dbItem) {
     display.append($("<div>").addClass("vote-bar").append($("<div>").addClass("upvote-bar"))
                                                 .append($("<div>").addClass("downvote-bar")));
 
-    var upvotePercent = upvotes / (upvotes + downvotes);
-    var downvotePercent = downvotes / (upvotes + downvotes);
-    $('[data-row-id=' + event.id + '] .upvote-bar').css('height', upvotePercent + '%');
-    $('[data-row-id=' + event.id + '] .downvote-bar').css('height', downvotePercent + '%');
+    var upvotes = dbItem['upvotes'];
+    var downvotes = dbItem['downvotes'];
+
+    var upvotePercent = upvotes / (upvotes + downvotes) * 100;
+    var downvotePercent = downvotes / (upvotes + downvotes) * 100;
+    display.find('.upvote-bar').css('height', upvotePercent + '%');
+    display.find('.downvote-bar').css('height', downvotePercent + '%');
 
     display.click(function()
     {
