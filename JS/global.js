@@ -72,7 +72,8 @@ function eventFeedDetailsSetup()
     
     Event.read(event_id, function(transaction, result)
     {
-        
+        $("#detail-course").text(event_cc_sec);
+        $("#detail-course").prop("href", "course-details.html?course_id=" + event_c_id);
         $("#details-name").text(result.rows.item(0)["name"] + " Details");
         $("#details-due").text(result.rows.item(0)["due_date"]);
 
