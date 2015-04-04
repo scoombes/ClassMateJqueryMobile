@@ -4,7 +4,7 @@ var Event =
 		db.transaction(function(transaction) {
 			var sql = "CREATE TABLE IF NOT EXISTS event ("
 				+ "id INTEGER PRIMARY KEY,"
-				+ "course_id VARCHAR NOT NULL,"
+				+ "course_id INTEGER NOT NULL,"
 				+ "event_type INTEGER NOT NULL,"
 				+ "name VARCHAR NOT NULL,"
 				+ "due_date DATE NOT NULL,"
@@ -60,11 +60,21 @@ var Event =
 				}, errorHandler);
 		});
 	},
+	getEventsForCourse: function(courseId, successCallback) {
+		db.transaction(function(transaction) {
+			var sql = "SELECT * FROM event "
+					+ "JOIN course ON event.course_id = course.id "
+					+ "WHERE course_id = ? "
+					+ "ORDER BY due_date ASC";
+
+			transaction.executeSql(sql, [courseId], successCallback, errorHandler);
+		});
+	},
 	getAll: function(displayEvents) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM event "
-				+ "JOIN user_course "
-				+ "ON event.course_id = user_course.course_id "
+				+ "JOIN user_course ON event.course_id = user_course.course_id "
+				+ "JOIN course ON event.course_id = course.id "
 				+ "WHERE user_course.user_id = ? "
 			    + "ORDER BY due_date ASC";
 

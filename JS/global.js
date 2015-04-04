@@ -148,6 +148,10 @@ function handleCoursesLoad(transaction, results) {
 }
 
 function handleCourseDetail(transaction, results) {
+
+    $('#course-event-list').empty();
+    $('#course-event-list').listview('refresh');
+
     var result = results.rows.item(0);
 
     $('.course-info .course-code').text(result['course_code']);
@@ -156,7 +160,38 @@ function handleCourseDetail(transaction, results) {
     $('.course-info .teacher-name').text(result['teacher_name']);
     $('.course-info .semester').text(result['semester_name']);
     $('.course-info .year').text(result['year']);
-    
+
+    Event.getEventsForCourse(result['id'], function(transaction, results) {
+        for (var i = 0; i < results.rows.length; i++) {
+            var dbItem = results.rows.item(i);
+            createEventElement(dbItem).appendTo($('#course-event-list'));
+        }
+
+        $('#course-event-list').listview('refresh');
+    });
+}
+
+
+function createEventElement(dbItem) {
+    var event =
+    {
+        courseCode: dbItem["course_code"] + "-" + dbItem["section"],
+        name: dbItem["name"],
+        dueDate: dbItem["due_date"],
+        id: dbItem["id"]
+    };
+
+    var eventElement = $("<li>").addClass("eventfeed-item");
+    eventElement.attr("data-row-id", event.id);
+
+    var display = $("<a>").prop("href", "event-details.html");
+    display.append($("<h3>").addClass("course-name").text(event.courseCode));
+    display.append($("<h2>").addClass("assignment-name").text(event.name));
+    display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
+
+    display.appendTo(eventElement);
+
+    return eventElement;
 }
 
 function handleEventFeed(transaction, results)
@@ -176,23 +211,7 @@ function handleEventFeed(transaction, results)
             localStorage.setItem("sec", section);
         });
 
-        var event =
-        {
-            courseCode: localStorage.getItem("cc") + "-" + localStorage.getItem("sec"),
-            name: results.rows.item(i)["name"],
-            dueDate: results.rows.item(i)["due_date"],
-            id: results.rows.item(i)["id"]
-        };
-
-        var eventElement = $("<li>").addClass("eventfeed-item");
-        eventElement.attr("data-row-id", event.id);
-
-        var display = $("<a>").prop("href", "event-details.html");
-        display.append($("<h3>").addClass("course-name").text(event.courseCode));
-        display.append($("<h2>").addClass("assignment-name").text(event.name));
-        display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
-
-        display.appendTo(eventElement);
+        var eventElement = createEventElement(results.rows.item(i));
         eventElement.appendTo(eventList);
     }
     eventList.listview("refresh");
@@ -345,30 +364,6 @@ function toggleCreateCourse() {
         $("#add-course-form").hide();
         $("#toggle-create-course").removeClass("ui-icon-carat-d");
         $("#toggle-create-course").addClass("ui-icon-carat-r");
-    }
-}
-
-function displayEvents(transaction, results) {
-    for (var i=0; i < results.rows.length; i++)
-    {
-        var courseName;
-        db.transaction(function (transaction) {
-            transaction.executeSql("SELECT * FROM course WHERE id=?",[id],
-                function (transaction, results) {
-                    courseName = results.rows.item(0).name;
-                }, errorHandler);
-        });
-        var eventListHtml = '<li id="' + results.rows.item(i).id + '" class="eventfeed-item">'
-            + '<a href="event-details.html">'
-            + '<div class="vote-bar">'
-            + '<div class="upvote-bar"></div>'
-            + '<div class="downvote-bar"></div>'
-            + '</div>'
-            + '<h3 class="course-name">' + courseName + '</h3>'
-            + '<h2 class="assignment-name">' + results.rows.item(i).name + '</h2>'
-            + '<h3 class="due-date">' + results.rows.item(i).due_date + '</h3></a></li>';
-        $("#event-feed-list").append(eventListHtml);
-        Vote.readAll(results.rows.item(i).id);
     }
 }
 
