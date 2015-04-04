@@ -85,8 +85,8 @@ var Event =
 			var sqlString = "SELECT *, event.id AS event_id, event.name AS name, upvotes.count AS upvotes, downvotes.count AS downvotes FROM event "
 				+ "JOIN user_course ON event.course_id = user_course.course_id "
 				+ "JOIN course ON event.course_id = course.id "
-				+ "JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value > 0 GROUP BY event_id2) AS upvotes ON upvotes.event_id2 = event_id "
-				+ "JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value < 0 GROUP BY event_id2) AS downvotes ON downvotes.event_id2 = event_id "
+				+ "LEFT OUTER JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value > 0 GROUP BY event_id2) AS upvotes ON upvotes.event_id2 = event_id "
+				+ "LEFT OUTER JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value < 0 GROUP BY event_id2) AS downvotes ON downvotes.event_id2 = event_id "
 				+ "WHERE user_course.user_id = ? "
 			    + "ORDER BY due_date ASC";
 
