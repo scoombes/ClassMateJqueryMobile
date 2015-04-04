@@ -185,8 +185,15 @@ function createEventElement(dbItem) {
 
     var upvotePercent = upvotes / (upvotes + downvotes) * 100;
     var downvotePercent = downvotes / (upvotes + downvotes) * 100;
-    display.find('.upvote-bar').css('height', upvotePercent + '%');
-    display.find('.downvote-bar').css('height', downvotePercent + '%');
+    
+    // display.find('.upvote-bar').css('height', upvotePercent + '%');
+    // display.find('.downvote-bar').css('height', downvotePercent + '%');
+
+    /*
+    $('[data-row-id=' + event.id + '] .upvote-bar').css('height', upvotePercent + '%');
+    $('[data-row-id=' + event.id + '] .downvote-bar').css('height', downvotePercent + '%');*/
+
+    Vote.readEventVotes(event.id, setEventVoteBar);
 
     display.click(function()
     {
@@ -206,16 +213,6 @@ function handleEventFeed(transaction, results)
 
     for (var i = 0; i < results.rows.length; i++)
     {
-        var courseID = results.rows.item(i)["course_id"];
-
-        Course.getCourse(courseID, function (transaction, result)
-        {
-            var code = result.rows.item(0)["course_code"];
-            var section = result.rows.item(0)["section"];
-            localStorage.setItem("cc", code);
-            localStorage.setItem("sec", section);
-        });
-
         var eventElement = createEventElement(results.rows.item(i));
         eventElement.appendTo(eventList);
     }
@@ -377,6 +374,12 @@ function toggleTime()
     }
 }
 
-function setEventVoteValues(eventId, upvotes, downvotes) {
-    
+function setEventVoteBar(transaction, results) {
+    if (results.rows.length > 0) {
+        var upvotePercent = 100 * results.rows.item(0).upvote / (results.rows.item(0).upvote + results.rows.item(0).downvote);
+        var downvotePercent = 100 * results.rows.item(0).downvote / (results.rows.item(0).upvote + results.rows.item(0).downvote);
+        alert(results.rows.item(0).eventId + ", " + upvotePercent + ", " + downvotePercent);
+        $('[data-row-id=' + results.rows.item(0).eventId + '] .upvote-bar').css('height', upvotePercent + '%');
+        $('[data-row-id=' + results.rows.item(0).eventId + '] .downvote-bar').css('height', downvotePercent + '%');
+    }
 }
