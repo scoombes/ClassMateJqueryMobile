@@ -48,11 +48,31 @@ function checkPage(activepage)
             Event.getAll(handleEventFeed);
             break;
         case "eventdetails":
-            Event.read(localStorage.getItem("row-id"));
+            Event.read();
+            splitQuery();
+
             break;
         default:
             break;
     }
+}
+
+function splitQuery()
+{
+
+    var parameters = document.getUserData.URL.split('?')[1].split('&');
+    var paramValue = [];
+
+    for (var i = 0; i < parameters.length; i++)
+    {
+        paramValue.push(parameters[i].split('=')[1]);
+    }
+
+    event_id = paramValue[0];
+    event_cc_sec = paramValue[1];
+    event_c_id = paramValue[2];
+    
+
 }
 
 function handleAddCoursesLoadExisting(transaction, results) {
