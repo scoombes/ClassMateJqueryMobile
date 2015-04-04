@@ -39,8 +39,12 @@ var Event =
 	}, 
 	read: function (id, successCallBack) {
 		db.transaction(function (transaction) {
-			transaction.executeSql("SELECT * FROM event WHERE id = ?",[id],
-				successCallBack, errorHandler);
+			var sql = "SELECT *, upvotes.count AS upvotes, downvotes.count as downvotes FROM event "
+					+ "LEFT OUTER JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value > 0 GROUP BY event_id2) AS upvotes ON upvotes.event_id2 = ? "
+					+ "LEFT OUTER JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value < 0 GROUP BY event_id2) AS downvotes ON downvotes.event_id2 = ? "
+					+ " WHERE id = ?";
+					
+			transaction.executeSql(sql, [id, id, id], successCallBack, errorHandler);
 		});
 	},
 	getEventsForCourse: function(courseId, successCallback) {
