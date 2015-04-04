@@ -32,20 +32,8 @@ var Vote =
 			transaction.executeSql(sqlString, [userId, eventId], null, errorHandler);
 		}, errorHandler);
 	},
-	readAll: function(eventId) {
-		db.transaction(function(transaction) {
-			var upvoteSql = "SELECT  COUNT(value) AS upvote, event_id FROM vote "
-				+ "WHERE value > 0 AND event_id=" + eventId;
-			var downvoteSql = "SELECT  COUNT(value) AS downvote, event_id FROM vote "
-				+ "WHERE value < 0 AND event_id=" + eventId;
-			var sqlString = "SELECT upvoteTable.upvote, downvoteTable.downvote FROM (" + upvoteSql + ") upvoteTable "
-				+ "JOIN (" + downvoteSql + ") downvoteTable ON upvoteTable.event_id = downvoteTable.event_id;";
-			transaction.executeSql(sqlString, [], function (transaction, results, setEventVoteValues, eventId) {
-				for (var i = 0; i < results.rows.length; i++) {
-					setEventVoteValues(eventId, results.rows.item(i).upvote, results.rows.item(i).downvote);
-				}
-			}, errorHandler);
-		}, errorHandler);
+	readEventUp: function (eventId) {
+
 	},
 	remove: function(event_id, user_id) {
 		db.transaction(function(transaction) {
