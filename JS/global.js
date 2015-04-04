@@ -106,11 +106,10 @@ function handleEventFeed(transaction, results)
 
         var eventElement = $("<li>").addClass("eventfeed-item");
 
-        var display = $("<h3>").addClass("course-name").text(event.courseCode);
-        display.append($("<h2>").addClass("assignment-name").text(event.name));
-        display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
+        eventElement.append($("<h3>").addClass("course-name").text(event.courseCode));
+        eventElement.append($("<h2>").addClass("assignment-name").text(event.name));
+        eventElement.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
 
-        display.appendTo(eventElement);
         eventElement.appendTo(eventList);
     }
     eventList.listview("refresh");
