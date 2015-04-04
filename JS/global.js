@@ -52,10 +52,15 @@ function checkPage(activepage)
         case "eventfeed":
             Event.readAll(handleEventFeed);
             break;
+        case "eventdetails":
+            Event.read(localStorage.getItem("row-id"));
+            break;
         default:
             break;
     }
 }
+
+
 
 function handleCoursesLoad(transaction, results) {
     var courseList = $('.course-list');
@@ -96,23 +101,37 @@ function handleEventFeed(transaction, results)
 
     for (var i = 0; i < results.rows.length; i++)
     {
-        Course.getCourse(results.rows.item(i)["course_id"]);
+        var courseID = results.rows.item(i)["course_id"];
+
+        Course.getCourse(courseID);
+
         var event =
         {
-            courseCode: localStorage.getItem("cc"),
+            courseCode: localStorage.getItem("cc") + "-" + localStorage.getItem("sec"),
             name: results.rows.item(i)["name"],
-            dueDate: results.rows.item(i)["due_date"]
+            dueDate: results.rows.item(i)["due_date"],
+            id: results.rows.item(i)["id"]
         };
 
         var eventElement = $("<li>").addClass("eventfeed-item");
+        eventElement.attr("data-row-id", event.id);
 
-        eventElement.append($("<h3>").addClass("course-name").text(event.courseCode));
-        eventElement.append($("<h2>").addClass("assignment-name").text(event.name));
-        eventElement.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
+        var display = $("<a>").prop("href", "event-details.html");
+        display.append($("<h3>").addClass("course-name").text(event.courseCode));
+        display.append($("<h2>").addClass("assignment-name").text(event.name));
+        display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
 
+        display.appendTo(eventElement);
         eventElement.appendTo(eventList);
     }
     eventList.listview("refresh");
+
+    $(".eventfeed-item").click(function()
+    {
+        var id = this.getAttribute("data-row-id");
+
+        localStorage.setItem("row-id", id);
+    });
 }
 
 function getDate(date)

@@ -40,7 +40,13 @@ var Event =
 	read: function (id) {
 		db.transaction(function (transaction) {
 			transaction.executeSql("SELECT * FROM event WHERE id = ?",[id],
-				null, errorHandler);
+				function(transaction, result)
+				{
+				    $("#details-name").text(result.rows.item(0)["name"] + " Details");
+				    $("#details-due").text(result.rows.item(0)["due_date"]);
+				    $("#details-grade").text(result.rows.item(0)["final_grade_weight"]);
+				    $("#details-description").text(result.rows.item(0)["description"]);
+				}, errorHandler);
 		});
 	},
 	readAll: function(success) {
