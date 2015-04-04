@@ -46,11 +46,12 @@ var Event =
 	readAll: function(success) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM event "
-				+ "JOIN user_course"
-				+ "ON event.id = user_course.course_id "
-				+ "WHERE user_id = ? ORDER BY due_date ASC;";
+				+ "JOIN user_course "
+				+ "ON event.course_id = user_course.course_id "
+				+ "WHERE user_course.user_id = ? "
+			    + "ORDER BY due_date ASC";
 
-			transaction.executeSql(sqlString, [user.getCurrent().id],
+			transaction.executeSql(sqlString, [User.getCurrent().id],
 				success, errorHandler);
 		});
 	},

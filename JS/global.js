@@ -1,5 +1,6 @@
 $(document).on("pagecontainerbeforeshow", function(event, ui) {
-    var activePage = $.mobile.pageContainer.pagecontainer("getActivePage").prop('id');
+    //who put this here? - Sean
+    //var activePage = $.mobile.pageContainer.pagecontainer("getActivePage").prop('id');
 
     $(ui.toPage).find('.vote-bar').each(function() {
         var upvoteCount = Math.floor((Math.random() * 20) + 1);
@@ -47,7 +48,9 @@ function checkPage(activepage)
         case "createevent":
             createEventValidations();
             Course.populateList();
-            $("#eventcourse").selectmenu("refresh");
+            break;
+        case "eventfeed":
+            Event.readAll(handleEventFeed);
             break;
         default:
             break;
@@ -86,6 +89,50 @@ function handleCoursesLoad(transaction, results) {
     courseList.listview('refresh');
 }
 
+function handleEventFeed(transaction, results)
+{
+    var eventList = $("#event-feed-list");
+    eventList.empty();
+
+    for (var i = 0; i < results.rows.length; i++)
+    {
+        Course.getCourse(results.rows.item(i)["course_id"]);
+        var event =
+        {
+            courseCode: localStorage.getItem("cc"),
+            name: results.rows.item(i)["name"],
+            dueDate: results.rows.item(i)["due_date"]
+        };
+
+        var eventElement = $("<li>").addClass("eventfeed-item");
+
+        var display = $("<h3>").addClass("course-name").text(event.courseCode);
+        display.append($("<h2>").addClass("assignment-name").text(event.name));
+        display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
+
+        display.appendTo(eventElement);
+        eventElement.appendTo(eventList);
+    }
+    eventList.listview("refresh");
+}
+
+function getDate(date)
+{
+    var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+
+    var somedate = new Date(date);
+
+    var month = monthNames[somedate.getMonth()];
+    var weekday = daysOfWeek[somedate.getDay()+1];
+
+    var day = date.substr(8, 2);
+
+    return weekday + ", " + month + " " + day;
+}
+
+
 function checkRememberMe()
 {
     if (localStorage.getItem("rem") != null && localStorage.getItem("rem") === "true")
@@ -96,6 +143,7 @@ function checkRememberMe()
     {
         localStorage.clear();
     }
+
 }
 
 function setVote()

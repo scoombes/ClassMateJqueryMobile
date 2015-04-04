@@ -35,23 +35,36 @@ var Course =
 	readAll: function(successCallback) {
 		db.transaction(function(transaction) {
 			var sql = "SELECT * FROM course "
-				+ "JOIN user_course ON course.id = user_course.course_id "
+				+ "JOIN user_course "
+				+ "ON course.id = user_course.course_id "
 				+ "WHERE user_course.user_id = ?";
 			transaction.executeSql(sql, [User.getCurrent().id], successCallback, errorHandler);
 		}, errorHandler);
+	},
+	getCourse: function(id){
+		db.transaction(function(transaction){
+			transaction.executeSql("SELECT * FROM course WHERE id = ?", [id],
+				function (transaction, result)
+				{
+				    var code = result.rows.item(0)["course_code"];
+				    var section = result.rows.item(0)["section"];
+				    localStorage.setItem("cc", code);
+				    localStorage.setItem("sec", section);
+				}, errorHandler);
+		});
 	},
 	populateList: function(){
 		db.transaction(function(transaction){
 			transaction.executeSql("SELECT * FROM course ORDER BY course_code DESC",[],
 				function(transaction, resultSet){
 					var row;
-				    var options = '<option value="" selected>Select a course</option>';
+					var options = '<option selected="selected" value="">Select a course</option>';
 					for (var i = resultSet.rows.length - 1; i >= 0; i--) 
 					{
 						row = resultSet.rows.item(i);
-							options += '<option value="' + row.id + '">'
-								+ row.course_code
-								+ '</option>';
+						options += '<option value="' + row.id + '">'
+							+ row.course_code
+							+ '</option>';
 					}
 					$("#eventcourse").html(options);
 				}, errorHandler);

@@ -165,7 +165,7 @@ function createEventValidations() {
 			},
 			eventtime:
 			{
-				required: function(element)
+				required: function()
 				{
 					return $("#eventtype").val() != "1";
 				},
