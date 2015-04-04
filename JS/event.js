@@ -82,11 +82,11 @@ var Event =
 	},
 	getAll: function(displayEvents) {
 		db.transaction(function (transaction) {
-			var sqlString = "SELECT *, event.id AS event_id, event.name AS name, upvotes.count AS upvotes, downvotes.count AS downvotes FROM event "
+			var sqlString = "SELECT *, event.id AS event_id, event.name AS name, upvotes.count AS upvotes FROM event "
 				+ "JOIN user_course ON event.course_id = user_course.course_id "
 				+ "JOIN course ON event.course_id = course.id "
-				+ "JOIN (SELECT COUNT(value) AS count FROM vote WHERE vote.event_id = event_id AND value > 0) AS upvotes "
-				+ "JOIN (SELECT COUNT(value) AS count FROM vote WHERE vote.event_id = event_id AND value < 0) AS downvotes "
+				+ "JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value > 0) AS upvotes ON upvotes.event_id2 = event_id "
+				+ "JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value < 0) AS downvotes ON downvotes.event_id2 = event_id "
 				+ "WHERE user_course.user_id = ? "
 			    + "ORDER BY due_date ASC";
 
