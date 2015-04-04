@@ -292,8 +292,8 @@ function setVote()
 
         voteWorth=-1;
     }
-
-    //whole buncha logic to add vote to the sweet sweet database of ours
+    
+    //Vote.insert(, User.getCurrent().id, voteWorth);
 }
 
 function handleLoginForm()
