@@ -13,22 +13,19 @@ var Vote =
 	insert: function(event_id, user_id, value) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM vote WHERE event_id=? AND user_id=?;";
+			var params;
 			transaction.executeSql(sqlString, [event_id, user_id], function (transaction, results) {
 				if (results.rows.length === 0) {
 					sqlString = "INSERT INTO vote (event_id, user_id, value) VALUES (?, ?, ?);";
+					params = [event_id, user_id, value];
 				}
 				else {
 					sqlString = "UPDATE vote SET event_id=?, user_id=?, value=? "
 						+ "WHERE event_id=? AND user_id=?;";
+					params = [event_id, user_id, value, event_id, user_id];
 				}
-				transaction.executeSql(sqlString, [event_id, user_id, value], null, errorHandler);
+				transaction.executeSql(sqlString, params, null, errorHandler);
 			}, errorHandler);
-		}, errorHandler);
-	},
-	read: function (event_id, user_id, check_if_vote) {
-		db.transaction(function (transaction) {
-			var sqlString = "SELECT * FROM vote WHERE event_id=? AND user_id=?;";
-			transaction.executeSql(sqlString, [event_id, user_id], check_if_vote, errorHandler);
 		}, errorHandler);
 	},
 	remove: function(event_id, user_id) {

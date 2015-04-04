@@ -351,31 +351,7 @@ function setVote()
 	var currentEventId = paramValue[0];
 	var currentUserId = User.getCurrent().id;
 
-    Vote.read(currentEventId, currentUserId, userVoteStatus);
-}
-
-function userVoteStatus(transaction, results) {
-	var currentEventId;
-	var currentUserId;
-
-	if (results.rows.length > 0) {
-		currentEventId = results.rows.item(0).event_id;
-		currentUserId = results.rows.item(0).user_id;
-		Vote.remove(results.rows.item(0).event_id, results.rows.item(0).user_id);
-	} else {
-		var parameters = document.URL.split('?')[1].split('&');
-	    var paramValue = [];
-
-	    for (var i = 0; i < parameters.length; i++)
-	    {
-	        paramValue.push(parameters[i].split('=')[1]);
-	    }
-
-	    currentEventId = paramValue[0];
-	    currentUserId = User.getCurrent().id;
-	}
-
-	Vote.insert(currentEventId, currentUserId, 2);
+    Vote.insert(currentEventId, currentUserId, voteWorth);
 }
 
 function handleLoginForm()
