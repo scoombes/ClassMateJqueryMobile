@@ -187,9 +187,12 @@ function createEventElement(dbItem) {
     display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
 
 
+    //display.append($("<div>").addClass("vote-bar").append($("<div>").addClass("upvote-bar"))
+    //                                            .append($("<div>").addClass("downvote-bar")));
 
-    display.append($("<div>").addClass("vote-bar").append($("<div>").addClass("upvote-bar"))
-                                                .append($("<div>").addClass("downvote-bar")));
+    display.append($("<div>").addClass("vote-bar"));
+    display.append($("<div>").addClass("upvote-bar"));
+    display.append($("<div>").addClass("downvote-bar"));
 
     var upvotes = dbItem['upvotes'];
     var downvotes = dbItem['downvotes'] || 0;
