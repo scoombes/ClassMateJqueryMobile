@@ -3,8 +3,8 @@ var Vote =
 	initialize: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS vote ("
-				+ "event_id VARCHAR NOT NULL, "
-				+ "user_id VARCHAR NOT NULL, "
+				+ "event_id INTEGER NOT NULL, "
+				+ "user_id INTEGER NOT NULL, "
 				+ "value INTEGER NOT NULL, "
 				+ "PRIMARY KEY (event_id, user_id));";
 			transaction.executeSql(sqlString, [], null, errorHandler);
