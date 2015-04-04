@@ -62,7 +62,7 @@ var Event =
 	},
 	getEventsForCourse: function(courseId, successCallback) {
 		db.transaction(function(transaction) {
-			var sql = "SELECT *, event.id AS event_id  FROM event "
+			var sql = "SELECT *, event.id AS event_id, event.name AS name  FROM event "
 					+ "JOIN course ON event.course_id = course.id "
 					+ "WHERE course_id = ? "
 					+ "ORDER BY due_date ASC";
@@ -72,7 +72,7 @@ var Event =
 	},
 	getAll: function(displayEvents) {
 		db.transaction(function (transaction) {
-			var sqlString = "SELECT *, event.id AS event_id FROM event "
+			var sqlString = "SELECT *, event.id AS event_id, event.name AS name FROM event "
 				+ "JOIN user_course ON event.course_id = user_course.course_id "
 				+ "JOIN course ON event.course_id = course.id "
 				+ "WHERE user_course.user_id = ? "
