@@ -74,12 +74,7 @@ var Course =
 							+ '</option>';
 					}
 					$("#eventcourse").html(options);
-<<<<<<< HEAD
                     
-=======
-
-					$("#eventcourse").selectmenu('refresh');
->>>>>>> e5789021fa84b0d38d4eea80e326c6211b2cd2d9
 				}, errorHandler);
 		});
 	},
