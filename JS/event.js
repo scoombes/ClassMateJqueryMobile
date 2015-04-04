@@ -45,13 +45,13 @@ var Event =
 				    $("#details-name").text(result.rows.item(0)["name"] + " Details");
 				    $("#details-due").text(result.rows.item(0)["due_date"]);
 
-				    if (result.rows.item(0)["final_grade_weight"] == "")
+				    if (result.rows.item(0)["final_grade_weight"] !== "")
 				    {
 				        $("#detail-grade-parent").removeClass("hidden");
 				        $("#details-grade").text(result.rows.item(0)["final_grade_weight"]);
 				    }
 
-				    if (result.rows.item(0)["description"] == "")
+				    if (result.rows.item(0)["description"] !== "")
 				    {
 				        $("#detail-description-parent").removeClass("hidden");
 				        $("#details-description").text(result.rows.item(0)["description"]);
