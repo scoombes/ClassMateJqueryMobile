@@ -367,6 +367,10 @@ function toggleTime()
 
 function setEventVoteBar(transaction, results) {
     if (results.rows.length > 0) {
-        
+        var upvotePercent = 100 * results.rows.item(0).upvote / (results.rows.item(0).upvote + results.rows.item(0).downvote);
+        var downvotePercent = 100 * results.rows.item(0).downvote / (results.rows.item(0).upvote + results.rows.item(0).downvote);
+        alert(results.rows.item(0).eventId + ", " + upvotePercent + ", " + downvotePercent);
+        $('[data-row-id=' + results.rows.item(0).eventId + '] .upvote-bar').css('height', upvotePercent + '%');
+        $('[data-row-id=' + results.rows.item(0).eventId + '] .downvote-bar').css('height', downvotePercent + '%');
     }
 }
