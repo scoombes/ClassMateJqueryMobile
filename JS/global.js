@@ -180,10 +180,11 @@ function createEventElement(dbItem) {
     display.append($("<div>").addClass("vote-bar").append($("<div>").addClass("upvote-bar"))
                                                 .append($("<div>").addClass("downvote-bar")));
 
-    var upvotePercent = upvotes / (upvotes + downvotes);
-    var downvotePercent = downvotes / (upvotes + downvotes);
+    /*
     $('[data-row-id=' + event.id + '] .upvote-bar').css('height', upvotePercent + '%');
-    $('[data-row-id=' + event.id + '] .downvote-bar').css('height', downvotePercent + '%');
+    $('[data-row-id=' + event.id + '] .downvote-bar').css('height', downvotePercent + '%');*/
+
+    Vote.readEventVotes(event.id, setEventVoteBar);
 
     display.click(function()
     {
@@ -374,6 +375,8 @@ function toggleTime()
     }
 }
 
-function setEventVoteValues(eventId, upvotes, downvotes) {
-    
+function setEventVoteBar(transaction, results) {
+    if (results.rows.length > 0) {
+        
+    }
 }
