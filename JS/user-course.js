@@ -9,7 +9,8 @@ var UserCourse =
 		db.transaction(function (transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS user_course ("
 			+ " course_id INTEGER NOT NULL,"
-			+ " user_id INTEGER NOT NULL)";
+			+ " user_id INTEGER NOT NULL,"
+			+ " PRIMARY KEY (course_id, user_id))";
 
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		}, errorHandler);

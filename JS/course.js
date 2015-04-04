@@ -31,14 +31,21 @@ var Course =
 
 			transaction.executeSql(sql, [course_code, section, name, semester_id, year, teacher_name, creator_id], successCallback, errorHandler);
 		}, errorHandler);
-	}, 
-	readAll: function(successCallback) {
+	},
+	readJoined: function(userId, successCallback) {
 		db.transaction(function(transaction) {
 			var sql = "SELECT * FROM course "
 				+ "JOIN user_course "
 				+ "ON course.id = user_course.course_id "
 				+ "WHERE user_course.user_id = ?";
-			transaction.executeSql(sql, [User.getCurrent().id], successCallback, errorHandler);
+			transaction.executeSql(sql, [userId], successCallback, errorHandler);
+		}, errorHandler);
+	},
+	readAll: function(successCallback) {
+		db.transaction(function(transaction) {
+			var sql = "SELECT * FROM course";
+
+			transaction.executeSql(sql, [], successCallback, errorHandler);
 		}, errorHandler);
 	},
 	getCourse: function(id){

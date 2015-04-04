@@ -40,21 +40,22 @@
 
             <section data-role="content">
                 <h3>Join Existing Course</h3>
-                <ul data-role="listview" data-filter="true" data-filter-placeholder="Search Courses..." data-inset="true" class="small-list" data-icon="plus">
-                    <li><a href="course-details.html">PROG3180-2 - Mobile Application Programming</a></li>
-                    <li><a href="course-details.html">PROG2240-2 - Java Web Tech</a></li>
-                    <li><a href="course-details.html">PROG2070-2 - Software QA</a></li>
-                    <li><a href="course-details.html">INFO2060-2 - Technology Infrastructure</a></li>
-                    <li><a href="course-details.html">INFO2050-2 - Computer Security</a></li>
-                    <li><a href="course-details.html">INFO2040-2 - Mobile Application Design</a></li>
+                <ul id="add-existing-course" data-role="listview" data-filter="true" data-filter-placeholder="Search Courses..." data-inset="true" class="small-list" data-icon="plus">
+                    <li><a data-course-id="1">PROG3180-2 - Mobile Application Programming</a></li>
+                    <li><a href="course-details.html" data-course-id="1">PROG2240-2 - Java Web Tech</a></li>
+                    <li><a href="course-details.html" data-course-id="1">PROG2070-2 - Software QA</a></li>
+                    <li><a href="course-details.html" data-course-id="1">INFO2060-2 - Technology Infrastructure</a></li>
+                    <li><a href="course-details.html" data-course-id="1">INFO2050-2 - Computer Security</a></li>
+                    <li><a href="course-details.html" data-course-id="1">INFO2040-2 - Mobile Application Design</a></li>
                 </ul>
+
                 <h3>Create Course <a href="#" id="toggle-create-course" class="ui-btn ui-btn-inline ui-icon-carat-r ui-btn-icon-notext ui-corner-all" data-inline="true"></a></h3>
                 <form id="add-course-form">
                     <label for="course-code">Course Code:</label>
                     <input type="text" name="course-code" id="course-code" value="" placeholder="E.g. PROG3180">
 
                     <label for="course-section">Course Section:</label>
-                    <input type="number" name="course-section" name="course-section" value="" placeholder="E.g. 2">
+                    <input type="number" id="course-section" name="course-section" value="" placeholder="E.g. 2">
 
                     <label for="course-name">Course Name:</label>
                     <input type="text" name="course-name" id="course-name" value="" placeholder="E.g. Mobile Application Programming">

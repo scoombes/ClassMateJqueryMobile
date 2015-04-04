@@ -40,10 +40,11 @@ function checkPage(activepage)
             registerValidations();
             break;
         case "add-course":
+            Course.readAll(handleAddCoursesLoadExisting);
             addCourseValidations();
             break;
         case "courses":
-            Course.readAll(handleCoursesLoad);
+            Course.readJoined(User.getCurrent().id, handleCoursesLoad);
             break;
         case "createevent":
             createEventValidations();
@@ -60,6 +61,41 @@ function checkPage(activepage)
     }
 }
 
+function handleAddCoursesLoadExisting(transaction, results) {
+    var courseList = $('#add-existing-course');
+    courseList.empty();
+    
+    for (var i = 0; i < results.rows.length; i++) {
+        var course = {
+            id: results.rows.item(i)['id'],
+            code: results.rows.item(i)['course_code'],
+            section: results.rows.item(i)['section'],
+            name: results.rows.item(i)['name'],
+            teacherName: results.rows.item(i)['teacher_name'],
+            semester: results.rows.item(i)['semester'],
+            year: results.rows.item(i)['year']
+        };
+
+        var courseElement = $('<li>');
+
+        var link = $('<a>');
+        link.attr('data-course-id', course.id);
+        link.text(course.code + "-" + course.section + " - " + course.name);
+
+        link.click(addExistingCourse);
+
+        courseElement.append(link);
+        courseList.append(courseElement);
+    }
+
+    courseList.listview('refresh');
+}
+
+function addExistingCourse() {
+    var id = $(this).attr('data-course-id');
+    UserCourse.insert(User.getCurrent().id, id);
+    $.mobile.changePage('courses.html');
+}
 
 
 function handleCoursesLoad(transaction, results) {
@@ -68,7 +104,9 @@ function handleCoursesLoad(transaction, results) {
     
     for (var i = 0; i < results.rows.length; i++) {
         var course = {
+            id: results.rows.item(i)['id'],
             code: results.rows.item(i)['course_code'],
+            section: results.rows.item(i)['section'],
             name: results.rows.item(i)['name'],
             teacherName: results.rows.item(i)['teacher_name'],
             semester: results.rows.item(i)['semester'],
@@ -240,6 +278,8 @@ function handleAddCourse(transaction, results) {
                   
     Course.insert(courseCode, courseSection, courseName, semester, year, teacherName, User.getCurrent().id, function(transaction, results) {
         UserCourse.insert(User.getCurrent().id, results.insertId);
+
+        $.mobile.changePage("courses.html");
     });
 }
 
