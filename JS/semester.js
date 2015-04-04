@@ -3,7 +3,7 @@ var Semester =
 	initialize: function() {
 		db.transaction(function(transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS semester ("
-				+ "id INTEGER NOT NULL PRIMARY KEY,"
+				+ "semester_id INTEGER NOT NULL PRIMARY KEY,"
 				+ "semester_name VARCHAR(10) NOT NULL);";
 
 			transaction.executeSql(sqlString, [], null, errorHandler);

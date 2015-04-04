@@ -46,6 +46,11 @@ function checkPage(activepage)
         case "courses":
             Course.readJoined(User.getCurrent().id, handleCoursesLoad);
             break;
+        case "course-detail":
+            var parameters = document.URL.split("?")[1];
+            course_id = parameters.replace("course_id=","");
+            Course.getCourse(course_id, handleCourseDetail);
+            break;
         case "createevent":
             createEventValidations();
             Course.populateList();
@@ -106,6 +111,8 @@ function handleCoursesLoad(transaction, results) {
     courseList.empty();
     
     for (var i = 0; i < results.rows.length; i++) {
+
+        var row = results.rows.item(i);
         var course = {
             id: results.rows.item(i)['id'],
             code: results.rows.item(i)['course_code'],
@@ -118,7 +125,12 @@ function handleCoursesLoad(transaction, results) {
 
         var courseElement = $('<li>').addClass('eventfeed-item');
         
-        var link = $('<a>').prop('href', 'course-details.html');
+        var link = $('<a>');
+        link.attr('data-course-id', course.id);
+        link.click(function() {
+            $.mobile.changePage('course-details.html', { data: { 'course_id': $(this).attr('data-course-id') }, reloadPage: true, changeHash: true });
+        });
+
         link.append($('<h1>').addClass('course-code').html(course.code + "-" + course.section));
         link.append($('<h2>').addClass('course-description').text(course.name));
         
@@ -135,6 +147,18 @@ function handleCoursesLoad(transaction, results) {
     courseList.listview('refresh');
 }
 
+function handleCourseDetail(transaction, results) {
+    var result = results.rows.item(0);
+
+    $('.course-info .course-code').text(result['course_code']);
+    $('.course-info .section').text(result['section']);
+    $('.course-info .course-name').text(result['name']);
+    $('.course-info .teacher-name').text(result['teacher_name']);
+    $('.course-info .semester').text(result['semester_name']);
+    $('.course-info .year').text(result['year']);
+    
+}
+
 function handleEventFeed(transaction, results)
 {
     var eventList = $("#event-feed-list");
@@ -144,7 +168,13 @@ function handleEventFeed(transaction, results)
     {
         var courseID = results.rows.item(i)["course_id"];
 
-        Course.getCourse(courseID);
+        Course.getCourse(courseID, function (transaction, result)
+        {
+            var code = result.rows.item(0)["course_code"];
+            var section = result.rows.item(0)["section"];
+            localStorage.setItem("cc", code);
+            localStorage.setItem("sec", section);
+        });
 
         var event =
         {
