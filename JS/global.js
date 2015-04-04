@@ -171,12 +171,23 @@ function createEventElement(dbItem) {
     };
 
     var eventElement = $("<li>").addClass("eventfeed-item");
-    eventElement.attr("data-row-id", event.id);
+    
+    var display = $("<a>");
+    display.attr("event-id", event.id);
+    display.attr("event_course_info", dbItem["course_code"] + "-" + dbItem["section"]);
+    display.attr("event_course_id", dbItem["course_id"]);
 
-    var display = $("<a>").prop("href", "event-details.html");
+    display.click(function()
+    {
+        $.mobile.changePage("event-details.html", { data: { "event_id": $(this).attr("event-id") }, reloadPage: true, changeHash: true });
+    });
+
     display.append($("<h3>").addClass("course-name").text(event.courseCode));
     display.append($("<h2>").addClass("assignment-name").text(event.name));
     display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
+
+
+
     display.append($("<div>").addClass("vote-bar").append($("<div>").addClass("upvote-bar"))
                                                 .append($("<div>").addClass("downvote-bar")));
 
