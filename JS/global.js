@@ -402,10 +402,10 @@ function setVote()
 
 //callback function to handle when a user has already voted for an event
 function userEventVote(transaction, results) {
-	if (results.rows.item(0).value > 0) {
+	if (results.rows.length > 0 && results.rows.item(0).value > 0) {
 		$("#down-vote").removeClass("ui-btn-d");
 		$("#up-vote").addClass("ui-btn-c");
-	} else {
+	} else if (results.rows.length > 0 && results.rows.item(0).value < 0) {
 		$("#up-vote").removeClass("ui-btn-c");
 		$("#down-vote").addClass("ui-btn-d");
 	}
