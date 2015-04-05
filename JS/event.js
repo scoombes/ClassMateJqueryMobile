@@ -1,10 +1,11 @@
 /* event.js
- *		Creates the course object
+ *		Helper to allow access to the Event Database table
  *
  * 		Kyle Zimmerman - 3/25/15 js file created
  */
 var Event =
 {
+	//Creates the table if required
 	initialize: function() {
 		db.transaction(function(transaction) {
 			var sql = "CREATE TABLE IF NOT EXISTS event ("
@@ -23,6 +24,7 @@ var Event =
 
 		}, errorHandler);
 	},
+	//Inserts a course into the database. Note: Validation should be done before calling this function
 	insert: function(course_id, event_type, name, due_date, time, final_grade_weight, description, creator_id) {
 		db.transaction(function(transaction) {
 			var sql = "INSERT INTO event ("
@@ -42,6 +44,7 @@ var Event =
 			 }, errorHandler);
 		}, errorHandler);
 	}, 
+	//Gets a specific event by ID
 	read: function (id, successCallBack) {
 		db.transaction(function (transaction) {
 			var sql = "SELECT *, upvotes.count AS upvotes, downvotes.count as downvotes FROM event "
@@ -52,6 +55,7 @@ var Event =
 			transaction.executeSql(sql, [id, id, id], successCallBack, errorHandler);
 		});
 	},
+	//Gets all of the events for a specific course
 	getEventsForCourse: function(courseId, successCallback) {
 		db.transaction(function(transaction) {
 			var sql = "SELECT *, event.id AS event_id, event.name AS name, upvotes.count AS upvotes, downvotes.count AS downvotes FROM event "
@@ -64,6 +68,7 @@ var Event =
 			transaction.executeSql(sql, [courseId], successCallback, errorHandler);
 		});
 	},
+	//Gets ALL of the events that the current user can see
 	getAll: function(displayEvents) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT *, event.id AS event_id, event.name AS name, upvotes.count AS upvotes, downvotes.count AS downvotes FROM event "
@@ -78,6 +83,7 @@ var Event =
 				displayEvents, errorHandler);
 		});
 	},
+	//Drop and re-init the table
 	nuke: function() {
 		db.transaction(function(transaction) {
 			transaction.executeSql("DROP TABLE IF EXISTS event", [], Event.initialize, errorHandler);
