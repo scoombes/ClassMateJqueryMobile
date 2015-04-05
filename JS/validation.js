@@ -89,11 +89,10 @@ function registerValidations() {
 	});
 }
 
-//template function for validations
+//create course validations
 function addCourseValidations() {
 	$("#add-course-form").validate( 
 	{
-		//change submit handler
 		submitHandler: handleAddCourse,
 		rules:
 		{
@@ -140,6 +139,7 @@ function addCourseValidations() {
 	});
 }
 
+//validation rules for creating an event
 function createEventValidations() {
 	$.validator.addMethod("regex", function(value, element, regexpr) {          
 				return regexpr.test(value);

@@ -1,8 +1,11 @@
-$(document).on("pagecontainerbeforeshow", function(event, ui) {
-	//who put this here? - Sean
-	//var activePage = $.mobile.pageContainer.pagecontainer("getActivePage").prop('id');
+/* global.js
+ *	    File contains most functions needed for project to run
+ *
+ * 		Sean Coombes, Kile Zimmerman, Justin Coschi  - 3/20/15 js file created
+ */
 
-
+//runs before each pages loads and sets up click events 
+$(document).on("pagecontainerbeforeshow", function (event, ui) {
 	var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
 	checkPage(activepage);
 
@@ -16,6 +19,7 @@ $(document).on("pagecontainerbeforeshow", function(event, ui) {
 	$.mobile.defaultPageTransition = 'none';
 });
 
+//called every page load and executes case depending on page loaded
 function checkPage(activepage)
 {
 	switch(activepage)
@@ -54,6 +58,7 @@ function checkPage(activepage)
 	}
 }
 
+//prepares data to be displayed on eventdetails page
 function eventFeedDetailsSetup()
 {
 	
@@ -109,6 +114,7 @@ function eventFeedDetailsSetup()
 	});
 }
 
+//formats time to 12hr time from 24hr
 function formatTime(eventTime)
 {
     var hours = parseInt(eventTime.substr(0, 2));
@@ -130,6 +136,8 @@ function formatTime(eventTime)
 
 	return hours + ":" + mins + suffix;
 }
+
+//prepares existing courses on add course page
 function handleAddCoursesLoadExisting(transaction, results) {
 	var courseList = $('#add-existing-course');
 	courseList.empty();
@@ -160,6 +168,7 @@ function handleAddCoursesLoadExisting(transaction, results) {
 	courseList.listview('refresh');
 }
 
+//adds user to a class that has already been created
 function addExistingCourse() {
 	var id = $(this).attr('data-course-id');
 	UserCourse.insert(User.getCurrent().id, id, function() {
@@ -169,7 +178,7 @@ function addExistingCourse() {
 	});
 }
 
-
+//prepares courses that user is in into a course list
 function handleCoursesLoad(transaction, results) {
 	var courseList = $('.course-list');
 	courseList.empty();
@@ -211,6 +220,7 @@ function handleCoursesLoad(transaction, results) {
 	courseList.listview('refresh');
 }
 
+//prepares and displays details of selected course
 function handleCourseDetail(transaction, results) {
 
 	$('#course-event-list').empty();
@@ -235,7 +245,19 @@ function handleCourseDetail(transaction, results) {
 	});
 }
 
+//prepares data of events to be used in a list
+function handleEventFeed(transaction, results) {
+    var eventList = $("#event-feed-list");
+    eventList.empty();
 
+    for (var i = 0; i < results.rows.length; i++) {
+        var eventElement = createEventElement(results.rows.item(i));
+        eventElement.appendTo(eventList);
+    }
+    eventList.listview("refresh");
+}
+
+//displays all events user has for subscribed courses in a list
 function createEventElement(dbItem) {
 	var event =
 	{
@@ -286,19 +308,7 @@ function createEventElement(dbItem) {
 	return eventElement;
 }
 
-function handleEventFeed(transaction, results)
-{
-	var eventList = $("#event-feed-list");
-	eventList.empty();
-
-	for (var i = 0; i < results.rows.length; i++)
-	{
-		var eventElement = createEventElement(results.rows.item(i));
-		eventElement.appendTo(eventList);
-	}
-	eventList.listview("refresh");
-}
-
+//formats date from a numerical format into a more easy to read format
 function getDate(date)
 {
 	var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -315,7 +325,7 @@ function getDate(date)
 	return weekday + ", " + month + " " + day;
 }
 
-
+//checks if remember me has been selected
 function checkRememberMe()
 {
 	if (localStorage.getItem("rem") != null && localStorage.getItem("rem") === "true")
@@ -328,6 +338,7 @@ function checkRememberMe()
 	}
 
 }
+
 
 function setVote()
 {
@@ -392,6 +403,7 @@ function userEventVote(transaction, results) {
 	}
 }
 
+//attempts to log user in if form is valid
 function handleLoginForm()
 {
 	if ($("#login-form").valid()) 
@@ -403,6 +415,7 @@ function handleLoginForm()
 	}
 }
 
+//inserts new user data into db if the form is valid
 function handleSignupForm()
 {
 	if ($("#signup-form").valid()) 
@@ -416,6 +429,7 @@ function handleSignupForm()
 		}
 }
 
+//adds co
 function handleAddCourse(transaction, results) {
 	var courseCode = $('#course-code').val();
 	var courseSection = $('#course-section').val();
@@ -430,6 +444,7 @@ function handleAddCourse(transaction, results) {
 	});
 }
 
+//inserts event into the databse if form is valid
 function handleCreateEvent()
 {
 	if ($("#create-event").valid()) 
@@ -446,11 +461,13 @@ function handleCreateEvent()
 	}
 }
 
+//logs current user out
 function logOut() {
 	localStorage.clear();
 	$.mobile.changePage("login.html", {transition: "none"});
 }
 
+//changes if the create course form is visible
 function toggleCreateCourse() {
 	if ($("#add-course-form").is(":hidden")) {
 		$("#add-course-form").show();
@@ -463,6 +480,7 @@ function toggleCreateCourse() {
 	}
 }
 
+//changes if time is visible or not on the create event page
 function toggleTime()
 {
 	if ($("#eventtype").val() == "1") 
