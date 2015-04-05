@@ -5,6 +5,7 @@
  */ 
 var User =
 {
+	//Creates the table if required
 	initialize: function() {
 		db.transaction(function (transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS user ("
@@ -17,6 +18,7 @@ var User =
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		});
 	},
+	//Insert a new user into the table. NOTE: Use register instead
 	insert: function(email, password, first_name, last_name) {
 		db.transaction(function (transaction){
 			transaction.executeSql("INSERT INTO user (student_email, password, first_name, last_name) "
@@ -26,6 +28,7 @@ var User =
 				}, errorHandler);
 		});
 	},
+	//registers a user (Verifies the email address is not taken)
 	register: function(email, password, first_name, last_name){
 		db.transaction(function (transaction){
 			transaction.executeSql("SELECT * FROM user WHERE student_email = ?",[email],
@@ -42,6 +45,7 @@ var User =
 				}, errorHandler);
 		});
 	},
+	//Logs a user in using the provided credentials
 	login: function (email, password){
 		db.transaction(function (transaction){
 			transaction.executeSql("Select * FROM user where student_email = ?", [email],
@@ -68,28 +72,31 @@ var User =
 					{
 						$("#loginmessage").text("Incorrect username or password please try again");
 					}
-				},errorHandler)
-		})
+				},errorHandler);
+		});
 	},
+	//Gets a user by ID
 	read: function(id){
 		db.transaction(function (transaction) {
 			transaction.executeSql("SELECT * FROM user WHERE id = ?",[id],
 				null, errorHandler);
 		});
 	},
+	//Drops the table and re-initializes it
 	nuke: function() {
 		db.transaction(function (transaction) {
 			transaction.executeSql("DROP TABLE IF EXISTS user",[], 
 				User.initialize, errorHandler);
 		});
 	},
+	//Gets the currently signed in user. Provides id and name
 	getCurrent: function() {
 		if(localStorage.getItem("uid") != null && localStorage.getItem("uname") != null)
 		{
 			return {		
 				id: localStorage.getItem('uid'),
 				name: localStorage.getItem('uname')		
-			}
+			};
 		}
 		else
 		{			
@@ -99,4 +106,4 @@ var User =
 			return null;
 		}
 	}
-}
+};

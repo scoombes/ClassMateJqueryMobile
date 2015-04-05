@@ -1,10 +1,11 @@
 /* user-course.js
- *	intersection table fort course and users
+ *	intersection table for course and users
  *
  * 		Sean Coombes - 3/25/15 js file created
  */ 
 var UserCourse =
 {
+	//Creates the tale if required
 	initialize: function() {
 		db.transaction(function (transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS user_course ("
@@ -15,6 +16,7 @@ var UserCourse =
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		}, errorHandler);
 	},
+	//Inserts a new User <-> Course relationship (Many-to-Many)
 	insert: function(user_id, course_id, successCallback, errorCallback) {
 		db.transaction(function (transaction)
 		{
@@ -26,6 +28,7 @@ var UserCourse =
 			
 		},errorHandler);
 	},
+	//Drop the table and re-initialize it
 	nuke: function() {
 		db.transaction(function (transaction) {
 			transaction.executeSql("DROP TABLE IF EXISTS user_course",[], 
