@@ -3,6 +3,8 @@
  *
  * 		Sean Coombes - 3/25/15 js file created
  */ 
+
+ //Validation for the login page.
 function loginValidations()
 {
 	$("#login-form").validate(
@@ -32,10 +34,11 @@ function loginValidations()
 			{
 				required: "Enter password"
 			}
-		},
+		}
 	});
 }
 
+//Validation for the register page
 function registerValidations() {
 	$("#signup-form").validate(
 	{
@@ -140,7 +143,7 @@ function addCourseValidations() {
 			"teacher-name": {
 				required: "Please enter the teacher's name"
 			}
-		},
+		}
 	});
 }
 
@@ -216,7 +219,7 @@ function Validations() {
 		messages:
 		{
 			
-		},
+		}
 	});
 }
 

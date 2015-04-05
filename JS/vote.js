@@ -5,6 +5,7 @@
  */ 
 var Vote = 
 {
+	//Creates the table if required
 	initialize: function () {
 		db.transaction(function (transaction) {
 			var sqlString = "CREATE TABLE IF NOT EXISTS vote ("
@@ -15,6 +16,9 @@ var Vote =
 			transaction.executeSql(sqlString, [], null, errorHandler);
 		}, errorHandler);
 	},
+	//Inserts a new Vote into the provided event from the provided user.
+	//Positive/Negative values for up/down votes respectively.
+	//A higher number has no effect
 	insert: function (event_id, user_id, value) {
 		db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM vote WHERE event_id=? AND user_id=?;";
@@ -33,12 +37,14 @@ var Vote =
 			}, errorHandler);
 		}, errorHandler);
 	},
+	//Gets a a vote for an event by a user if it exists.
 	read: function (event_id, user_id, set_initial_user_vote) {
 			db.transaction(function (transaction) {
 			var sqlString = "SELECT * FROM vote WHERE event_id=? AND user_id=?;";
 			transaction.executeSql(sqlString, [event_id, user_id], set_initial_user_vote, errorHandler);
 		}, errorHandler);
 	},
+	//Removes a vote on an event by a specific user
 	remove: function (event_id, user_id) {
 		db.transaction(function (transaction) {
 			var sqlString = "DELETE FROM vote "
@@ -46,6 +52,7 @@ var Vote =
 			transaction.executeSql(sqlString, [event_id, user_id], null, errorHandler);
 		}, errorHandler);
 	},
+	//Deletes the table and recreates it
 	nuke: function() {
 		db.transaction(function (transaction) {
 			var sqlString = "DROP TABLE IF EXISTS vote;";
