@@ -5,6 +5,7 @@
  */
 var Course =
 {
+	//Creates the course table
 	initialize: function() {
 		db.transaction(function(transaction) {
 			var sql = "CREATE TABLE IF NOT EXISTS course ("
@@ -22,6 +23,7 @@ var Course =
 
 		}, errorHandler);
 	},
+	//Allows a course to be inserted into the database. Note: validate the values before calling the function
 	insert: function(course_code, section, name, semester_id, year, teacher_name, creator_id, successCallback) {
 		db.transaction(function(transaction) {
 			var sql = "INSERT INTO course ("
@@ -37,6 +39,7 @@ var Course =
 			transaction.executeSql(sql, [course_code, section, name, semester_id, year, teacher_name, creator_id], successCallback, errorHandler);
 		}, errorHandler);
 	},
+	//get all of the courses the provided user has joined
 	readJoined: function(userId, successCallback) {
 		db.transaction(function(transaction) {
 			var sql = "SELECT * FROM course "
@@ -48,6 +51,7 @@ var Course =
 			transaction.executeSql(sql, [userId], successCallback, errorHandler);
 		}, errorHandler);
 	},
+	//Gets all of the courses
 	readAll: function(successCallback) {
 		db.transaction(function(transaction) {
 			var sql = "SELECT * FROM course "
@@ -57,6 +61,7 @@ var Course =
 			transaction.executeSql(sql, [], successCallback, errorHandler);
 		}, errorHandler);
 	},
+	//Gets a specific course by ID
 	getCourse: function(id, successCallback){
 		db.transaction(function(transaction){
 			transaction.executeSql("SELECT * FROM course "
@@ -65,6 +70,7 @@ var Course =
 				successCallback, errorHandler);
 		});
 	},
+	//Populates the <select> menu on the Add-Event screen
 	populateList: function(){
 		db.transaction(function(transaction){
 			transaction.executeSql("SELECT * FROM course ORDER BY course_code COLLATE NOCASE DESC",[],
@@ -83,6 +89,7 @@ var Course =
 				}, errorHandler);
 		});
 	},
+	//Drops the table and re-initializes it.
 	nuke: function() {
 		db.transaction(function(transaction) {
 			transaction.executeSql("DROP TABLE IF EXISTS course", [], Course.initialize, errorHandler);
