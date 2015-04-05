@@ -1,3 +1,8 @@
+/* event-type.js
+ *		Creates the event-type lookup table
+ *
+ * 		Justin Coschi - 3/25/15 js file created
+ */
 var EventType = 
 {
 	initialize: function() {

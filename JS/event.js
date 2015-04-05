@@ -1,3 +1,8 @@
+/* event.js
+ *		Creates the course object
+ *
+ * 		Kyle Zimmerman - 3/25/15 js file created
+ */
 var Event =
 {
 	initialize: function() {
