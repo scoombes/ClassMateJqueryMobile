@@ -54,6 +54,8 @@
 	width: 16px;
 	border: 1px solid #ddd;
 	background-color: #ddd;
+	text-align: center;
+	color: white;
 }
 
 .upvote-bar {

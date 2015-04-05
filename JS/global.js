@@ -112,6 +112,8 @@ function eventFeedDetailsSetup()
 			$("#details-description").text("");
 		}
 	});
+
+	Vote.read(event_id, User.getCurrent().id, userEventVote);
 }
 
 //formats time to 12hr time from 24hr
@@ -301,8 +303,13 @@ function createEventElement(dbItem) {
 	var downvotePercent = downvotes / (upvotes + downvotes) * 100;
 
 	display.find('.upvote-bar').css('height', upvotePercent + '%');
+	if (upvotes > 0) {
+		display.find('.upvote-bar').html(upvotes);
+	}
 	display.find('.downvote-bar').css('height', downvotePercent + '%');
-
+	if (downvotes > 0) {
+		display.find('.downvote-bar').html(downvotes);
+	}
 	display.appendTo(eventElement);
 
 	return eventElement;
@@ -339,7 +346,7 @@ function checkRememberMe()
 
 }
 
-
+//sets the visuals for up-/downvoting and inserts selected vote
 function setVote()
 {
 	var voteWorth;
@@ -393,6 +400,7 @@ function setVote()
 	Vote.insert(currentEventId, currentUserId, voteWorth);
 }
 
+//callback function to handle when a user has already voted for an event
 function userEventVote(transaction, results) {
 	if (results.rows.item(0).value > 0) {
 		$("#down-vote").removeClass("ui-btn-d");
@@ -429,7 +437,7 @@ function handleSignupForm()
 		}
 }
 
-//adds co
+//callback function that adds course to database
 function handleAddCourse(transaction, results) {
 	var courseCode = $('#course-code').val();
 	var courseSection = $('#course-section').val();
@@ -444,7 +452,7 @@ function handleAddCourse(transaction, results) {
 	});
 }
 
-//inserts event into the databse if form is valid
+//inserts event into the database if form is valid
 function handleCreateEvent()
 {
 	if ($("#create-event").valid()) 
