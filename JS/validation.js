@@ -1,3 +1,8 @@
+/* validation.js
+ *		Holds all of the validation settings for various forms
+ *
+ * 		Sean Coombes - 3/25/15 js file created
+ */ 
 function loginValidations()
 {
 	$("#login-form").validate(

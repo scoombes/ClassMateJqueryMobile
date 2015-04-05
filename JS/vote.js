@@ -1,3 +1,8 @@
+/* vote.js
+ *		creates the vote object with various functionalities
+ *
+ * 		Justin Coschi - 3/25/15 js file created
+ */ 
 var Vote = 
 {
 	initialize: function () {
