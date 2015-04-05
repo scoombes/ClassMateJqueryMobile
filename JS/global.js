@@ -111,15 +111,24 @@ function eventFeedDetailsSetup()
 
 function formatTime(eventTime)
 {
-	var hours = eventTime.substr(0, 1);
+    var hours = parseInt(eventTime.substr(0, 2));
 	var mins = eventTime.substr(3, 4);
+    var suffix = "am";
 
-	var time = new Date();
+    if (hours > 11) {
+        suffix = "pm";
+    }
 
-	time.setHours(hours);
-	time.setMinutes(mins);
+    if (hours > 12)
+    {
+        hours = hours - 12;
+    }
+    else if (hours == 0)
+    {
+        hours = 12;
+    }
 
-	return time.toLocaleTimeString();
+	return hours + ":" + mins + suffix;
 }
 function handleAddCoursesLoadExisting(transaction, results) {
 	var courseList = $('#add-existing-course');
