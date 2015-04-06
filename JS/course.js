@@ -85,7 +85,7 @@ var Course =
 							+ '</option>';
 					}
 					$("#eventcourse").html(options);
-					
+					$("#eventcourse").selectmenu("refresh");
 				}, errorHandler);
 		});
 	},
