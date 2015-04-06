@@ -1,7 +1,7 @@
 /* global.js
  *	    File contains most functions needed for project to run
  *
- * 		Sean Coombes, Kile Zimmerman, Justin Coschi  - 3/20/15 js file created
+ * 		Sean Coombes, Kyle Zimmerman, Justin Coschi  - 3/20/15 js file created
  */
 
 //runs before each pages loads and sets up click events 
