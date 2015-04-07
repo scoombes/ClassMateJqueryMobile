@@ -417,13 +417,11 @@ function userEventVote(transaction, results) {
 //attempts to log user in if form is valid
 function handleLoginForm()
 {
-	if ($("#login-form").valid()) 
-	{
 		var email = $("#email").val();
 		var password = $("#password").val();
 
 		User.login(email, password);
-	}
+
 }
 
 //inserts new user data into db if the form is valid
@@ -474,9 +472,9 @@ function handleCreateEvent()
 }
 
 //logs current user out
-function logOut() {
-	localStorage.clear();
-	$.mobile.changePage("login.html", {transition: "none"});
+function logOut()
+{
+    User.logout();
 }
 
 //changes if the create course form is visible

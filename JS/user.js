@@ -28,8 +28,20 @@ var User =
 	    });
 	},
 	//Logs a user in using the provided credentials
-	login: function (){
-		
+	login: function (name, pass){
+	    Parse.User.logIn(name, pass, {
+	        success: function(user)
+	        {
+	            $.mobile.changePage("event-feed.html", { transition: "none" });
+	        },
+	        error: function(user, error)
+	        {
+	            parseErrorHandler(error);
+	        }
+	    });
+	},
+	logout: function(){
+        Parse.User.logout();
 	},
 	//Drops the table and re-initializes it
 	nuke: function() {

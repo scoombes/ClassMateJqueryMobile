@@ -15,8 +15,7 @@ function loginValidations()
 		{
 			email:
 			{
-				required: true,
-				email: true
+				required: true
 			},
 			password:
 			{
