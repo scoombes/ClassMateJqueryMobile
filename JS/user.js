@@ -27,7 +27,10 @@ var User =
 	        }
 	    });
 	},
-	//Logs a user in using the provided credentials
+    //Logs a user in using the provided credentials
+
+    //check if the user 
+
 	login: function (name, pass){
 	    Parse.User.logIn(name, pass, {
 	        success: function(user)

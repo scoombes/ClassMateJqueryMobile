@@ -334,19 +334,6 @@ function getDate(date)
 	return weekday + ", " + month + " " + day;
 }
 
-//checks if remember me has been selected
-function checkRememberMe()
-{
-	if (localStorage.getItem("rem") != null && localStorage.getItem("rem") === "true")
-	{
-		$.mobile.changePage("event-feed.html", {transition: "none"});
-	}
-	else
-	{
-		localStorage.clear();
-	}
-
-}
 
 //sets the visuals for up-/downvoting and inserts selected vote
 function setVote()
@@ -420,6 +407,17 @@ function handleLoginForm()
 		var password = $("#password").val();
 
 		User.login(email, password);
+
+}
+
+//checks if remember me has been selected
+function checkRememberMe() {
+    if (localStorage.getItem("rem") != null && localStorage.getItem("rem") === "true") {
+        $.mobile.changePage("event-feed.html", { transition: "none" });
+    }
+    else {
+        localStorage.clear();
+    }
 
 }
 
