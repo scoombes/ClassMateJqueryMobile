@@ -434,8 +434,9 @@ function handleSignupForm()
 			var password = $("#signup-password").val();
 			var fName = $("#signupfname").val();
 			var lName = $("#signuplname").val();
+		    var username = $("#signupuname").val();    
 
-			User.register(email, password, fName, lName);
+			User.register(email, username, password, fName, lName);
 		}
 }
 

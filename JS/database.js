@@ -22,15 +22,15 @@ function parseErrorHandler(error) {
 }
 
 //Initializes each of the databases
-function intializeDatabase() {
-	Event.initialize();
-	User.initialize();
-	Course.initialize();
-	EventType.initialize();
-	UserCourse.initialize();
-	Vote.initialize();
-	Semester.initialize();
-}
+//function intializeDatabase() {
+//	Event.initialize();
+//	User.initialize();
+//	Course.initialize();
+//	EventType.initialize();
+//	UserCourse.initialize();
+//	Vote.initialize();
+//	Semester.initialize();
+//}
 
 //Nukes each of the databases:
 //	drops and re-creates them, useful to clear out test data
@@ -47,4 +47,4 @@ function nukeDatabase() {
 
 
 //Call initialization on load.
-intializeDatabase();
+//intializeDatabase();
