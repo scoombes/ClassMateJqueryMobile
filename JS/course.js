@@ -27,19 +27,6 @@ var Course =
 	},
 	//Allows a course to be inserted into the database. Note: validate the values before calling the function
 	insert: function(course_code, section, name, semester_id, year, teacher_name, creator_id, successCallback) {
-		// db.transaction(function(transaction) {
-		// 	var sql = "INSERT INTO course ("
-		// 		+ "course_code,"
-		// 		+ "section,"
-		// 		+ "name,"
-		// 		+ "semester_id,"
-		// 		+ "year,"
-		// 		+ "teacher_name,"
-		// 		+ "creator_id"
-		// 		+ ") VALUES (?,?,?,?,?,?,?)";
-
-		// 	transaction.executeSql(sql, [course_code, section, name, semester_id, year, teacher_name, creator_id], successCallback, errorHandler);
-		// }, errorHandler);
 		var course = new CourseObject();
 		course.set('courseCode', course_code);
 		course.set('section', section);
@@ -48,39 +35,41 @@ var Course =
 		course.set('year', parseInt(year));
 		course.set('teacherName', teacher_name);
 		course.set(Parse.User.current());
-		//course.relation('members').add(Parse.User.current());
+		course.relation('members').add(Parse.User.current());
 
 		course.save().then(successCallback, parseErrorHandler);
 	},
 	//get all of the courses the provided user has joined
-	readJoined: function(userId, successCallback) {
-		db.transaction(function(transaction) {
-			var sql = "SELECT * FROM course "
-				+ "JOIN user_course "
-				+ "ON course.id = user_course.course_id "
-				+ "JOIN semester ON semester.semester_id = course.semester_id "
-				+ "WHERE user_course.user_id = ? "
-				+ "ORDER BY course_code DESC";
-			transaction.executeSql(sql, [userId], successCallback, errorHandler);
-		}, errorHandler);
+	readJoined: function(user, successCallback) {
+		// db.transaction(function(transaction) {
+		// 	var sql = "SELECT * FROM course "
+		// 		+ "JOIN user_course "
+		// 		+ "ON course.id = user_course.course_id "
+		// 		+ "JOIN semester ON semester.semester_id = course.semester_id "
+		// 		+ "WHERE user_course.user_id = ? "
+		// 		+ "ORDER BY course_code DESC";
+		// 	transaction.executeSql(sql, [userId], successCallback, errorHandler);
+		// }, errorHandler);
+
+		var query = new Parse.Query(CourseObject);
+		query.equalTo('members', user);
+		query.find().then(successCallback, parseErrorHandler);
 	},
 	//Gets all of the courses
 	readAll: function(successCallback) {
-		db.transaction(function(transaction) {
-			var sql = "SELECT * FROM course "
-				+ "JOIN semester ON semester.semester_id = course.semester_id "
-				+ "ORDER BY course_code DESC";
-
-			transaction.executeSql(sql, [], successCallback, errorHandler);
-		}, errorHandler);
+		var query = new Parse.Query(CourseObject);
+		query.descending("courseCode");
+		query.find().then(successCallback, parseErrorHandler);
 	},
 	//Gets a specific course by ID
 	getCourse: function(id, successCallback){
-		db.transaction(function(transaction){
-			transaction.executeSql("SELECT * FROM course "
-				+ "JOIN semester ON semester.semester_id = course.semester_id "
-				+ "WHERE id = ?", [id],
-				successCallback, errorHandler);
+		var query = new Parse.Query(CourseObject);
+		query.get(id).then(successCallback, parseErrorHandler);
+	},
+	join: function(id, successCallback, errorCallback) {
+		Course.getCourse(id, function(course) {
+			course.relation('members').add(Parse.User.current());
+			 course.save().then(successCallback, errorCallback);
 		});
 	},
 	//Populates the <select> menu on the Add-Event screen
