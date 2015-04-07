@@ -28,10 +28,7 @@ var User =
 	    });
 	},
 	//Logs a user in using the provided credentials
-	login: function (name, pass)
-	{
-	    //var User = parseInt.Object.extend("User");
-
+	login: function (name, pass){
 	    Parse.User.logIn(name, pass, {
 	        success: function(user)
 	        {
@@ -42,6 +39,9 @@ var User =
 	            parseErrorHandler(error);
 	        }
 	    });
+	},
+	logout: function(){
+        Parse.User.logout();
 	},
 	//Drops the table and re-initializes it
 	nuke: function() {

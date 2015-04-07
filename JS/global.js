@@ -471,9 +471,9 @@ function handleCreateEvent()
 }
 
 //logs current user out
-function logOut() {
-	localStorage.clear();
-	$.mobile.changePage("login.html", {transition: "none"});
+function logOut()
+{
+    User.logout();
 }
 
 //changes if the create course form is visible
