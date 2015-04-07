@@ -416,13 +416,11 @@ function userEventVote(transaction, results) {
 //attempts to log user in if form is valid
 function handleLoginForm()
 {
-	if ($("#login-form").valid()) 
-	{
 		var email = $("#email").val();
 		var password = $("#password").val();
 
 		User.login(email, password);
-	}
+
 }
 
 //inserts new user data into db if the form is valid
