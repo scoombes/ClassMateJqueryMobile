@@ -3,41 +3,54 @@
  *
  * 		Kyle Zimmerman - 3/25/15 js file created
  */
+var CourseObject = Parse.Object.extend("Course");
+
 var Course =
 {
 	//Creates the course table
 	initialize: function() {
-		db.transaction(function(transaction) {
-			var sql = "CREATE TABLE IF NOT EXISTS course ("
-				+ "id INTEGER PRIMARY KEY,"
-				+ "course_code VARCHAR NOT NULL,"
-				+ "section VARCHAR NOT NULL,"
-				+ "name VARCHAR NOT NULL,"
-				+ "semester_id INTEGER NOT NULL,"
-				+ "year INTEGER NOT NULL,"
-				+ "teacher_name VARCHAR,"
-				+ "creator_id INTEGER"
-				+ ")"; 
+		// db.transaction(function(transaction) {
+		// 	var sql = "CREATE TABLE IF NOT EXISTS course ("
+		// 		+ "id INTEGER PRIMARY KEY,"
+		// 		+ "course_code VARCHAR NOT NULL,"
+		// 		+ "section VARCHAR NOT NULL,"
+		// 		+ "name VARCHAR NOT NULL,"
+		// 		+ "semester_id INTEGER NOT NULL,"
+		// 		+ "year INTEGER NOT NULL,"
+		// 		+ "teacher_name VARCHAR,"
+		// 		+ "creator_id INTEGER"
+		// 		+ ")"; 
 
-			transaction.executeSql(sql, [], null, errorHandler);
+		// 	transaction.executeSql(sql, [], null, errorHandler);
 
-		}, errorHandler);
+		// }, errorHandler);
 	},
 	//Allows a course to be inserted into the database. Note: validate the values before calling the function
 	insert: function(course_code, section, name, semester_id, year, teacher_name, creator_id, successCallback) {
-		db.transaction(function(transaction) {
-			var sql = "INSERT INTO course ("
-				+ "course_code,"
-				+ "section,"
-				+ "name,"
-				+ "semester_id,"
-				+ "year,"
-				+ "teacher_name,"
-				+ "creator_id"
-				+ ") VALUES (?,?,?,?,?,?,?)";
+		// db.transaction(function(transaction) {
+		// 	var sql = "INSERT INTO course ("
+		// 		+ "course_code,"
+		// 		+ "section,"
+		// 		+ "name,"
+		// 		+ "semester_id,"
+		// 		+ "year,"
+		// 		+ "teacher_name,"
+		// 		+ "creator_id"
+		// 		+ ") VALUES (?,?,?,?,?,?,?)";
 
-			transaction.executeSql(sql, [course_code, section, name, semester_id, year, teacher_name, creator_id], successCallback, errorHandler);
-		}, errorHandler);
+		// 	transaction.executeSql(sql, [course_code, section, name, semester_id, year, teacher_name, creator_id], successCallback, errorHandler);
+		// }, errorHandler);
+		var course = new CourseObject();
+		course.set('courseCode', course_code);
+		course.set('section', section);
+		course.set('name', name);
+		course.set('semester', null);
+		course.set('year', parseInt(year));
+		course.set('teacherName', teacher_name);
+		course.set(Parse.User.current());
+		//course.relation('members').add(Parse.User.current());
+
+		course.save().then(successCallback, parseErrorHandler);
 	},
 	//get all of the courses the provided user has joined
 	readJoined: function(userId, successCallback) {

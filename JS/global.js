@@ -448,8 +448,8 @@ function handleAddCourse(transaction, results) {
 	var year = $("#course-year").val();
 	var teacherName = $("#teacher-name").val();
 				  
-	Course.insert(courseCode, courseSection, courseName, semester, year, teacherName, User.getCurrent().id, function(transaction, results) {
-		UserCourse.insert(User.getCurrent().id, results.insertId);
+	Course.insert(courseCode, courseSection, courseName, semester, year, teacherName, User.getCurrent().id, function(course) {
+		//UserCourse.insert(User.getCurrent().id, results.insertId);
 		$.mobile.changePage("courses.html");
 	});
 }

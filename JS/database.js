@@ -15,6 +15,12 @@ function errorHandler(transaction, error) {
 	alert(msg);
 }
 
+function parseErrorHandler(error) {
+	var msg = "PARSE ERROR (" + error.code + ": " + error.message;
+	console.log(msg);
+	alert(msg);
+}
+
 //Initializes each of the databases
 function intializeDatabase() {
 	Event.initialize();
