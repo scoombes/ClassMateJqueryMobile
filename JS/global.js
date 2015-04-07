@@ -74,20 +74,18 @@ function eventFeedDetailsSetup()
 	event_cc_sec = paramValue[1];
 	event_c_id = paramValue[2];
 	
-	Event.read(event_id, function(transaction, result)
+	Event.read(event_id, function(result)
 	{
 		$("#detail-course").text(event_cc_sec);
 		$("#detail-course").prop("href", "course-details.html?course_id=" + event_c_id);
+		$("#details-name").text(result.event.get("name") + " Details");
+		$("#details-due").text(result.event.get("dueDate"));
+		$("#up-vote").text(result.upvotes);
+		$("#up-vote").text(result.downvotes);
 
-		$("#details-name").text(result.rows.item(0)["name"] + " Details");
-		$("#details-due").text(result.rows.item(0)["due_date"]);
-
-		$("#up-vote").text(result.rows.item(0)['upvotes'] || 0);
-		$("#down-vote").text(result.rows.item(0)['downvotes'] || 0);
-
-		if (result.rows.item(0)["final_grade_weight"] != "") {
+		if (result.event.get("finalGradeWeight") != "") {
 			$("#details-grade-parent").removeClass("hidden");
-			$("#details-grade").text(result.rows.item(0)["final_grade_weight"]);
+			$("#details-grade").text(result.event.get("finalGradeWeight"));
 		}
 		else {
 			$("#details-grade-parent").addClass("hidden");
@@ -96,6 +94,8 @@ function eventFeedDetailsSetup()
 
 		if (result.rows.item(0)["time"] != ""){
 			$("#details-time-parent").removeClass("hidden");
+
+			$("#details-time").text(formatTime(result.event.get("dueDate")));
 			$("#details-time").text(formatTime(result.rows.item(0)["time"]));
 		}
 		else{

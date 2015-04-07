@@ -3,56 +3,41 @@
  *
  * 		Kyle Zimmerman - 3/25/15 js file created
  */
+var EventObject = Parse.Object.extend("Event");
 var Event =
 {
-	//Creates the table if required
-	initialize: function() {
-		db.transaction(function(transaction) {
-			var sql = "CREATE TABLE IF NOT EXISTS event ("
-				+ "id INTEGER PRIMARY KEY,"
-				+ "course_id INTEGER NOT NULL,"
-				+ "event_type INTEGER NOT NULL,"
-				+ "name VARCHAR NOT NULL,"
-				+ "due_date DATE NOT NULL,"
-				+ "time VARCHAR,"
-				+ "final_grade_weight INTEGER,"
-				+ "description VARCHAR,"
-				+ "creator_id INTEGER"
-				+ ")"; 
-
-			transaction.executeSql(sql, [], null, errorHandler);
-
-		}, errorHandler);
-	},
 	//Inserts a course into the database. Note: Validation should be done before calling this function
 	insert: function(course_id, event_type, name, due_date, time, final_grade_weight, description, creator_id) {
-		db.transaction(function(transaction) {
-			var sql = "INSERT INTO event ("
-				+ "course_id,"
-				+ "event_type,"
-				+ "name,"
-				+ "due_date,"
-				+ "time,"
-				+ "final_grade_weight,"
-				+ "description,"
-				+ "creator_id"
-				+ ") VALUES (?,?,?,?,?,?,?,?)";
+		var event = new EventObject();
+		event.set(course: course_id);
+		event.set(eventType: event_type);
+		event.set(name: name);
+		var dueDate = new Date(due_date + " " + time + ":00");
+		event.set(dueDate: dueDate);
+		event.set(final_grade_weight);
+		event.set(description);
+		event.set(creator_id);
 
-			transaction.executeSql(sql, [course_id, event_type, name, due_date, time, final_grade_weight, description, creator_id],
-			 function (transaction, resultSet){
-				$.mobile.changePage("event-feed.html", {transition: "none"});
-			 }, errorHandler);
-		}, errorHandler);
+		event.save().then(function () {
+			$.mobile.changePage("event-feed.html", {transition: "none"});
+		}, parseErrorHandler);
 	}, 
 	//Gets a specific event by ID
 	read: function (id, successCallBack) {
-		db.transaction(function (transaction) {
-			var sql = "SELECT *, upvotes.count AS upvotes, downvotes.count as downvotes FROM event "
-					+ "LEFT OUTER JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value > 0 GROUP BY event_id2) AS upvotes ON upvotes.event_id2 = ? "
-					+ "LEFT OUTER JOIN (SELECT COUNT(value) AS count, vote.event_id AS event_id2 FROM vote WHERE value < 0 GROUP BY event_id2) AS downvotes ON downvotes.event_id2 = ? "
-					+ " WHERE id = ?";
-					
-			transaction.executeSql(sql, [id, id, id], successCallBack, errorHandler);
+
+		var eventQuery = new Parse.Object.Query(EventObject);
+		var eventVotes = {};
+
+		eventQuery.get(id).then(function(event) {
+			var voteQuery = new Parse.Object.Query(VoteObject);
+			eventVotes.event = event;
+			return voteQuery.greaterThan("value", 0).count();
+		}).then(function (upvotes) {
+			eventVotes.upvotes = upvotes;
+			return voteQuery.lessThan("value", 0).count();
+		}).then( function (downvotes) {
+			eventVotes.downvotes = downvotes;
+			successCallback(eventVotes);
 		});
 	},
 	//Gets all of the events for a specific course
@@ -85,6 +70,7 @@ var Event =
 	},
 	//Drop and re-init the table
 	nuke: function() {
+
 		db.transaction(function(transaction) {
 			transaction.executeSql("DROP TABLE IF EXISTS event", [], Event.initialize, errorHandler);
 		}, errorHandler);
