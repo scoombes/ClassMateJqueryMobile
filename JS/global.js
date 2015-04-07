@@ -38,7 +38,7 @@ function checkPage(activepage)
 			addCourseValidations();
 			break;
 		case "courses":
-			Course.readJoined(User.getCurrent().id, handleCoursesLoad);
+			Course.readJoined(Parse.User.current(), handleCoursesLoad);
 			break;
 		case "course-detail":
 			var parameters = document.URL.split("?")[1];
@@ -76,20 +76,18 @@ function eventFeedDetailsSetup()
 	event_cc_sec = paramValue[1];
 	event_c_id = paramValue[2];
 	
-	Event.read(event_id, function(transaction, result)
+	Event.read(event_id, function(result)
 	{
 		$("#detail-course").text(event_cc_sec);
 		$("#detail-course").prop("href", "course-details.html?course_id=" + event_c_id);
+		$("#details-name").text(result.event.get("name") + " Details");
+		$("#details-due").text(result.event.get("dueDate"));
+		$("#up-vote").text(result.upvotes);
+		$("#up-vote").text(result.downvotes);
 
-		$("#details-name").text(result.rows.item(0)["name"] + " Details");
-		$("#details-due").text(result.rows.item(0)["due_date"]);
-
-		$("#up-vote").text(result.rows.item(0)['upvotes'] || 0);
-		$("#down-vote").text(result.rows.item(0)['downvotes'] || 0);
-
-		if (result.rows.item(0)["final_grade_weight"] != "") {
+		if (result.event.get("finalGradeWeight") != "") {
 			$("#details-grade-parent").removeClass("hidden");
-			$("#details-grade").text(result.rows.item(0)["final_grade_weight"]);
+			$("#details-grade").text(result.event.get("finalGradeWeight"));
 		}
 		else {
 			$("#details-grade-parent").addClass("hidden");
@@ -98,6 +96,8 @@ function eventFeedDetailsSetup()
 
 		if (result.rows.item(0)["time"] != ""){
 			$("#details-time-parent").removeClass("hidden");
+
+			$("#details-time").text(formatTime(result.event.get("dueDate")));
 			$("#details-time").text(formatTime(result.rows.item(0)["time"]));
 		}
 		else{
@@ -142,19 +142,22 @@ function formatTime(eventTime)
 }
 
 //prepares existing courses on add course page
-function handleAddCoursesLoadExisting(transaction, results) {
+function handleAddCoursesLoadExisting(results) {
 	var courseList = $('#add-existing-course');
 	courseList.empty();
 	
-	for (var i = 0; i < results.rows.length; i++) {
+	for (var i = 0; i < results.length; i++) {
+		var result = results[i];
+
 		var course = {
-			id: results.rows.item(i)['id'],
-			code: results.rows.item(i)['course_code'],
-			section: results.rows.item(i)['section'],
-			name: results.rows.item(i)['name'],
-			teacherName: results.rows.item(i)['teacher_name'],
-			semester: results.rows.item(i)['semester.semester_name'],
-			year: results.rows.item(i)['year']
+			id: results[i].id,
+			code: results[i].get('courseCode'),
+			section: results[i].get('section'),
+			name: results[i].get('name'),
+			teacherName: results[i].get('teacherName'),
+			//semester: results[i].get('semester).get('semester_name'),
+			semester: 'Winter',
+			year: results[i].get('year')
 		};
 
 		var courseElement = $('<li>');
@@ -175,29 +178,27 @@ function handleAddCoursesLoadExisting(transaction, results) {
 //adds user to a class that has already been created
 function addExistingCourse() {
 	var id = $(this).attr('data-course-id');
-	UserCourse.insert(User.getCurrent().id, id, function() {
+	Course.join(id, function() {
 		$.mobile.changePage('courses.html'); 
-	}, function() {
+	}, function(error) {
 		alert('You are already in that course');
 	});
 }
 
 //prepares courses that user is in into a course list
-function handleCoursesLoad(transaction, results) {
+function handleCoursesLoad(results) {
 	var courseList = $('.course-list');
 	courseList.empty();
 	
-	for (var i = 0; i < results.rows.length; i++) {
-
-		var row = results.rows.item(i);
+	for (var i = 0; i < results.length; i++) {
 		var course = {
-			id: results.rows.item(i)['id'],
-			code: results.rows.item(i)['course_code'],
-			section: results.rows.item(i)['section'],
-			name: results.rows.item(i)['name'],
-			teacherName: results.rows.item(i)['teacher_name'],
-			semester: results.rows.item(i)['semester_name'],
-			year: results.rows.item(i)['year']
+			id: results[i].get('id'),
+			code: results[i].get('courseCode'),
+			section: results[i].get('section'),
+			name: results[i].get('name'),
+			teacherName: results[i].get('teacherName'),
+			semester: results[i].get('semesterName'),
+			year: results[i].get('year')
 		};
 
 		var courseElement = $('<li>').addClass('eventfeed-item');

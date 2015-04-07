@@ -27,6 +27,10 @@ var UserCourse =
 				errorCallback || errorHandler);
 			
 		},errorHandler);
+		Course.getCourse(course_id, function(course) {
+			course.relation('members').add(Parse.User.current());
+			course.save().then(successCallback, errorCallback);
+		})
 	},
 	//Drop the table and re-initialize it
 	nuke: function() {
