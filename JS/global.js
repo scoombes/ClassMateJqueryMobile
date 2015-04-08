@@ -14,7 +14,7 @@ $(document).on("pagecontainerbeforeshow", function (event, ui) {
 	$("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
 	$("#up-vote").on("click", setVote);
 	$("#down-vote").on("click", setVote);
-	$("#logout-button").on("click", logOut);
+	$("#logout-button").on("click", function (){User.logout()});
 	$("#add-course-form").hide();
 	$("#toggle-create-course").on("click", toggleCreateCourse);
 
@@ -26,9 +26,9 @@ function checkPage(activepage)
 {
 	switch(activepage)
 	{
-		case "login":
+	    case "login":
+	        checkLogInState();
 			loginValidations();
-			checkRememberMe();
 			break;
 		case "register":
 			registerValidations();
@@ -402,25 +402,22 @@ function userEventVote(transaction, results) {
 }
 
 //attempts to log user in if form is valid
-function handleLoginForm()
-{
-		var email = $("#email").val();
-		var password = $("#password").val();
-
-		User.login(email, password);
-
+function handleLoginForm(){
+    var username = $("#username").val();
+    var password = $("#password").val();
+    User.login(username, password);
 }
 
-//checks if remember me has been selected
-function checkRememberMe() {
-    if (localStorage.getItem("rem") != null && localStorage.getItem("rem") === "true") {
+function checkLogInState()
+{
+    if (User.getCurrent() && localStorage.getItem("rem") != null) {
         $.mobile.changePage("event-feed.html", { transition: "none" });
     }
-    else {
-        localStorage.clear();
+    else if (Parse.User.current() && localStorage.getItem("rem") == null) {
+        User.logout();
     }
-
 }
+
 
 //inserts new user data into db if the form is valid
 function handleSignupForm()
@@ -467,12 +464,6 @@ function handleCreateEvent()
 
 		Event.insert(course, eventype, name, duedate, eventtime, eventworth, description, User.getCurrent().id);
 	}
-}
-
-//logs current user out
-function logOut()
-{
-    User.logout();
 }
 
 //changes if the create course form is visible

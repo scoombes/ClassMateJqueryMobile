@@ -13,7 +13,7 @@ function loginValidations()
 		errorPlacement: errorLocation,
 		rules:
 		{
-			email:
+			username:
 			{
 				required: true
 			},
@@ -24,10 +24,9 @@ function loginValidations()
 		},
 		messages:
 		{
-			email:
+			username:
 			{
-				required: "Enter a an email address",
-				email: "Enter a valid email address"
+				required: "Enter your username"
 			},
 			password:
 			{
@@ -50,6 +49,10 @@ function registerValidations() {
 				required: true,
 				email: true
 			},
+		    signupuname:
+			{
+			    required: true
+		    },
 			signuppassword:
 			{
 				required: true
@@ -74,6 +77,10 @@ function registerValidations() {
 			{
 				required: "Enter an email address",
 				email: "Eneter a valid email address"
+			},
+			signupuname:
+			{
+			    required: "Enter a username"
 			},
 			signuppassword:
 			{

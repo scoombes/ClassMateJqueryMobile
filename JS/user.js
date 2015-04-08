@@ -17,41 +17,40 @@ var User =
 	    user.set("lastName", lastName);
 
 	    user.signUp(null, {
-	        success: function(user)
-	        {
+	        success: function(user){
 	            $.mobile.changePage("event-feed.html", { transition: "none" });
 	        },
-	        error: function(user, error)
-	        {
-	            parseErrorHandler(error);
+	        error: function(user, error){
+	            $("#signup-error").text(error.message);
 	        }
 	    });
 	},
-    //Logs a user in using the provided credentials
-
-    //check if the user 
-
+    //Logs a user in using the provided credentials 
 	login: function (name, pass){
 	    Parse.User.logIn(name, pass, {
-	        success: function(user)
-	        {
+	        success: function(user){
 	            $.mobile.changePage("event-feed.html", { transition: "none" });
 	        },
-	        error: function(user, error)
-	        {
-	            parseErrorHandler(error);
+	        error: function(user, error){
+	            $("#loginmessage").text(error.message);
 	        }
 	    });
+	    if ($("#remember").prop("checked", true)){
+	        localStorage.setItem("rem", "true");
+	    }
 	},
 	logout: function(){
-        Parse.User.logout();
+	    Parse.User.logOut();
+	    localStorage.clear();
+	    $.mobile.changePage("login.html", { transition: "none" });
 	},
 	//Drops the table and re-initializes it
 	nuke: function() {
 		
 	},
 	//Gets the currently signed in user. Provides id and name
-	getCurrent: function() {
-		
+	getCurrent: function()
+	{
+	    return Parse.User.current();
 	}
 };
