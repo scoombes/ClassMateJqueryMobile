@@ -32,6 +32,10 @@ var Semester =
 		semester.set("semesterName", semester_name);
 		semester.save();
 	},
+	getSemester: function (semester_id) {
+		var query = new Parse.Query(SemesterObject);
+		return query.get(semester_id);
+	},
 	//Drop and reinitialize the table
 	nuke: function() {
 		db.transaction(function(transaction) {
