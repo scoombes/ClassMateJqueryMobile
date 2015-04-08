@@ -48,7 +48,7 @@ var User =
 	nuke: function() {
 		
 	},
-	//Gets the currently signed in user. Provides id and name
+	//Gets the currently signed in user
 	getCurrent: function()
 	{
 	    return Parse.User.current();

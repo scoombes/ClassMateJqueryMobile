@@ -50,7 +50,7 @@ function checkPage(activepage)
 			Course.populateList();
 			break;
 		case "eventfeed":
-			Event.getAll(handleEventFeed);
+			//Event.getAll(handleEventFeed);
 			break;
 		case "eventdetails":
 			eventFeedDetailsSetup();
