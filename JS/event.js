@@ -9,14 +9,14 @@ var Event =
 	//Inserts a course into the database. Note: Validation should be done before calling this function
 	insert: function(course_id, event_type, name, due_date, time, final_grade_weight, description, creator_id) {
 		var event = new EventObject();
-		event.set(course: course_id);
-		event.set(eventType: event_type);
-		event.set(name: name);
+		event.set("course", course_id);
+		event.set("eventType", EventType.getEventType(event_type));
+		event.set("name", name);
 		var dueDate = new Date(due_date + " " + time + ":00");
-		event.set(dueDate: dueDate);
-		event.set(final_grade_weight);
-		event.set(description);
-		event.set(creator_id);
+		event.set("dueDate", dueDate);
+		event.set("finalGradeWeight", final_grade_weight);
+		event.set("description", description);
+		event.set("creator", User.getCurrent());
 
 		event.save().then(function () {
 			$.mobile.changePage("event-feed.html", {transition: "none"});

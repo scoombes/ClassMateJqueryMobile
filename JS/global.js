@@ -97,8 +97,7 @@ function eventFeedDetailsSetup()
 		if (result.rows.item(0)["time"] != ""){
 			$("#details-time-parent").removeClass("hidden");
 
-			$("#details-time").text(formatTime(result.event.get("dueDate")));
-			$("#details-time").text(formatTime(result.rows.item(0)["time"]));
+			$("#details-time").text(formatTime(result.event.get("dueDate").toTimeString()));
 		}
 		else{
 			$("#details-time-parent").addClass("hidden");
@@ -107,7 +106,7 @@ function eventFeedDetailsSetup()
 
 		if (result.rows.item(0)["description"] != "") {
 			$("#details-description-parent").removeClass("hidden");
-			$("#details-description").text(result.rows.item(0)["description"]);
+			$("#details-description").text(result.event.get("description"));
 		}
 		else {
 			$("#details-description-parent").addClass("hidden");
@@ -122,7 +121,7 @@ function eventFeedDetailsSetup()
 function formatTime(eventTime)
 {
     var hours = parseInt(eventTime.substr(0, 2));
-	var mins = eventTime.substr(3, 4);
+	var mins = eventTime.substr(3,2);
     var suffix = "am";
 
     if (hours > 11) {
