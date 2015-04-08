@@ -33,9 +33,8 @@ var EventType =
 		eventType.save();
 	},
 	getEventType: function (event_type_id) {
-		var eventTypeQuery = new Parse.Query(EventTypeObject);
-		
-		return eventTypeQuery.get(event_type_id);
+		var query = new Parse.Query(EventTypeObject);
+		return query.get(event_type_id);
 	},
 	//Drops the event_type table and recreates it.
 	nuke: function() {

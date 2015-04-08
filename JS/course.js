@@ -31,7 +31,7 @@ var Course =
 		course.set('courseCode', course_code);
 		course.set('section', section);
 		course.set('name', name);
-		course.set('semester', null);
+		course.set('semester', SemesterObject.createWithoutData(semester_id));
 		course.set('year', parseInt(year));
 		course.set('teacherName', teacher_name);
 		course.set(Parse.User.current());
@@ -63,8 +63,11 @@ var Course =
 	},
 	//Gets a specific course by ID
 	getCourse: function(id, successCallback){
+		Course.getCoursePromise(id).then(successCallback, parseErrorHandler);
+	},
+	getCoursePromise: function (id) {
 		var query = new Parse.Query(CourseObject);
-		query.get(id).then(successCallback, parseErrorHandler);
+		return query.get(id);
 	},
 	join: function(id, successCallback, errorCallback) {
 		Course.getCourse(id, function(course) {
