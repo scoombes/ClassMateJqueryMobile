@@ -1,2 +1,4 @@
 Thumbs.db
 *.~vsdx
+.DS_Store
+Web.config
