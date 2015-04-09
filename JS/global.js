@@ -8,8 +8,14 @@
 $(document).on("pagecontainerbeforeshow", function (event, ui) {
 	Parse.initialize("YstnFpcnRNYfA35BEVOF84uAScfrhfO7Qw05Y2pU", "mUVdZeAXnV4A8NGi2av5YuUVJublH8JTwYOmKSKL");
 
-	var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
-	checkPage(activepage);
+    if (User.getCurrent()){
+        var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
+        checkPage(activepage);
+    }
+    else {
+        $.mobile.changePage("login.html", { transition: "none" });
+    }
+	
 
 	$("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
 	$("#up-vote").on("click", setVote);
@@ -410,10 +416,10 @@ function handleLoginForm(){
 
 function checkLogInState()
 {
-    if (User.getCurrent() && localStorage.getItem("rem") != null) {
+    if (localStorage.getItem("rem") != null) {
         $.mobile.changePage("event-feed.html", { transition: "none" });
     }
-    else if (Parse.User.current() && localStorage.getItem("rem") == null) {
+    else if (localStorage.getItem("rem") == null) {
         User.logout();
     }
 }
