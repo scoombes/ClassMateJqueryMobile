@@ -49,12 +49,8 @@ var User =
 		
 	},
 	//Gets the currently signed in user
-	isCurrent: function()
+	getCurrent: function()
 	{
 	    return Parse.User.current();
-	},
-	isAuthenticated: function()
-	{
-	    return Parse.User.authenticated();
 	}
 };
