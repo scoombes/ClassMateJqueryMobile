@@ -57,7 +57,7 @@ function checkPage(activepage)
 			Course.populateList();
 			break;
 		case "eventfeed":
-			//Event.getAll(handleEventFeed);
+			Event.getAll(handleEventFeed);
 			break;
 		case "eventdetails":
 			eventFeedDetailsSetup();
@@ -256,12 +256,12 @@ function handleCourseDetail(transaction, results) {
 }
 
 //prepares data of events to be used in a list
-function handleEventFeed(transaction, results) {
+function handleEventFeed(results) {
     var eventList = $("#event-feed-list");
     eventList.empty();
 
-    for (var i = 0; i < results.rows.length; i++) {
-        var eventElement = createEventElement(results.rows.item(i));
+    for (var i = 0; i < results.length; i++) {
+        var eventElement = createEventElement(results[i]);
         eventElement.appendTo(eventList);
     }
     eventList.listview("refresh");
@@ -271,10 +271,10 @@ function handleEventFeed(transaction, results) {
 function createEventElement(eventItem) {
 	var event =
 	{
-		courseCode: eventItem.get("courseCode") + "-" + eventItem.get("section"),
+		courseCode: eventItem.get("course").get("courseCode") + "-" + eventItem.get('course').get("section"),
 		name: eventItem.get("name"),
-		dueDate: eventItem.get("due_date"),
-		id: eventItem.get("event_id")
+		dueDate: eventItem.get("dueDate"),
+		id: eventItem.id
 	};
 
 	var eventElement = $("<li>").addClass("eventfeed-item");
@@ -304,8 +304,8 @@ function createEventElement(eventItem) {
 	voteBar.append($("<div>").addClass("downvote-bar"));
 	display.append(voteBar);
 
-	var upvotes = eventItem.relation("upvoters").count();
-	var downvotes = eventItem.relation("downvoters").count();
+	var upvotes = eventItem.get("upvotes") || 0;
+	var downvotes = eventItem.get("downvotes") || 0;
 
 	var upvotePercent = upvotes / (upvotes + downvotes) * 100;
 	var downvotePercent = downvotes / (upvotes + downvotes) * 100;
@@ -335,7 +335,7 @@ function getDate(date)
 	var month = monthNames[somedate.getMonth()];
 	var weekday = daysOfWeek[somedate.getDay()+1];
 
-	var day = date.substr(8, 2);
+	var day = date.toString().substr(8, 2);
 
 	return weekday + ", " + month + " " + day;
 }
@@ -392,7 +392,8 @@ function setVote()
 	var currentEventId = paramValue[0];
 	var currentUserId = User.getCurrent().id;
 
-	Vote.insert(currentEventId, currentUserId, voteWorth);
+	Event.vote(currentEventId, voteWorth);
+	//Vote.insert(currentEventId, currentUserId, voteWorth);
 }
 
 //callback function to handle when a user has already voted for an event
