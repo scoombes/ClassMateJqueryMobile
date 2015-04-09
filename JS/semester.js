@@ -3,6 +3,7 @@
  *
  * 		Justin Coschi - 3/25/15 js file created
  */
+ var SemesterObject = Parse.Object.extend("Semester")
 var Semester = 
 {
 	//Create the table if required
@@ -27,10 +28,13 @@ var Semester =
 	},
 	//Add a new semester
 	insert: function(semester_name) {
-		db.transaction(function(transaction) {
-			var sqlString = "INSERT INTO semester (semester_name) VALUES (?);";
-			transaction.executeSql(sqlString, [semester_name], null, errorHandler);
-		}, errorHandler);
+		var semester = new SemesterObject();
+		semester.set("semesterName", semester_name);
+		semester.save();
+	},
+	getSemester: function (semester_id) {
+		var query = new Parse.Query(SemesterObject);
+		return query.get(semester_id);
 	},
 	//Drop and reinitialize the table
 	nuke: function() {

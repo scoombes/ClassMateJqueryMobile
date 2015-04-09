@@ -7,28 +7,27 @@ var EventObject = Parse.Object.extend("Event");
 var Event =
 {
 	//Inserts a course into the database. Note: Validation should be done before calling this function
-	insert: function(course_id, event_type, name, due_date, time, final_grade_weight, description, creator_id) {
+	insert: function(course_id, event_type, name, due_date, time, final_grade_weight, description) {
 		var event = new EventObject();
-		event.set(course: course_id);
-		event.set(eventType: event_type);
-		event.set(name: name);
-		var dueDate = new Date(due_date + " " + time + ":00");
-		event.set(dueDate: dueDate);
-		event.set(final_grade_weight);
-		event.set(description);
-		event.set(creator_id);
 
+		event.set("course", CourseObject.createWithoutData(course_id));
+		event.set("eventType", EventTypeObject.createWithoutData(event_type));
+		event.set("name", name);
+		var dueDate = new Date(due_date + " " + time + ":00");
+		event.set("dueDate", dueDate);
+		event.set("finalGradeWeight", final_grade_weight);
+		event.set("description", description);
+		event.set("creator", User.getCurrent());
 		event.save().then(function () {
 			$.mobile.changePage("event-feed.html", {transition: "none"});
 		}, parseErrorHandler);
 	}, 
 	//Gets a specific event by ID
 	read: function (id, successCallBack) {
-
-		var eventQuery = new Parse.Object.Query(EventObject);
+		var query = new Parse.Query(EventObject);
 		var eventVotes = {};
 
-		eventQuery.get(id).then(function(event) {
+		query.get(id).then(function(event) {
 			var voteQuery = new Parse.Object.Query(VoteObject);
 			eventVotes.event = event;
 			return voteQuery.greaterThan("value", 0).count();
@@ -41,7 +40,18 @@ var Event =
 		});
 	},
 	//Gets all of the events for a specific course
-	getEventsForCourse: function(courseId, successCallback) {
+	getEventsForCourse: function(course_id, successCallback) {
+		var query = new Parse.Query(EventObject);
+		var eventsForCourse = [];
+
+		Course.getCoursePromise(course_id).then(function (course) {
+			query.equalTo("course", course);
+			return query.find();
+		}).then(successCallback, parseErrorHandler);
+
+
+
+		/*
 		db.transaction(function(transaction) {
 			var sql = "SELECT *, event.id AS event_id, event.name AS name, upvotes.count AS upvotes, downvotes.count AS downvotes FROM event "
 					+ "JOIN course ON event.course_id = course.id "
@@ -51,7 +61,7 @@ var Event =
 					+ "ORDER BY due_date ASC";
 
 			transaction.executeSql(sql, [courseId], successCallback, errorHandler);
-		});
+		});*/
 	},
 	//Gets ALL of the events that the current user can see
 	getAll: function(displayEvents) {
@@ -71,8 +81,9 @@ var Event =
 	//Drop and re-init the table
 	nuke: function() {
 
+		/*
 		db.transaction(function(transaction) {
 			transaction.executeSql("DROP TABLE IF EXISTS event", [], Event.initialize, errorHandler);
-		}, errorHandler);
+		}, errorHandler);*/
 	}
 }

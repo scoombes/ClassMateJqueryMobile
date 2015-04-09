@@ -103,8 +103,7 @@ function eventFeedDetailsSetup()
 		if (result.rows.item(0)["time"] != ""){
 			$("#details-time-parent").removeClass("hidden");
 
-			$("#details-time").text(formatTime(result.event.get("dueDate")));
-			$("#details-time").text(formatTime(result.rows.item(0)["time"]));
+			$("#details-time").text(formatTime(result.event.get("dueDate").toTimeString()));
 		}
 		else{
 			$("#details-time-parent").addClass("hidden");
@@ -113,7 +112,7 @@ function eventFeedDetailsSetup()
 
 		if (result.rows.item(0)["description"] != "") {
 			$("#details-description-parent").removeClass("hidden");
-			$("#details-description").text(result.rows.item(0)["description"]);
+			$("#details-description").text(result.event.get("description"));
 		}
 		else {
 			$("#details-description-parent").addClass("hidden");
@@ -128,7 +127,7 @@ function eventFeedDetailsSetup()
 function formatTime(eventTime)
 {
     var hours = parseInt(eventTime.substr(0, 2));
-	var mins = eventTime.substr(3, 4);
+	var mins = eventTime.substr(3,2);
     var suffix = "am";
 
     if (hours > 11) {
@@ -246,10 +245,9 @@ function handleCourseDetail(transaction, results) {
 	$('.course-info .semester').text(result['semester_name']);
 	$('.course-info .year').text(result['year']);
 
-	Event.getEventsForCourse(result['id'], function(transaction, results) {
-		for (var i = 0; i < results.rows.length; i++) {
-			var dbItem = results.rows.item(i);
-			createEventElement(dbItem).appendTo($('#course-event-list'));
+	Event.getEventsForCourse(result['id'], function(results) {
+		for (var i = 0; i < results.length; i++) {
+			createEventElement(results[i]).appendTo($('#course-event-list'));
 		}
 
 		$('#course-event-list').listview('refresh');
@@ -269,21 +267,21 @@ function handleEventFeed(transaction, results) {
 }
 
 //displays all events user has for subscribed courses in a list
-function createEventElement(dbItem) {
+function createEventElement(eventItem) {
 	var event =
 	{
-		courseCode: dbItem["course_code"] + "-" + dbItem["section"],
-		name: dbItem["name"],
-		dueDate: dbItem["due_date"],
-		id: dbItem["event_id"]
+		courseCode: eventItem.get("courseCode") + "-" + eventItem.get("section"),
+		name: eventItem.get("name"),
+		dueDate: eventItem.get("due_date"),
+		id: eventItem.get("event_id")
 	};
 
 	var eventElement = $("<li>").addClass("eventfeed-item");
 	
 	var display = $("<a>");
 	display.attr("event-id", event.id);
-	display.attr("event-course-info", dbItem["course_code"] + "-" + dbItem["section"]);
-	display.attr("event-course-id", dbItem["course_id"]);
+	display.attr("event-course-info", event.courseCode);
+	display.attr("event-course-id", eventItem.get("course").id);
 
 	display.click(function()
 	{
@@ -305,8 +303,8 @@ function createEventElement(dbItem) {
 	voteBar.append($("<div>").addClass("downvote-bar"));
 	display.append(voteBar);
 
-	var upvotes = dbItem['upvotes'] || 0;
-	var downvotes = dbItem['downvotes'] || 0;
+	var upvotes = eventItem.relation("upvoters").count();
+	var downvotes = eventItem.relation("downvoters").count();
 
 	var upvotePercent = upvotes / (upvotes + downvotes) * 100;
 	var downvotePercent = downvotes / (upvotes + downvotes) * 100;
@@ -468,7 +466,7 @@ function handleCreateEvent()
 		var eventworth = $("#eventworth").val();
 		var description = $("#eventdescription").val();
 
-		Event.insert(course, eventype, name, duedate, eventtime, eventworth, description, User.getCurrent().id);
+		Event.insert(course, eventype, name, duedate, eventtime, eventworth, description);
 	}
 }
 
