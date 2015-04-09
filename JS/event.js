@@ -46,6 +46,8 @@ var Event =
 
 		Course.getCoursePromise(course_id).then(function (course) {
 			query.equalTo("course", course);
+			query.include('course');
+			query.include('course.semester');
 			return query.find();
 		}).then(successCallback, parseErrorHandler);
 	},

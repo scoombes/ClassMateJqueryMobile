@@ -41,24 +41,16 @@ var Course =
 	},
 	//get all of the courses the provided user has joined
 	readJoined: function(user, successCallback) {
-		// db.transaction(function(transaction) {
-		// 	var sql = "SELECT * FROM course "
-		// 		+ "JOIN user_course "
-		// 		+ "ON course.id = user_course.course_id "
-		// 		+ "JOIN semester ON semester.semester_id = course.semester_id "
-		// 		+ "WHERE user_course.user_id = ? "
-		// 		+ "ORDER BY course_code DESC";
-		// 	transaction.executeSql(sql, [userId], successCallback, errorHandler);
-		// }, errorHandler);
-
 		var query = new Parse.Query(CourseObject);
 		query.equalTo('members', user);
+		query.include('semester');
 		query.find().then(successCallback, parseErrorHandler);
 	},
 	//Gets all of the courses
 	readAll: function(successCallback) {
 		var query = new Parse.Query(CourseObject);
 		query.descending("courseCode");
+		query.include('semester');
 		query.find().then(successCallback, parseErrorHandler);
 	},
 	//Gets a specific course by ID

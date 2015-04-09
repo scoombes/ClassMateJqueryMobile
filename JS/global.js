@@ -161,8 +161,7 @@ function handleAddCoursesLoadExisting(results) {
 			section: results[i].get('section'),
 			name: results[i].get('name'),
 			teacherName: results[i].get('teacherName'),
-			//semester: results[i].get('semester).get('semester_name'),
-			semester: 'Winter',
+			semester: results[i].get('semester').get('semesterName'),
 			year: results[i].get('year')
 		};
 
@@ -198,12 +197,12 @@ function handleCoursesLoad(results) {
 	
 	for (var i = 0; i < results.length; i++) {
 		var course = {
-			id: results[i].get('id'),
+			id: results[i].id,
 			code: results[i].get('courseCode'),
 			section: results[i].get('section'),
 			name: results[i].get('name'),
 			teacherName: results[i].get('teacherName'),
-			semester: results[i].get('semesterName'),
+			semester: results[i].get('semester').get('semesterName'),
 			year: results[i].get('year')
 		};
 
@@ -232,21 +231,19 @@ function handleCoursesLoad(results) {
 }
 
 //prepares and displays details of selected course
-function handleCourseDetail(transaction, results) {
+function handleCourseDetail(course) {
 
 	$('#course-event-list').empty();
 	$('#course-event-list').listview('refresh');
 
-	var result = results.rows.item(0);
+	$('.course-info .course-code').text(course.get('courseCode'));
+	$('.course-info .section').text(course.get('section'));
+	$('.course-info .course-name').text(course.get('name'));
+	$('.course-info .teacher-name').text(course.get('teacherName'));
+	$('.course-info .semester').text(course.get('semester').get('semesterName'));
+	$('.course-info .year').text(course.get('year'));
 
-	$('.course-info .course-code').text(result['course_code']);
-	$('.course-info .section').text(result['section']);
-	$('.course-info .course-name').text(result['name']);
-	$('.course-info .teacher-name').text(result['teacher_name']);
-	$('.course-info .semester').text(result['semester_name']);
-	$('.course-info .year').text(result['year']);
-
-	Event.getEventsForCourse(result['id'], function(results) {
+	Event.getEventsForCourse(course.id, function(results) {
 		for (var i = 0; i < results.length; i++) {
 			createEventElement(results[i]).appendTo($('#course-event-list'));
 		}
