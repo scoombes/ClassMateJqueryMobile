@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\Sean\SkyDrive\Prog Mobile\ClassMate\tests\chromeseleniumtests\chromeseleniumtests\bin\Debug\chromeseleniumtests.dll" total="5" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-04-05" time="22:57:58">
+  <environment nunit-version="2.6.4.14350" clr-version="2.0.50727.8009" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.6.4\bin" machine-name="SEAN-PC" user="Sean" user-domain="SEAN-PC" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="C:\Users\Sean\SkyDrive\Prog Mobile\ClassMate\tests\chromeseleniumtests\chromeseleniumtests\bin\Debug\chromeseleniumtests.dll" executed="True" result="Success" success="True" time="31.693" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="SeleniumTests" executed="True" result="Success" success="True" time="31.677" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="Logintest" executed="True" result="Success" success="True" time="31.674" asserts="0">
+            <results>
+              <test-case name="SeleniumTests.Logintest.TheCreatecourseTest" executed="True" result="Success" success="True" time="7.356" asserts="2" />
+              <test-case name="SeleniumTests.Logintest.TheCreateeventTest" executed="True" result="Success" success="True" time="7.976" asserts="2" />
+              <test-case name="SeleniumTests.Logintest.TheLoginTest" executed="True" result="Success" success="True" time="6.385" asserts="2" />
+              <test-case name="SeleniumTests.Logintest.TheLogoutTest" executed="True" result="Success" success="True" time="5.096" asserts="2" />
+              <test-case name="SeleniumTests.Logintest.TheRegisterTest" executed="True" result="Success" success="True" time="4.828" asserts="2" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

@@ -2,32 +2,59 @@
  *	table that holds all user information
  *
  * 		Sean Coombes - 3/25/15 js file created
- */ 
+ */
+//var UserObject = parseInt.Object.extend("User");
 var User =
 {
-	initialize: function() {
-		db.transaction(function (transaction) {
-			var sqlString = "CREATE TABLE IF NOT EXISTS user ("
-			+ " user_id INTEGER NOT NULL PRIMARY KEY,"
-			+ " student_email VARCHAR NOT NULL,"
-			+ " password VARCHAR NOT NULL,"
-			+ " first_name VARCHAR NOT NULL,"
-			+ " last_name VARCHAR NOT NULL)";
+	//registers a user (Verifies the email address is not taken)
+	register: function(email, username, password, firstName, lastName){
+	    var user = new Parse.User();
 
-			transaction.executeSql(sqlString, [], null, errorHandler);
-		}, errorHandler);
+	    user.set("email", email);
+	    user.set("username", username);
+	    user.set("password", password);
+	    user.set("firstName", firstName);
+	    user.set("lastName", lastName);
+
+	    user.signUp(null, {
+	        success: function(user){
+	            $.mobile.changePage("event-feed.html", { transition: "none" });
+	        },
+	        error: function(user, error){
+	            $("#signup-error").text(error.message);
+	        }
+	    });
 	},
-	insert: function(email, password, first_name, last_name) {
-		dv.transaction(function (transaction)
-		{
-			transaction.executeSql("INSERT INTO user (student_email, password, first_name, last_name) "
-				+ "VALUES (?, ?, ?, ?)",[email, password, first_name, last_name], null, errorHandler);
-		},errorHandler);
+    //Logs a user in using the provided credentials 
+	login: function (name, pass){
+	    Parse.User.logIn(name, pass, {
+	        success: function(user){
+	            $.mobile.changePage("event-feed.html", { transition: "none" });
+	        },
+	        error: function(user, error){
+	            $("#loginmessage").text(error.message);
+	        }
+	    });
+	    if ($("#remember").prop("checked", true)){
+	        localStorage.setItem("rem", "true");
+	    }
 	},
+	logout: function(){
+	    Parse.User.logOut();
+	    localStorage.clear();
+	    $.mobile.changePage("login.html", { transition: "none" });
+	},
+	//Drops the table and re-initializes it
 	nuke: function() {
-		db.transaction(function (transaction) {
-			transaction.executeSql("DROP TABLE IF EXISTS user",[], 
-				User.initialize, errorHandler);
-		}, errorHandler);
+		
+	},
+	//Gets the currently signed in user
+	isCurrent: function()
+	{
+	    return Parse.User.current();
+	},
+	isAuthenticated: function()
+	{
+	    return Parse.User.authenticated();
 	}
-}
+};

@@ -1,29 +1,40 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+
+<!--
+    HTML used register a user
+
+    Sean Coombes, Kyle Zimmerman, Justin Coschi  - 3/20/15 html file created
+-->
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     
     <!-- CSS files -->
-    <link href="CSS/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"></style>
-    <link href="CSS/custom.css" rel="stylesheet" type="text/css"></style>
+    <link href="CSS/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+    <link href="CSS/custom.css" rel="stylesheet" type="text/css" />
 
+    <script src="JS/parse-1.4.0.min.js"></script>
+    
     <!-- jquery files -->
     <script src="JS/jquery-1.11.2.min.js" type="text/javascript"></script>
     <script src="JS/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
-    <script src="JS/Chart.min.js" type="text/javascript"></script>
+    
+    <script src="JS/jquery.validate.js"type="text/javascript"></script>
 
     <script src="JS/event-type.js" type="text/javascript"></script>
     <script src="JS/event.js" type="text/javascript"></script>
     <script src="JS/user.js" type="text/javascript"></script>
     <script src="JS/course.js" type="text/javascript"></script>
-    <script src="JS/comment.js" type="text/javascript"></script>
-    <script src="JS/event-post.js" type="text/javascript"></script>
-    <script src="JS/course-post.js" type="text/javascript"></script>
+    
+    
+    
     <script src="JS/user-course.js" type="text/javascript"></script>
-    <script src="JS/post.js" type="text/javascript"></script>
     <script src="JS/semester.js" type="text/javascript"></script>
     <script src="JS/vote.js" type="text/javascript"></script>
+
+    <script src="JS/validation.js"type="text/javascript"></script>
 
     <script src="JS/database.js" type="text/javascript"></script>
     <script src="JS/global.js" type="text/javascript"></script>
@@ -33,21 +44,35 @@
 
             <header data-role="header" data-position="fixed">
                 <h2>Sign Up</h2>
-                <a href="#" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-btn-right ui-corner-all"> </a>
             </header>
-
+            <div id="signup-error" class="error"></div>
             <section data-role="content">
                 <h2>Sign Up for ClassMate</h2>
-                <form id="signupform" action="event-feed.html">
-                    <label for="signupemail">Student Email:</label>
-                    <input type="email" name="signupemail" id="signupemail" value="" placeholder="jdoe-cc@conestogac.on.ca">
-                    
-                    <label for="signuppassword">Password:</label>
-                    <input type="password" name="signuppassword" id="signuppassword" value="" autocomplete="off">
-
-                    <label for="confirmsignuppassword">Confirm Password:</label>
-                    <input type="password" name="confirmsignuppassword" id="confirmsignuppassword" value="" autocomplete="off">
-
+                <form id="signup-form">
+                    <div data-set="fieldcontainer">
+                        <label for="signupemail">Student Email:</label>
+                        <input type="email" name="signupemail" id="signup-email" value="" placeholder="jdoe-cc@conestogac.on.ca"><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="signupuname">UserName:</label>
+                        <input type="text" name="signupuname" id="signupuname" value="" placeholder="JohnDoe420"><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="signuppassword">Password:</label>
+                        <input type="password" name="signuppassword" id="signup-password" value="" autocomplete="off"><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="confirmsignuppassword">Confirm Password:</label>
+                        <input type="password" name="confirmsignuppassword" id="confirm-signup-password" value="" autocomplete="off"><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="signupfname">First Name:</label>
+                        <input type="text" name="signupfname" id="signupfname" value=""><span />
+                    </div>
+                    <div data-set="fieldcontainer">
+                        <label for="signuplname">Last Name:</label>
+                        <input type="text" name="signuplname" id="signuplname" value=""><span />
+                    </div>
                     <button id="confirmsignup"class="ui-btn-active ui-shadow ui-btn">Confirm Sign Up</button>
                 </form>
         	</section>

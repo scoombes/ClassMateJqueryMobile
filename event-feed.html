@@ -1,29 +1,40 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+
+<!--
+    HTML used to display a list of all the user's events
+
+    Sean Coombes, Kyle Zimmerman, Justin Coschi  - 3/20/15 html file created
+-->
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     
     <!-- CSS files -->
-    <link href="CSS/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"></style>
-    <link href="CSS/custom.css" rel="stylesheet" type="text/css"></style>
+    <link href="CSS/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+    <link href="CSS/custom.css" rel="stylesheet" type="text/css" />
 
+	<script src="JS/parse-1.4.0.min.js"></script>
+    
     <!-- jquery files -->
     <script src="JS/jquery-1.11.2.min.js" type="text/javascript"></script>
     <script src="JS/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
-    <script src="JS/Chart.min.js" type="text/javascript"></script>
+    
+    <script src="JS/jquery.validate.js"type="text/javascript"></script>
 
     <script src="JS/event-type.js" type="text/javascript"></script>
     <script src="JS/event.js" type="text/javascript"></script>
     <script src="JS/user.js" type="text/javascript"></script>
     <script src="JS/course.js" type="text/javascript"></script>
-    <script src="JS/comment.js" type="text/javascript"></script>
-    <script src="JS/event-post.js" type="text/javascript"></script>
-    <script src="JS/course-post.js" type="text/javascript"></script>
+    
+    
+    
     <script src="JS/user-course.js" type="text/javascript"></script>
-    <script src="JS/post.js" type="text/javascript"></script>
     <script src="JS/semester.js" type="text/javascript"></script>
     <script src="JS/vote.js" type="text/javascript"></script>
+
+    <script src="JS/validation.js"type="text/javascript"></script>
 
     <script src="JS/database.js" type="text/javascript"></script>
     <script src="JS/global.js" type="text/javascript"></script>
@@ -33,7 +44,7 @@
 
             <header data-role="header" data-position="fixed">
                 <h2>Event Feed</h2>
-                <a href="#" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-btn-right ui-corner-all"> </a>
+                <a href="settings.html" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-btn-right ui-corner-all"> </a>
                 <div data-role="navbar">
         			<ul>
                         <li><a href="event-feed.html" data-icon="calendar" data-theme="b" class="ui-btn-active ui-state-persist">Event Feed</a></li>
@@ -46,74 +57,7 @@
             </header>
 
             <section data-role="content">
-                <ul data-role="listview" data-icon="false">
-                    <li class="eventfeed-item">
-                        <a href="event-details.html">
-                            <div class="vote-bar">
-                                <div class="upvote-bar"></div>
-                                <div class="downvote-bar"></div>
-                            </div>
-                            <h3 class="course-name">PROG2070-2</h3>
-                            <h2 class="assignment-name">Assignment 1</h2>
-                            <h3 class="due-date">Friday, March 13</h3>
-                        </a>
-                    </li>
-                    <li class="eventfeed-item">
-                        <a href="event-details.html">
-                            <div class="vote-bar">
-                                <div class="upvote-bar"></div>
-                                <div class="downvote-bar"></div>
-                            </div>
-                            <h3 class="course-name">INFO2000-2</h3>
-                            <h2 class="assignment-name">Assignment 2</h2>
-                            <h3 class="due-date">Monday, March 16</h3>
-                        </a>
-                    </li>
-                    <li class="eventfeed-item">
-                        <a href="event-details.html">
-                            <div class="vote-bar">
-                                <div class="upvote-bar"></div>
-                                <div class="downvote-bar"></div>
-                            </div>
-                            <h3 class="course-name">PROG2000-2</h3>
-                            <h2 class="assignment-name">Midterm</h2>
-                            <h3 class="due-date">Monday, March 30</h3>
-                        </a>
-                    </li>
-                    <li class="eventfeed-item">
-                        <a href="event-details.html">
-                            <div class="vote-bar">
-                                <div class="upvote-bar"></div>
-                                <div class="downvote-bar"></div>
-                            </div>
-                            <h3 class="course-name">PROG3080-2</h3>
-                            <h2 class="assignment-name">Assignment 2</h2>
-                            <h3 class="due-date">Friday, April 3</h3>
-                        </a>
-                    </li>
-                    <li class="eventfeed-item">
-                        <a href="event-details.html">
-                            <div class="vote-bar">
-                                <div class="upvote-bar"></div>
-                                <div class="downvote-bar"></div>
-                            </div>
-                            <h3 class="course-name">PROG3080-2</h3>
-                            <h2 class="assignment-name">Group Project</h2>
-                            <h3 class="due-date">Friday, April 10</h3>
-                        </a>
-                    </li>
-                    <li class="eventfeed-item">
-                        <a href="event-details.html">
-                            <div class="vote-bar">
-                                <div class="upvote-bar"></div>
-                                <div class="downvote-bar"></div>
-                            </div>
-                            <h3 class="course-name">INFO1234-1</h3>
-                            <h2 class="assignment-name">Assignment 2</h2>
-                            <h3 class="due-date">Tuesday, April 11</h3>
-                        </a>
-                    </li>
-                </ul>
+                <ul id="event-feed-list" data-role="listview" data-icon="false"></ul>
         	</section>
 
             <footer data-role="footer" data-position="fixed">
