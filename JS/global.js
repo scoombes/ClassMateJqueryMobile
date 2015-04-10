@@ -59,7 +59,7 @@ function checkPage(activepage)
 		case "eventfeed":
 			Event.getAll(handleEventFeed);
 			break;
-		case "eventdetails":
+		case "event-details":
 			eventFeedDetailsSetup();
 			break;
 		default:
