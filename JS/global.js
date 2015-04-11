@@ -104,8 +104,6 @@ function eventFeedDetailsSetup()
 		var dueDate = result.get("dueDate");
 		$("#details-due").text(getDate(dueDate));
 
-		var upvoters = result.get("upvoters");
-		var downvoters = result.get("downvoters");
 		$("#up-vote").text(result.get("upvotes") || 0);
 		$("#down-vote").text(result.get("downvotes") || 0);
 
@@ -138,8 +136,6 @@ function eventFeedDetailsSetup()
 			$("#details-description").text("");
 		}
 	});
-
-	//Vote.read(event_id, User.getCurrent().id, userEventVote);
 }
 
 //formats time to 12hr time from 24hr
@@ -413,7 +409,6 @@ function setVote()
 	var currentUserId = User.getCurrent().id;
 
 	Event.vote(currentEventId, voteWorth);
-	//Vote.insert(currentEventId, currentUserId, voteWorth);
 }
 
 //callback function to handle when a user has already voted for an event

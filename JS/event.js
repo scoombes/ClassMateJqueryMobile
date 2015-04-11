@@ -73,6 +73,16 @@ var Event =
 				event.increment('downvotes');
 			}
 		});
+		/*
+		var query = new Parse.Query(EventObject);
+		query.equalTo("upvoters", Parse.User.current())
+		query.find().then(function (upvoter) {
+			if (upvoter.length < 1 && value > 0) {
+				event.increment('upvotes');
+				event.relation('upvoters').add(Parse.User.current());
+				event.save();
+			}
+		*/
 	},
 	//Drop and re-init the table
 	nuke: function() {
