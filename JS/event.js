@@ -13,9 +13,12 @@ var Event =
 		event.set("course", CourseObject.createWithoutData(course_id));
 		event.set("eventType", EventTypeObject.createWithoutData(event_type));
 		event.set("name", name);
+		if (time == "") {
+			time = "00:00";
+		}
 		var dueDate = new Date(due_date + " " + time + ":00");
 		event.set("dueDate", dueDate);
-		event.set("finalGradeWeight", final_grade_weight);
+		event.set("finalGradeWeight", parseInt(final_grade_weight));
 		event.set("description", description);
 		event.set("creator", User.getCurrent());
 		event.save().then(function () {

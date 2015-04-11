@@ -67,24 +67,6 @@ var Course =
 			 course.save().then(successCallback, errorCallback);
 		});
 	},
-	//Populates the <select> menu on the Add-Event screen
-	populateList: function(){
-		var query = new Parse.Query(CourseObject);
-		query.descending("courseCode");
-		query.find({
-		    success: function (list)
-		    {
-		        var options;
-				for (var i = 0; i < list.length; i++) {
-					options += '<option value="' + list[i].id + '">'
-						+ list[i].get("courseCode")
-						+ '</option>';
-				}
-				$("#eventcourse").html(options);
-				$("#eventcourse").selectmenu("refresh");
-			}
-		});
-	},
 	//Drops the table and re-initializes it.
 	nuke: function() {
 		db.transaction(function(transaction) {

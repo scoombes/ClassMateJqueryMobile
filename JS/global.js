@@ -54,7 +54,7 @@ function checkPage(activepage)
 			break;
 		case "createevent":
 			createEventValidations();
-			Course.populateList();
+			Course.readAll(populateCourseList);
 			break;
 		case "eventfeed":
 			Event.getAll(handleEventFeed);
@@ -65,6 +65,19 @@ function checkPage(activepage)
 		default:
 			break;
 	}
+}
+
+//populates course drop-down when creating an event
+function populateCourseList(courses) {
+	var options = '<option selected="selected" value="">Select a course</option>';
+	for (var i = courses.length - 1; i >= 0; i--) 
+	{
+		options += '<option value="' + courses[i].id + '">'
+			+ courses[i].get("courseCode");
+			+ '</option>';
+	}
+	$("#eventcourse").html(options);
+	$("#eventcourse").selectmenu("refresh");
 }
 
 //prepares data to be displayed on eventdetails page
@@ -90,8 +103,11 @@ function eventFeedDetailsSetup()
 		$("#details-name").text(result.get("name") + " Details");
 		var dueDate = result.get("dueDate");
 		$("#details-due").text(getDate(dueDate));
-		$("#up-vote").text(result.get("upvotes"));
-		$("#down-vote").text(result.get("downvotes"));
+
+		var upvoters = result.get("upvoters");
+		var downvoters = result.get("downvoters");
+		$("#up-vote").text(result.get("upvotes") || 0);
+		$("#down-vote").text(result.get("downvotes") || 0);
 
 		if (result.get("finalGradeWeight") != "") {
 			$("#details-grade-parent").removeClass("hidden");
