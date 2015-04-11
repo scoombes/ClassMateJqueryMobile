@@ -87,33 +87,35 @@ function eventFeedDetailsSetup()
 	{
 		$("#detail-course").text(event_cc_sec);
 		$("#detail-course").prop("href", "course-details.html?course_id=" + event_c_id);
-		$("#details-name").text(result.event.get("name") + " Details");
-		$("#details-due").text(result.event.get("dueDate"));
-		$("#up-vote").text(result.upvotes);
-		$("#up-vote").text(result.downvotes);
+		$("#details-name").text(result.get("name") + " Details");
+		var dueDate = result.get("dueDate");
+		$("#details-due").text(getDate(dueDate));
+		$("#up-vote").text(result.get("upvotes"));
+		$("#down-vote").text(result.get("downvotes"));
 
-		if (result.event.get("finalGradeWeight") != "") {
+		if (result.get("finalGradeWeight") != "") {
 			$("#details-grade-parent").removeClass("hidden");
-			$("#details-grade").text(result.event.get("finalGradeWeight"));
+			$("#details-grade").text(result.get("finalGradeWeight"));
 		}
 		else {
 			$("#details-grade-parent").addClass("hidden");
 			$("#details-grade").text("");
 		}
 
-		if (result.rows.item(0)["time"] != ""){
+		var dueTime = dueDate.toTimeString().substr(0,5);
+		if (dueTime != "00:00"){
 			$("#details-time-parent").removeClass("hidden");
 
-			$("#details-time").text(formatTime(result.event.get("dueDate").toTimeString()));
+			$("#details-time").text(formatTime(dueTime));
 		}
 		else{
 			$("#details-time-parent").addClass("hidden");
 			$("#details-time").text("");
 		}
 
-		if (result.rows.item(0)["description"] != "") {
+		if (result.get("description") != "") {
 			$("#details-description-parent").removeClass("hidden");
-			$("#details-description").text(result.event.get("description"));
+			$("#details-description").text(result.get("description"));
 		}
 		else {
 			$("#details-description-parent").addClass("hidden");
@@ -329,12 +331,17 @@ function getDate(date)
 
 	var somedate = new Date(date);
 
+	var year = date.getFullYear();
 	var month = monthNames[somedate.getMonth()];
 	var weekday = daysOfWeek[somedate.getDay()+1];
 
 	var day = date.toString().substr(8, 2);
 
-	return weekday + ", " + month + " " + day;
+	if (day.substr(0,1) == "0") {
+		day = day.substr(1,1);
+	}
+
+	return weekday + ", " + month + " " + day + ", " + year;
 }
 
 

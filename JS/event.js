@@ -23,9 +23,14 @@ var Event =
 		}, parseErrorHandler);
 	}, 
 	//Gets a specific event by ID
-	read: function (id, successCallBack) {
-		/*
+	read: function (id, successCallback) {
 		var query = new Parse.Query(EventObject);
+		query.get(id).then( function (event) {
+			successCallback(event);
+		});
+
+
+		/*var query = new Parse.Query(EventObject);
 		var eventVotes = {};
 
 		query.get(id).then(function(event) {

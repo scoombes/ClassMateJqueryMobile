@@ -28,7 +28,7 @@ var Course =
 	//Allows a course to be inserted into the database. Note: validate the values before calling the function
 	insert: function(course_code, section, name, semester_id, year, teacher_name, creator_id, successCallback) {
 		var course = new CourseObject();
-		course.set('courseCode', course_code);
+		course.set('courseCode', course_code.toUpperCase());
 		course.set('section', section);
 		course.set('name', name);
 		course.set('semester', SemesterObject.createWithoutData(semester_id));
