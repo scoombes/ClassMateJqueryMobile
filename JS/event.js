@@ -24,6 +24,7 @@ var Event =
 	}, 
 	//Gets a specific event by ID
 	read: function (id, successCallBack) {
+		/*
 		var query = new Parse.Query(EventObject);
 		var eventVotes = {};
 
@@ -37,7 +38,7 @@ var Event =
 		}).then( function (downvotes) {
 			eventVotes.downvotes = downvotes;
 			successCallback(eventVotes);
-		});
+		});*/
 	},
 	//Gets all of the events for a specific course
 	getEventsForCourse: function(course_id, successCallback) {
