@@ -32,7 +32,6 @@ var Event =
 			successCallback(event);
 		});
 
-
 		/*var query = new Parse.Query(EventObject);
 		var eventVotes = {};
 
@@ -66,13 +65,24 @@ var Event =
 		query.include('course').find().then(successCallback, parseErrorHandler);
 	},
 	vote: function(event_id, value, successCallback) {
-		Event.get(event_id, function(event) {
+		/*Event.get(event_id, function(event) {
 			if (value > 0) {
 				event.increment('upvotes');
 			} else {
 				event.increment('downvotes');
 			}
+		});*/
+
+		var ups = new Parse.Query(EventObject);
+		ups.equalTo("upvoters", Parse.User.current());
+		var downs = new Parse.Query(EventObject);
+		downs.equalTo("downvoters", Parse.User.current());
+
+		var both = Parse.Query.or(ups, downs);
+		both.find().then(function (results) {
+			alert(results.get("upvoters"));
 		});
+
 		/*
 		var query = new Parse.Query(EventObject);
 		query.equalTo("upvoters", Parse.User.current())
