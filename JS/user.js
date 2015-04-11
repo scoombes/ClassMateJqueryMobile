@@ -8,41 +8,41 @@ var User =
 {
 	//registers a user (Verifies the email address is not taken)
 	register: function(email, username, password, firstName, lastName){
-	    var user = new Parse.User();
+		var user = new Parse.User();
 
-	    user.set("email", email);
-	    user.set("username", username);
-	    user.set("password", password);
-	    user.set("firstName", firstName);
-	    user.set("lastName", lastName);
+		user.set("email", email);
+		user.set("username", username);
+		user.set("password", password);
+		user.set("firstName", firstName);
+		user.set("lastName", lastName);
 
-	    user.signUp(null, {
-	        success: function(user){
-	            $.mobile.changePage("event-feed.html", { transition: "none" });
-	        },
-	        error: function(user, error){
-	            $("#signup-error").text(error.message);
-	        }
-	    });
+		user.signUp(null, {
+			success: function(user){
+				$.mobile.changePage("event-feed.html", { transition: "none" });
+			},
+			error: function(user, error){
+				$("#signup-error").text(error.message);
+			}
+		});
 	},
-    //Logs a user in using the provided credentials 
+	//Logs a user in using the provided credentials 
 	login: function (name, pass){
-	    Parse.User.logIn(name, pass, {
-	        success: function(user){
-	            $.mobile.changePage("event-feed.html", { transition: "none" });
-	        },
-	        error: function(user, error){
-	            $("#loginmessage").text(error.message);
-	        }
-	    });
-	    if ($("#remember").prop("checked", true)){
-	        localStorage.setItem("rem", "true");
-	    }
+		Parse.User.logIn(name, pass, {
+			success: function(user){
+				$.mobile.changePage("event-feed.html", { transition: "none" });
+			},
+			error: function(user, error){
+				$("#loginmessage").text(error.message);
+			}
+		});
+		if ($("#remember").prop("checked", true)){
+			localStorage.setItem("rem", "true");
+		}
 	},
 	logout: function(){
-	    Parse.User.logOut();
-	    localStorage.clear();
-	    $.mobile.changePage("login.html", { transition: "none" });
+		Parse.User.logOut();
+		localStorage.clear();
+		$.mobile.changePage("login.html", { transition: "none" });
 	},
 	//Drops the table and re-initializes it
 	nuke: function() {
@@ -51,6 +51,6 @@ var User =
 	//Gets the currently signed in user
 	getCurrent: function()
 	{
-	    return Parse.User.current();
+		return Parse.User.current();
 	}
 };
