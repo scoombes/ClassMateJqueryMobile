@@ -54,7 +54,7 @@ function checkPage(activepage)
 			break;
 		case "createevent":
 			createEventValidations();
-			Course.populateList();
+			Course.readAll(populateCourseList);
 			break;
 		case "eventfeed":
 			Event.getAll(handleEventFeed);
@@ -65,6 +65,19 @@ function checkPage(activepage)
 		default:
 			break;
 	}
+}
+
+//populates course drop-down when creating an event
+function populateCourseList(courses) {
+	var options = '<option selected="selected" value="">Select a course</option>';
+	for (var i = courses.length - 1; i >= 0; i--) 
+	{
+		options += '<option value="' + courses[i].id + '">'
+			+ courses[i].attributes.courseCode;
+			+ '</option>';
+	}
+	$("#eventcourse").html(options);
+	$("#eventcourse").selectmenu("refresh");
 }
 
 //prepares data to be displayed on eventdetails page

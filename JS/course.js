@@ -67,25 +67,6 @@ var Course =
 			 course.save().then(successCallback, errorCallback);
 		});
 	},
-	//Populates the <select> menu on the Add-Event screen
-	populateList: function(){
-		db.transaction(function(transaction){
-			transaction.executeSql("SELECT * FROM course ORDER BY course_code COLLATE NOCASE DESC",[],
-				function(transaction, resultSet){
-					var row;
-					var options = '<option selected="selected" value="">Select a course</option>';
-					for (var i = resultSet.rows.length - 1; i >= 0; i--) 
-					{
-						row = resultSet.rows.item(i);
-						options += '<option value="' + row.id + '">'
-							+ row.course_code
-							+ '</option>';
-					}
-					$("#eventcourse").html(options);
-					$("#eventcourse").selectmenu("refresh");
-				}, errorHandler);
-		});
-	},
 	//Drops the table and re-initializes it.
 	nuke: function() {
 		db.transaction(function(transaction) {
