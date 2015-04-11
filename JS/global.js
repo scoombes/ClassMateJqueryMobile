@@ -73,7 +73,7 @@ function populateCourseList(courses) {
 	for (var i = courses.length - 1; i >= 0; i--) 
 	{
 		options += '<option value="' + courses[i].id + '">'
-			+ courses[i].attributes.courseCode;
+			+ courses[i].get("courseCode");
 			+ '</option>';
 	}
 	$("#eventcourse").html(options);
@@ -103,8 +103,11 @@ function eventFeedDetailsSetup()
 		$("#details-name").text(result.get("name") + " Details");
 		var dueDate = result.get("dueDate");
 		$("#details-due").text(getDate(dueDate));
-		$("#up-vote").text(result.get("upvotes"));
-		$("#down-vote").text(result.get("downvotes"));
+
+		var upvoters = result.get("upvoters");
+		var downvoters = result.get("downvoters");
+		$("#up-vote").text(result.get("upvotes") || 0);
+		$("#down-vote").text(result.get("downvotes") || 0);
 
 		if (result.get("finalGradeWeight") != "") {
 			$("#details-grade-parent").removeClass("hidden");
