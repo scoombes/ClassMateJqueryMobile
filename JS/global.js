@@ -59,7 +59,7 @@ function checkPage(activepage)
 		case "eventfeed":
 			Event.getAll(handleEventFeed);
 			break;
-		case "event-details":
+		case "eventdetails":
 			eventFeedDetailsSetup();
 			break;
 		default:
@@ -121,7 +121,7 @@ function eventFeedDetailsSetup()
 		}
 	});
 
-	Vote.read(event_id, User.getCurrent().id, userEventVote);
+	//Vote.read(event_id, User.getCurrent().id, userEventVote);
 }
 
 //formats time to 12hr time from 24hr
