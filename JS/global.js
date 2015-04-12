@@ -135,6 +135,28 @@ function eventFeedDetailsSetup()
 			$("#details-description-parent").addClass("hidden");
 			$("#details-description").text("");
 		}
+
+		var upvoteQuery = new Parse.Query(EventObject);
+		upvoteQuery.equalTo('objectId', event_id);
+		upvoteQuery.equalTo('upvoters', Parse.User.current());
+
+		var downvoteQuery = new Parse.Query(EventObject);
+		downvoteQuery.equalTo('objectId', event_id);
+		downvoteQuery.equalTo('downvoters', Parse.User.current());
+
+		upvoteQuery.count().then(function (count) {
+			if (count > 0) {
+				$("#down-vote").removeClass("ui-btn-d");
+				$("#up-vote").addClass("ui-btn-c");
+			} else {
+				return downvoteQuery.count();
+			}
+		}).then(function (count) {
+			if (count > 0) {
+				$("#up-vote").removeClass("ui-btn-c");
+				$("#down-vote").addClass("ui-btn-d");
+			}
+		});
 	});
 }
 
