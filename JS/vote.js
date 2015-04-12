@@ -3,7 +3,7 @@
  *
  * 		Justin Coschi - 3/25/15 js file created
  */ 
- var VoteObject = new Parse.Object.extend("Vote");
+var VoteObject = new Parse.Object.extend("Vote");
 var Vote = 
 {
 	//Creates the table if required
