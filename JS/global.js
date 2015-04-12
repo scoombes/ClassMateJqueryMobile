@@ -23,6 +23,7 @@ $(document).on("pagecontainerbeforeshow", function (event, ui) {
 	$("#logout-button").on("click", function (){User.logout()});
 	$("#add-course-form").hide();
 	$("#toggle-create-course").on("click", toggleCreateCourse);
+	$("#drop-course").on("click", dropCourse);
 
 	$.mobile.defaultPageTransition = 'none';
 });
@@ -200,6 +201,15 @@ function addExistingCourse() {
 		$.mobile.changePage('courses.html'); 
 	}, function(error) {
 		alert('You are already in that course');
+	});
+}
+
+function dropCourse() {
+	var id = $(this).attr('data-course-id');
+	Course.drop(id, function() {
+		$.mobile.changePage('courses.html'); 
+	}, function(error) {
+		alert('You are not in this course');
 	});
 }
 
