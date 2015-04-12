@@ -57,7 +57,7 @@ function checkPage(activepage)
 			break;
 		case "createevent":
 			createEventValidations();
-			Course.readAll(populateCourseList);
+			Course.readJoined(Parse.User.current(), populateCourseList);
 			break;
 		case "eventfeed":
 			Event.getAll(handleEventFeed);
