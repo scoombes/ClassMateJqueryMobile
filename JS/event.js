@@ -65,7 +65,7 @@ var Event =
 		userCourseQuery.equalTo('members', Parse.User.current());
 
 		var query = new Parse.Query(EventObject);
-		query.include('course').matchesQuery('course', userCourseQuery).find().then(successCallback, parseErrorHandler);
+		query.include('course').matchesQuery('course', userCourseQuery).ascending('dueDate').find().then(successCallback, parseErrorHandler);
 	},
 	vote: function(event_id, value, successCallback) {
 		var hadUpvoted = false;
