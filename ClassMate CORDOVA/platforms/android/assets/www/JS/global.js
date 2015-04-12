@@ -4,17 +4,29 @@
  * 		Sean Coombes, Kyle Zimmerman, Justin Coschi  - 3/20/15 js file created
  */
 
+var SemesterObject = Parse.Object.extend("Semester");
+var EventTypeObject = Parse.Object.extend("EventType");
+
 //runs before each pages loads and sets up click events 
 $(document).on("pagecontainerbeforeshow", function (event, ui) {
+	Parse.initialize("YstnFpcnRNYfA35BEVOF84uAScfrhfO7Qw05Y2pU", "mUVdZeAXnV4A8NGi2av5YuUVJublH8JTwYOmKSKL");
 	var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
-	checkPage(activepage);
+
+    if (User.getCurrent() || activepage == "login") {
+        
+        checkPage(activepage);
+    }
+    else {
+        $.mobile.changePage("login.html", { transition: "none" });
+    }	
 
 	$("#signupbtn").on("click", function(event) {$.mobile.changePage("register.html", {transition: "none"}); event.preventDefault(); });
 	$("#up-vote").on("click", setVote);
 	$("#down-vote").on("click", setVote);
-	$("#logout-button").on("click", logOut);
+	$("#logout-button").on("click", function (){User.logout()});
 	$("#add-course-form").hide();
 	$("#toggle-create-course").on("click", toggleCreateCourse);
+	$("#drop-course").on("click", dropCourse);
 
 	$.mobile.defaultPageTransition = 'none';
 });
@@ -24,9 +36,9 @@ function checkPage(activepage)
 {
 	switch(activepage)
 	{
-		case "login":
+	    case "login":
+	        checkLogInState();
 			loginValidations();
-			checkRememberMe();
 			break;
 		case "register":
 			registerValidations();
@@ -36,7 +48,7 @@ function checkPage(activepage)
 			addCourseValidations();
 			break;
 		case "courses":
-			Course.readJoined(User.getCurrent().id, handleCoursesLoad);
+			Course.readJoined(Parse.User.current(), handleCoursesLoad);
 			break;
 		case "course-detail":
 			var parameters = document.URL.split("?")[1];
@@ -45,7 +57,7 @@ function checkPage(activepage)
 			break;
 		case "createevent":
 			createEventValidations();
-			Course.populateList();
+			Course.readAll(populateCourseList);
 			break;
 		case "eventfeed":
 			Event.getAll(handleEventFeed);
@@ -56,6 +68,26 @@ function checkPage(activepage)
 		default:
 			break;
 	}
+}
+
+//populates course drop-down when creating an event
+function populateCourseList(courses) {
+	var options = '<option selected="selected" value="">Select a course</option>';
+	for (var i = courses.length - 1; i >= 0; i--) 
+	{
+		options += '<option value="' + courses[i].id + '">'
+			+ courses[i].get("courseCode");
+			+ '</option>';
+	}
+	$("#eventcourse").html(options);
+	$("#eventcourse").selectmenu("refresh");
+}
+
+//handles errors for parse
+function parseErrorHandler(error) {
+    var msg = "PARSE ERROR (" + error.code + ": " + error.message;
+    console.log(msg);
+    alert(msg);
 }
 
 //prepares data to be displayed on eventdetails page
@@ -74,53 +106,75 @@ function eventFeedDetailsSetup()
 	event_cc_sec = paramValue[1];
 	event_c_id = paramValue[2];
 	
-	Event.read(event_id, function(transaction, result)
+	Event.read(event_id, function(result)
 	{
 		$("#detail-course").text(event_cc_sec);
 		$("#detail-course").prop("href", "course-details.html?course_id=" + event_c_id);
+		$("#details-name").text(result.get("name") + " Details");
+		var dueDate = result.get("dueDate");
+		$("#details-due").text(getDate(dueDate));
 
-		$("#details-name").text(result.rows.item(0)["name"] + " Details");
-		$("#details-due").text(result.rows.item(0)["due_date"]);
+		$("#up-vote").text(result.get("upvotes") || 0);
+		$("#down-vote").text(result.get("downvotes") || 0);
 
-		$("#up-vote").text(result.rows.item(0)['upvotes'] || 0);
-		$("#down-vote").text(result.rows.item(0)['downvotes'] || 0);
-
-		if (result.rows.item(0)["final_grade_weight"] != "") {
+		if (result.get("finalGradeWeight") != "") {
 			$("#details-grade-parent").removeClass("hidden");
-			$("#details-grade").text(result.rows.item(0)["final_grade_weight"]);
+			$("#details-grade").text(result.get("finalGradeWeight"));
 		}
 		else {
 			$("#details-grade-parent").addClass("hidden");
 			$("#details-grade").text("");
 		}
 
-		if (result.rows.item(0)["time"] != ""){
+		var dueTime = dueDate.toTimeString().substr(0,5);
+		if (dueTime != "00:00"){
 			$("#details-time-parent").removeClass("hidden");
-			$("#details-time").text(formatTime(result.rows.item(0)["time"]));
+
+			$("#details-time").text(formatTime(dueTime));
 		}
 		else{
 			$("#details-time-parent").addClass("hidden");
 			$("#details-time").text("");
 		}
 
-		if (result.rows.item(0)["description"] != "") {
+		if (result.get("description") != "") {
 			$("#details-description-parent").removeClass("hidden");
-			$("#details-description").text(result.rows.item(0)["description"]);
+			$("#details-description").text(result.get("description"));
 		}
 		else {
 			$("#details-description-parent").addClass("hidden");
 			$("#details-description").text("");
 		}
-	});
 
-	Vote.read(event_id, User.getCurrent().id, userEventVote);
+		var upvoteQuery = new Parse.Query(EventObject);
+		upvoteQuery.equalTo('objectId', event_id);
+		upvoteQuery.equalTo('upvoters', Parse.User.current());
+
+		var downvoteQuery = new Parse.Query(EventObject);
+		downvoteQuery.equalTo('objectId', event_id);
+		downvoteQuery.equalTo('downvoters', Parse.User.current());
+
+		upvoteQuery.count().then(function (count) {
+			if (count > 0) {
+				$("#down-vote").removeClass("ui-btn-d");
+				$("#up-vote").addClass("ui-btn-c");
+			} else {
+				return downvoteQuery.count();
+			}
+		}).then(function (count) {
+			if (count > 0) {
+				$("#up-vote").removeClass("ui-btn-c");
+				$("#down-vote").addClass("ui-btn-d");
+			}
+		});
+	});
 }
 
 //formats time to 12hr time from 24hr
 function formatTime(eventTime)
 {
     var hours = parseInt(eventTime.substr(0, 2));
-	var mins = eventTime.substr(3, 4);
+	var mins = eventTime.substr(3,2);
     var suffix = "am";
 
     if (hours > 11) {
@@ -140,19 +194,21 @@ function formatTime(eventTime)
 }
 
 //prepares existing courses on add course page
-function handleAddCoursesLoadExisting(transaction, results) {
+function handleAddCoursesLoadExisting(results) {
 	var courseList = $('#add-existing-course');
 	courseList.empty();
 	
-	for (var i = 0; i < results.rows.length; i++) {
+	for (var i = 0; i < results.length; i++) {
+		var result = results[i];
+
 		var course = {
-			id: results.rows.item(i)['id'],
-			code: results.rows.item(i)['course_code'],
-			section: results.rows.item(i)['section'],
-			name: results.rows.item(i)['name'],
-			teacherName: results.rows.item(i)['teacher_name'],
-			semester: results.rows.item(i)['semester.semester_name'],
-			year: results.rows.item(i)['year']
+			id: results[i].id,
+			code: results[i].get('courseCode'),
+			section: results[i].get('section'),
+			name: results[i].get('name'),
+			teacherName: results[i].get('teacherName'),
+			semester: results[i].get('semester').get('semesterName'),
+			year: results[i].get('year')
 		};
 
 		var courseElement = $('<li>');
@@ -173,29 +229,36 @@ function handleAddCoursesLoadExisting(transaction, results) {
 //adds user to a class that has already been created
 function addExistingCourse() {
 	var id = $(this).attr('data-course-id');
-	UserCourse.insert(User.getCurrent().id, id, function() {
+	Course.join(id, function() {
 		$.mobile.changePage('courses.html'); 
-	}, function() {
+	}, function(error) {
 		alert('You are already in that course');
 	});
 }
 
+function dropCourse() {
+	var id = $(this).attr('data-course-id');
+	Course.drop(id, function() {
+		$.mobile.changePage('courses.html'); 
+	}, function(error) {
+		alert('You are not in this course');
+	});
+}
+
 //prepares courses that user is in into a course list
-function handleCoursesLoad(transaction, results) {
+function handleCoursesLoad(results) {
 	var courseList = $('.course-list');
 	courseList.empty();
 	
-	for (var i = 0; i < results.rows.length; i++) {
-
-		var row = results.rows.item(i);
+	for (var i = 0; i < results.length; i++) {
 		var course = {
-			id: results.rows.item(i)['id'],
-			code: results.rows.item(i)['course_code'],
-			section: results.rows.item(i)['section'],
-			name: results.rows.item(i)['name'],
-			teacherName: results.rows.item(i)['teacher_name'],
-			semester: results.rows.item(i)['semester_name'],
-			year: results.rows.item(i)['year']
+			id: results[i].id,
+			code: results[i].get('courseCode'),
+			section: results[i].get('section'),
+			name: results[i].get('name'),
+			teacherName: results[i].get('teacherName'),
+			semester: results[i].get('semester').get('semesterName'),
+			year: results[i].get('year')
 		};
 
 		var courseElement = $('<li>').addClass('eventfeed-item');
@@ -223,24 +286,22 @@ function handleCoursesLoad(transaction, results) {
 }
 
 //prepares and displays details of selected course
-function handleCourseDetail(transaction, results) {
+function handleCourseDetail(course) {
 
 	$('#course-event-list').empty();
 	$('#course-event-list').listview('refresh');
 
-	var result = results.rows.item(0);
+	$('.course-info .course-code').text(course.get('courseCode'));
+	$('.course-info .section').text(course.get('section'));
+	$('.course-info .course-name').text(course.get('name'));
+	$('.course-info .teacher-name').text(course.get('teacherName'));
+	$('.course-info .semester').text(course.get('semester').get('semesterName'));
+	$('.course-info .year').text(course.get('year'));
+	$('#drop-course').attr('data-course-id', course.id);
 
-	$('.course-info .course-code').text(result['course_code']);
-	$('.course-info .section').text(result['section']);
-	$('.course-info .course-name').text(result['name']);
-	$('.course-info .teacher-name').text(result['teacher_name']);
-	$('.course-info .semester').text(result['semester_name']);
-	$('.course-info .year').text(result['year']);
-
-	Event.getEventsForCourse(result['id'], function(transaction, results) {
-		for (var i = 0; i < results.rows.length; i++) {
-			var dbItem = results.rows.item(i);
-			createEventElement(dbItem).appendTo($('#course-event-list'));
+	Event.getEventsForCourse(course.id, function(results) {
+		for (var i = 0; i < results.length; i++) {
+			createEventElement(results[i]).appendTo($('#course-event-list'));
 		}
 
 		$('#course-event-list').listview('refresh');
@@ -248,33 +309,33 @@ function handleCourseDetail(transaction, results) {
 }
 
 //prepares data of events to be used in a list
-function handleEventFeed(transaction, results) {
+function handleEventFeed(results) {
     var eventList = $("#event-feed-list");
     eventList.empty();
 
-    for (var i = 0; i < results.rows.length; i++) {
-        var eventElement = createEventElement(results.rows.item(i));
+    for (var i = 0; i < results.length; i++) {
+        var eventElement = createEventElement(results[i]);
         eventElement.appendTo(eventList);
     }
     eventList.listview("refresh");
 }
 
 //displays all events user has for subscribed courses in a list
-function createEventElement(dbItem) {
+function createEventElement(eventItem) {
 	var event =
 	{
-		courseCode: dbItem["course_code"] + "-" + dbItem["section"],
-		name: dbItem["name"],
-		dueDate: dbItem["due_date"],
-		id: dbItem["event_id"]
+		courseCode: eventItem.get("course").get("courseCode") + "-" + eventItem.get('course').get("section"),
+		name: eventItem.get("name"),
+		dueDate: eventItem.get("dueDate"),
+		id: eventItem.id
 	};
 
 	var eventElement = $("<li>").addClass("eventfeed-item");
 	
 	var display = $("<a>");
 	display.attr("event-id", event.id);
-	display.attr("event-course-info", dbItem["course_code"] + "-" + dbItem["section"]);
-	display.attr("event-course-id", dbItem["course_id"]);
+	display.attr("event-course-info", event.courseCode);
+	display.attr("event-course-id", eventItem.get("course").id);
 
 	display.click(function()
 	{
@@ -296,19 +357,19 @@ function createEventElement(dbItem) {
 	voteBar.append($("<div>").addClass("downvote-bar"));
 	display.append(voteBar);
 
-	var upvotes = dbItem['upvotes'] || 0;
-	var downvotes = dbItem['downvotes'] || 0;
+	var upvotes = eventItem.get("upvotes") || 0;
+	var downvotes = eventItem.get("downvotes") || 0;
 
 	var upvotePercent = upvotes / (upvotes + downvotes) * 100;
 	var downvotePercent = downvotes / (upvotes + downvotes) * 100;
 
 	display.find('.upvote-bar').css('height', upvotePercent + '%');
 	if (upvotes > 0) {
-		display.find('.upvote-bar').html(upvotes);
+		display.find('.upvote-bar').html('<span>' + upvotes + '</span>');
 	}
 	display.find('.downvote-bar').css('height', downvotePercent + '%');
 	if (downvotes > 0) {
-		display.find('.downvote-bar').html(downvotes);
+		display.find('.downvote-bar').html('<span>' + downvotes + '</span>');
 	}
 	display.appendTo(eventElement);
 
@@ -324,26 +385,17 @@ function getDate(date)
 
 	var somedate = new Date(date);
 
+	var year = date.getFullYear();
 	var month = monthNames[somedate.getMonth()];
 	var weekday = daysOfWeek[somedate.getDay()+1];
 
-	var day = date.substr(8, 2);
+	var day = date.toString().substr(8, 2);
 
-	return weekday + ", " + month + " " + day;
-}
-
-//checks if remember me has been selected
-function checkRememberMe()
-{
-	if (localStorage.getItem("rem") != null && localStorage.getItem("rem") === "true")
-	{
-		$.mobile.changePage("event-feed.html", {transition: "none"});
-	}
-	else
-	{
-		localStorage.clear();
+	if (day.substr(0,1) == "0") {
+		day = day.substr(1,1);
 	}
 
+	return weekday + ", " + month + " " + day + ", " + year;
 }
 
 //sets the visuals for up-/downvoting and inserts selected vote
@@ -397,7 +449,7 @@ function setVote()
 	var currentEventId = paramValue[0];
 	var currentUserId = User.getCurrent().id;
 
-	Vote.insert(currentEventId, currentUserId, voteWorth);
+	Event.vote(currentEventId, voteWorth);
 }
 
 //callback function to handle when a user has already voted for an event
@@ -412,16 +464,22 @@ function userEventVote(transaction, results) {
 }
 
 //attempts to log user in if form is valid
-function handleLoginForm()
-{
-	if ($("#login-form").valid()) 
-	{
-		var email = $("#email").val();
-		var password = $("#password").val();
-
-		User.login(email, password);
-	}
+function handleLoginForm(){
+    var username = $("#username").val();
+    var password = $("#password").val();
+    User.login(username, password);
 }
+
+function checkLogInState()
+{
+    if (User.getCurrent() != null && localStorage.getItem("rem") != null) {
+        $.mobile.changePage("event-feed.html", { transition: "none" });
+    }
+    else if (localStorage.getItem("rem") == null) {
+        User.logout();
+    }
+}
+
 
 //inserts new user data into db if the form is valid
 function handleSignupForm()
@@ -432,8 +490,9 @@ function handleSignupForm()
 			var password = $("#signup-password").val();
 			var fName = $("#signupfname").val();
 			var lName = $("#signuplname").val();
+		    var username = $("#signupuname").val();    
 
-			User.register(email, password, fName, lName);
+			User.register(email, username, password, fName, lName);
 		}
 }
 
@@ -446,8 +505,8 @@ function handleAddCourse(transaction, results) {
 	var year = $("#course-year").val();
 	var teacherName = $("#teacher-name").val();
 				  
-	Course.insert(courseCode, courseSection, courseName, semester, year, teacherName, User.getCurrent().id, function(transaction, results) {
-		UserCourse.insert(User.getCurrent().id, results.insertId);
+	Course.insert(courseCode, courseSection, courseName, semester, year, teacherName, User.getCurrent().id, function(course) {
+		//UserCourse.insert(User.getCurrent().id, results.insertId);
 		$.mobile.changePage("courses.html");
 	});
 }
@@ -465,14 +524,8 @@ function handleCreateEvent()
 		var eventworth = $("#eventworth").val();
 		var description = $("#eventdescription").val();
 
-		Event.insert(course, eventype, name, duedate, eventtime, eventworth, description, User.getCurrent().id);
+		Event.insert(course, eventype, name, duedate, eventtime, eventworth, description);
 	}
-}
-
-//logs current user out
-function logOut() {
-	localStorage.clear();
-	$.mobile.changePage("login.html", {transition: "none"});
 }
 
 //changes if the create course form is visible
