@@ -72,6 +72,12 @@
 	background-color: #c1272d;
 }
 
+.upvote-bar > span,
+.downvote-bar > span {
+	position: relative;
+	top: calc(50% - 1em/2); /* Vertically Center the span */
+}
+
 .error {
     color:red;
     display:block;
