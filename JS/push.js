@@ -24,7 +24,9 @@ var Push = {
 	send: function(message, channel) {
 		return Parse.Push.send({
 			channels: [channel],
-			data: message
+			data: {
+				alert: message
+			}
 		});
 	}
 };
