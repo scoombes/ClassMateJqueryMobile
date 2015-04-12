@@ -26,6 +26,8 @@ var Event =
 		}).then(function (course) {
 			var message = "Event '" + name + "' added to " + course.get("courseCode");
 			Push.send(message, course_id);
+			var alertMsg = name + " is due in 1 day!";
+			Push.sendNotification(alertMsg, course_id, dueDate);
 			$.mobile.changePage("event-feed.html", {transition: "none"});
 		}, parseErrorHandler);
 	}, 
