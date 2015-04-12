@@ -24,7 +24,7 @@ var Event =
 		event.save().then(function () {
 			return Course.getCoursePromise(course_id);
 		}).then(function (course) {
-			var message = "Event '" +  + "' added to " + course.get("courseCode");
+			var message = "Event '" + name + "' added to " + course.get("courseCode");
 			Push.send(message, course_id);
 			$.mobile.changePage("event-feed.html", {transition: "none"});
 		}, parseErrorHandler);
