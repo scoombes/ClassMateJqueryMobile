@@ -431,7 +431,7 @@ function handleLoginForm(){
 
 function checkLogInState()
 {
-    if (localStorage.getItem("rem") != null) {
+    if (User.getCurrent() != null && localStorage.getItem("rem") != null) {
         $.mobile.changePage("event-feed.html", { transition: "none" });
     }
     else if (localStorage.getItem("rem") == null) {
