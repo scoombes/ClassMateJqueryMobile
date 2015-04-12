@@ -80,6 +80,13 @@ function populateCourseList(courses) {
 	$("#eventcourse").selectmenu("refresh");
 }
 
+//handles errors for parse
+function parseErrorHandler(error) {
+    var msg = "PARSE ERROR (" + error.code + ": " + error.message;
+    console.log(msg);
+    alert(msg);
+}
+
 //prepares data to be displayed on eventdetails page
 function eventFeedDetailsSetup()
 {
