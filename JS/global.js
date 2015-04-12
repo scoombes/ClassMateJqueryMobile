@@ -316,8 +316,11 @@ function handleCourseDetail(course) {
 
 	Event.getEventsForCourse(course.id, function(results) {
 		for (var i = 0; i < results.length; i++) {
-			createEventElement(results[i]).appendTo($('#course-event-list'));
-		}
+	        var eventElement = createEventElement(results[i]);
+	        if (eventElement != null) {
+			    eventElement.appendTo($('#course-event-list'));
+			}
+	    }
 
 		$('#course-event-list').listview('refresh');
 	});
@@ -330,7 +333,9 @@ function handleEventFeed(results) {
 
     for (var i = 0; i < results.length; i++) {
         var eventElement = createEventElement(results[i]);
-        eventElement.appendTo(eventList);
+        if (eventElement != null) {
+		    eventElement.appendTo(eventList);
+		}
     }
     eventList.listview("refresh");
 }
@@ -345,50 +350,55 @@ function createEventElement(eventItem) {
 		id: eventItem.id
 	};
 
-	var eventElement = $("<li>").addClass("eventfeed-item");
-	
-	var display = $("<a>");
-	display.attr("event-id", event.id);
-	display.attr("event-course-info", event.courseCode);
-	display.attr("event-course-id", eventItem.get("course").id);
+	var eventDate = new Date(event.dueDate);
+	var now = new Date();
 
-	display.click(function()
-	{
-		$.mobile.changePage("event-details.html", {
-			data: {
-				"event_id": $(this).attr("event-id"),
-				"event_cc_sec": $(this).attr("event-course-info"),
-				"event_c_id": $(this).attr("event-course-id")
-			}, reloadPage: true, changeHash: true
+	if (eventDate > now) {
+		var eventElement = $("<li>").addClass("eventfeed-item");
+		
+		var display = $("<a>");
+		display.attr("event-id", event.id);
+		display.attr("event-course-info", event.courseCode);
+		display.attr("event-course-id", eventItem.get("course").id);
+
+		display.click(function()
+		{
+			$.mobile.changePage("event-details.html", {
+				data: {
+					"event_id": $(this).attr("event-id"),
+					"event_cc_sec": $(this).attr("event-course-info"),
+					"event_c_id": $(this).attr("event-course-id")
+				}, reloadPage: true, changeHash: true
+			});
 		});
-	});
 
-	display.append($("<h3>").addClass("course-name").text(event.courseCode));
-	display.append($("<h2>").addClass("assignment-name").text(event.name));
-	display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
+		display.append($("<h3>").addClass("course-name").text(event.courseCode));
+		display.append($("<h2>").addClass("assignment-name").text(event.name));
+		display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
 
-	var voteBar = $("<div>").addClass("vote-bar");
-	voteBar.append($("<div>").addClass("upvote-bar"));
-	voteBar.append($("<div>").addClass("downvote-bar"));
-	display.append(voteBar);
+		var voteBar = $("<div>").addClass("vote-bar");
+		voteBar.append($("<div>").addClass("upvote-bar"));
+		voteBar.append($("<div>").addClass("downvote-bar"));
+		display.append(voteBar);
 
-	var upvotes = eventItem.get("upvotes") || 0;
-	var downvotes = eventItem.get("downvotes") || 0;
+		var upvotes = eventItem.get("upvotes") || 0;
+		var downvotes = eventItem.get("downvotes") || 0;
 
-	var upvotePercent = upvotes / (upvotes + downvotes) * 100;
-	var downvotePercent = downvotes / (upvotes + downvotes) * 100;
+		var upvotePercent = upvotes / (upvotes + downvotes) * 100;
+		var downvotePercent = downvotes / (upvotes + downvotes) * 100;
 
-	display.find('.upvote-bar').css('height', upvotePercent + '%');
-	if (upvotes > 0) {
-		display.find('.upvote-bar').html('<span>' + upvotes + '</span>');
+		display.find('.upvote-bar').css('height', upvotePercent + '%');
+		if (upvotes > 0) {
+			display.find('.upvote-bar').html('<span>' + upvotes + '</span>');
+		}
+		display.find('.downvote-bar').css('height', downvotePercent + '%');
+		if (downvotes > 0) {
+			display.find('.downvote-bar').html('<span>' + downvotes + '</span>');
+		}
+		display.appendTo(eventElement);
+
+		return eventElement;
 	}
-	display.find('.downvote-bar').css('height', downvotePercent + '%');
-	if (downvotes > 0) {
-		display.find('.downvote-bar').html('<span>' + downvotes + '</span>');
-	}
-	display.appendTo(eventElement);
-
-	return eventElement;
 }
 
 //formats date from a numerical format into a more easy to read format
