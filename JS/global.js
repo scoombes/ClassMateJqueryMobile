@@ -12,7 +12,7 @@ $(document).on("pagecontainerbeforeshow", function (event, ui) {
 	Parse.initialize("YstnFpcnRNYfA35BEVOF84uAScfrhfO7Qw05Y2pU", "mUVdZeAXnV4A8NGi2av5YuUVJublH8JTwYOmKSKL");
 	var activepage = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
 
-    if (User.getCurrent() || activepage == "login") {
+    if (User.getCurrent() || activepage == "login" || activepage == "register") {
         
         checkPage(activepage);
     }
