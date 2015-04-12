@@ -365,7 +365,6 @@ function getDate(date)
 	return weekday + ", " + month + " " + day + ", " + year;
 }
 
-
 //sets the visuals for up-/downvoting and inserts selected vote
 function setVote()
 {
