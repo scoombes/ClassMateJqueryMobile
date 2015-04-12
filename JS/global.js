@@ -4,6 +4,9 @@
  * 		Sean Coombes, Kyle Zimmerman, Justin Coschi  - 3/20/15 js file created
  */
 
+var SemesterObject = Parse.Object.extend("Semester");
+var EventTypeObject = Parse.Object.extend("EventType");
+
 //runs before each pages loads and sets up click events 
 $(document).on("pagecontainerbeforeshow", function (event, ui) {
 	Parse.initialize("YstnFpcnRNYfA35BEVOF84uAScfrhfO7Qw05Y2pU", "mUVdZeAXnV4A8NGi2av5YuUVJublH8JTwYOmKSKL");
