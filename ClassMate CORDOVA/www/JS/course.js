@@ -46,13 +46,19 @@ var Course =
 	join: function(id, successCallback, errorCallback) {
 		Course.getCourse(id, function(course) {
 			course.relation('members').add(Parse.User.current());
-			 course.save().then(successCallback, errorCallback);
+			course.save().then(function (course) {
+				Push.subscribe(id);
+				successCallback();
+			}, errorCallback);
 		});
 	},
 	drop: function(id, successCallback, errorCallback) {
 		Course.getCourse(id, function(course) {
 			course.relation('members').remove(Parse.User.current());
-			 course.save().then(successCallback, errorCallback);
+			 course.save().then(function (course) {
+			 	Push.unsubscribe(id);
+			 	successCallback();
+			 }, errorCallback);
 		});	
 	}
 }

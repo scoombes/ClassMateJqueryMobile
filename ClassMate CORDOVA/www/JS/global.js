@@ -57,7 +57,7 @@ function checkPage(activepage)
 			break;
 		case "createevent":
 			createEventValidations();
-			Course.readAll(populateCourseList);
+			Course.readJoined(Parse.User.current(), populateCourseList);
 			break;
 		case "eventfeed":
 			Event.getAll(handleEventFeed);
@@ -72,7 +72,8 @@ function checkPage(activepage)
 
 //populates course drop-down when creating an event
 function populateCourseList(courses) {
-	var options = '<option selected="selected" value="">Select a course</option>';
+    var options = '<option selected="selected" value="">Select a course</option>';
+    $("#create-event").trigger("reset");
 	for (var i = courses.length - 1; i >= 0; i--) 
 	{
 		options += '<option value="' + courses[i].id + '">'
@@ -295,14 +296,31 @@ function handleCourseDetail(course) {
 	$('.course-info .section').text(course.get('section'));
 	$('.course-info .course-name').text(course.get('name'));
 	$('.course-info .teacher-name').text(course.get('teacherName'));
-	$('.course-info .semester').text(course.get('semester').get('semesterName'));
+	var semesterName = "";
+	switch (course.get('semester').id) {
+		case "rlyjqjgHER":
+			semesterName = "Fall";
+			break;
+		case "kDQaEieXpJ":
+			semesterName = "Winter";
+			break;
+		case "jFVNfnDR5z":
+			semesterName = "Spring";
+			break;
+		default:
+			break;
+	}
+	$('.course-info .semester').text(semesterName);
 	$('.course-info .year').text(course.get('year'));
 	$('#drop-course').attr('data-course-id', course.id);
 
 	Event.getEventsForCourse(course.id, function(results) {
 		for (var i = 0; i < results.length; i++) {
-			createEventElement(results[i]).appendTo($('#course-event-list'));
-		}
+	        var eventElement = createEventElement(results[i]);
+	        if (eventElement != null) {
+			    eventElement.appendTo($('#course-event-list'));
+			}
+	    }
 
 		$('#course-event-list').listview('refresh');
 	});
@@ -315,7 +333,9 @@ function handleEventFeed(results) {
 
     for (var i = 0; i < results.length; i++) {
         var eventElement = createEventElement(results[i]);
-        eventElement.appendTo(eventList);
+        if (eventElement != null) {
+		    eventElement.appendTo(eventList);
+		}
     }
     eventList.listview("refresh");
 }
@@ -330,50 +350,55 @@ function createEventElement(eventItem) {
 		id: eventItem.id
 	};
 
-	var eventElement = $("<li>").addClass("eventfeed-item");
-	
-	var display = $("<a>");
-	display.attr("event-id", event.id);
-	display.attr("event-course-info", event.courseCode);
-	display.attr("event-course-id", eventItem.get("course").id);
+	var eventDate = new Date(event.dueDate);
+	var now = new Date();
 
-	display.click(function()
-	{
-		$.mobile.changePage("event-details.html", {
-			data: {
-				"event_id": $(this).attr("event-id"),
-				"event_cc_sec": $(this).attr("event-course-info"),
-				"event_c_id": $(this).attr("event-course-id")
-			}, reloadPage: true, changeHash: true
+	if (eventDate > now) {
+		var eventElement = $("<li>").addClass("eventfeed-item");
+		
+		var display = $("<a>");
+		display.attr("event-id", event.id);
+		display.attr("event-course-info", event.courseCode);
+		display.attr("event-course-id", eventItem.get("course").id);
+
+		display.click(function()
+		{
+			$.mobile.changePage("event-details.html", {
+				data: {
+					"event_id": $(this).attr("event-id"),
+					"event_cc_sec": $(this).attr("event-course-info"),
+					"event_c_id": $(this).attr("event-course-id")
+				}, reloadPage: true, changeHash: true
+			});
 		});
-	});
 
-	display.append($("<h3>").addClass("course-name").text(event.courseCode));
-	display.append($("<h2>").addClass("assignment-name").text(event.name));
-	display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
+		display.append($("<h3>").addClass("course-name").text(event.courseCode));
+		display.append($("<h2>").addClass("assignment-name").text(event.name));
+		display.append($("<h3>").addClass("due-date").text(getDate(event.dueDate)));
 
-	var voteBar = $("<div>").addClass("vote-bar");
-	voteBar.append($("<div>").addClass("upvote-bar"));
-	voteBar.append($("<div>").addClass("downvote-bar"));
-	display.append(voteBar);
+		var voteBar = $("<div>").addClass("vote-bar");
+		voteBar.append($("<div>").addClass("upvote-bar"));
+		voteBar.append($("<div>").addClass("downvote-bar"));
+		display.append(voteBar);
 
-	var upvotes = eventItem.get("upvotes") || 0;
-	var downvotes = eventItem.get("downvotes") || 0;
+		var upvotes = eventItem.get("upvotes") || 0;
+		var downvotes = eventItem.get("downvotes") || 0;
 
-	var upvotePercent = upvotes / (upvotes + downvotes) * 100;
-	var downvotePercent = downvotes / (upvotes + downvotes) * 100;
+		var upvotePercent = upvotes / (upvotes + downvotes) * 100;
+		var downvotePercent = downvotes / (upvotes + downvotes) * 100;
 
-	display.find('.upvote-bar').css('height', upvotePercent + '%');
-	if (upvotes > 0) {
-		display.find('.upvote-bar').html('<span>' + upvotes + '</span>');
+		display.find('.upvote-bar').css('height', upvotePercent + '%');
+		if (upvotes > 0) {
+			display.find('.upvote-bar').html('<span>' + upvotes + '</span>');
+		}
+		display.find('.downvote-bar').css('height', downvotePercent + '%');
+		if (downvotes > 0) {
+			display.find('.downvote-bar').html('<span>' + downvotes + '</span>');
+		}
+		display.appendTo(eventElement);
+
+		return eventElement;
 	}
-	display.find('.downvote-bar').css('height', downvotePercent + '%');
-	if (downvotes > 0) {
-		display.find('.downvote-bar').html('<span>' + downvotes + '</span>');
-	}
-	display.appendTo(eventElement);
-
-	return eventElement;
 }
 
 //formats date from a numerical format into a more easy to read format
@@ -387,7 +412,7 @@ function getDate(date)
 
 	var year = date.getFullYear();
 	var month = monthNames[somedate.getMonth()];
-	var weekday = daysOfWeek[somedate.getDay()+1];
+	var weekday = daysOfWeek[somedate.getDay()];
 
 	var day = date.toString().substr(8, 2);
 
@@ -395,7 +420,7 @@ function getDate(date)
 		day = day.substr(1,1);
 	}
 
-	return weekday + ", " + month + " " + day + ", " + year;
+	return weekday + ", " + month + " " + day + " " + year;
 }
 
 //sets the visuals for up-/downvoting and inserts selected vote
@@ -544,7 +569,7 @@ function toggleCreateCourse() {
 //changes if time is visible or not on the create event page
 function toggleTime()
 {
-	if ($("#eventtype").val() == "1") 
+    if ($("#eventtype").val() == "alw1BjIGi2")
 	{
 		$("#eventtimediv").addClass("hidden");
 	}
