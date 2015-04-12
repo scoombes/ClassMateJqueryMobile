@@ -295,7 +295,21 @@ function handleCourseDetail(course) {
 	$('.course-info .section').text(course.get('section'));
 	$('.course-info .course-name').text(course.get('name'));
 	$('.course-info .teacher-name').text(course.get('teacherName'));
-	$('.course-info .semester').text(course.get('semester').get('semesterName'));
+	var semesterName = "";
+	switch (course.get('semester').id) {
+		case "rlyjqjgHER":
+			semesterName = "Fall";
+			break;
+		case "kDQaEieXpJ":
+			semesterName = "Winter";
+			break;
+		case "jFVNfnDR5z":
+			semesterName = "Spring";
+			break;
+		default:
+			break;
+	}
+	$('.course-info .semester').text(semesterName);
 	$('.course-info .year').text(course.get('year'));
 	$('#drop-course').attr('data-course-id', course.id);
 
