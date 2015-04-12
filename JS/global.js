@@ -72,7 +72,8 @@ function checkPage(activepage)
 
 //populates course drop-down when creating an event
 function populateCourseList(courses) {
-	var options = '<option selected="selected" value="">Select a course</option>';
+    var options = '<option selected="selected" value="">Select a course</option>';
+    $("#create-event").trigger("reset");
 	for (var i = courses.length - 1; i >= 0; i--) 
 	{
 		options += '<option value="' + courses[i].id + '">'
@@ -401,7 +402,7 @@ function getDate(date)
 
 	var year = date.getFullYear();
 	var month = monthNames[somedate.getMonth()];
-	var weekday = daysOfWeek[somedate.getDay()+1];
+	var weekday = daysOfWeek[somedate.getDay()];
 
 	var day = date.toString().substr(8, 2);
 
@@ -409,7 +410,7 @@ function getDate(date)
 		day = day.substr(1,1);
 	}
 
-	return weekday + ", " + month + " " + day + ", " + year;
+	return weekday + ", " + month + " " + day + " " + year;
 }
 
 //sets the visuals for up-/downvoting and inserts selected vote
@@ -558,7 +559,7 @@ function toggleCreateCourse() {
 //changes if time is visible or not on the create event page
 function toggleTime()
 {
-	if ($("#eventtype").val() == "1") 
+    if ($("#eventtype").val() == "alw1BjIGi2")
 	{
 		$("#eventtimediv").addClass("hidden");
 	}
