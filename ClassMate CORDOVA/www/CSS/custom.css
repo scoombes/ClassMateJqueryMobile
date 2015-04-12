@@ -1,0 +1,82 @@
+/* custom.css
+ *	    File contains all custom (non-jQuery) formatting
+ *
+ * 		Sean Coombes, Kyle Zimmerman, Justin Coschi  - 3/20/15 js file created
+ */
+
+@import "classmate.min.css";
+
+.eventfeed-item .course-name {
+	color: #aaa;
+}
+
+.eventfeed-item .assignment-name {
+	font-size: 1.5em;
+}
+
+.eventfeed-item .notifications {
+	width: 64px;
+}
+.eventfeed-item .important,
+.eventfeed-item .question {
+	width: 32px;
+	text-align: center;
+	display: inline-block;
+	font-size: 1.5em;
+	color: #38c;
+}
+
+.small-list {
+	max-height: 200px;
+	overflow-y: scroll;
+}
+
+.center-text{
+	text-align: center;
+}
+
+.ui-btn-big {
+	height: 28px;
+	line-height: 28px;
+}
+
+.votes{
+	float: right;
+}
+
+.hidden{
+	display: none;
+}
+
+#vote-buttons{
+	float: right;
+}
+
+.vote-bar {
+	position: absolute;
+	right: 8px;
+	top: 4px;
+	bottom: 4px;
+	width: 16px;
+	border: 1px solid #ddd;
+	background-color: #ddd;
+	text-align: center;
+	color: white;
+}
+
+.upvote-bar {
+	background-color: #0071bc;
+}
+
+.downvote-bar {
+	background-color: #c1272d;
+}
+
+.error {
+    color:red;
+    display:block;
+}
+
+#loginmessage{
+	color:red;
+}

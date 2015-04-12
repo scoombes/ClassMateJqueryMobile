@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.prog3180.classmate" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>ClassMate</name>
+    <description>
+        This app allows a student to view a timeline of upcoming due dates and events (such as tests and exams) for all of the courses they have joined.
+    </description>
+    <author email="JC, KZ, SC" href="">
+        Justin Coschi, Kyle Zimmerman, & Sean Coombes
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <icon src="www/icon/3/xxxhdpi.png" />
+</widget>
