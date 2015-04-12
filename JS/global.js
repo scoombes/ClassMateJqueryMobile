@@ -265,6 +265,7 @@ function handleCourseDetail(course) {
 	$('.course-info .teacher-name').text(course.get('teacherName'));
 	$('.course-info .semester').text(course.get('semester').get('semesterName'));
 	$('.course-info .year').text(course.get('year'));
+	$('#drop-course').attr('data-course-id', course.id);
 
 	Event.getEventsForCourse(course.id, function(results) {
 		for (var i = 0; i < results.length; i++) {
