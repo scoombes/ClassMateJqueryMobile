@@ -21,7 +21,7 @@ var Push = {
 	unsubscribe: function(channelName, success, error) {
 		ParsePushPlugin.unsubscribe(channelName, success, error);
 	},
-	send: function(data, channel) {
+	send: function(message, channel) {
 		return Parse.Push.send({
 			chennels: [channel],
 			data: message
