@@ -31,21 +31,6 @@ var Event =
 		query.get(id).then( function (event) {
 			successCallback(event);
 		});
-
-		/*var query = new Parse.Query(EventObject);
-		var eventVotes = {};
-
-		query.get(id).then(function(event) {
-			var voteQuery = new Parse.Object.Query(VoteObject);
-			eventVotes.event = event;
-			return voteQuery.greaterThan("value", 0).count();
-		}).then(function (upvotes) {
-			eventVotes.upvotes = upvotes;
-			return voteQuery.lessThan("value", 0).count();
-		}).then( function (downvotes) {
-			eventVotes.downvotes = downvotes;
-			successCallback(eventVotes);
-		});*/
 	},
 	//Gets all of the events for a specific course
 	getEventsForCourse: function(course_id, successCallback) {
@@ -115,25 +100,5 @@ var Event =
 				}
 			});
 		});
-
-
-		/*
-		var query = new Parse.Query(EventObject);
-		query.equalTo("upvoters", Parse.User.current())
-		query.find().then(function (upvoter) {
-			if (upvoter.length < 1 && value > 0) {
-				event.increment('upvotes');
-				event.relation('upvoters').add(Parse.User.current());
-				event.save();
-			}
-		*/
-	},
-	//Drop and re-init the table
-	nuke: function() {
-
-		/*
-		db.transaction(function(transaction) {
-			transaction.executeSql("DROP TABLE IF EXISTS event", [], Event.initialize, errorHandler);
-		}, errorHandler);*/
 	}
-}
+};

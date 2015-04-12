@@ -44,10 +44,6 @@ var User =
 		localStorage.clear();
 		$.mobile.changePage("login.html", { transition: "none" });
 	},
-	//Drops the table and re-initializes it
-	nuke: function() {
-		
-	},
 	//Gets the currently signed in user
 	getCurrent: function()
 	{

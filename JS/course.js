@@ -54,11 +54,5 @@ var Course =
 			course.relation('members').remove(Parse.User.current());
 			 course.save().then(successCallback, errorCallback);
 		});	
-	},
-	//Drops the table and re-initializes it.
-	nuke: function() {
-		db.transaction(function(transaction) {
-			transaction.executeSql("DROP TABLE IF EXISTS course", [], Course.initialize, errorHandler);
-		}, errorHandler);
 	}
 }
