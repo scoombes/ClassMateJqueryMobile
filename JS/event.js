@@ -62,7 +62,8 @@ var Event =
 	//Gets ALL of the events that the current user can see
 	getAll: function(successCallback) {
 		var query = new Parse.Query(EventObject);
-		query.include('course').find().then(successCallback, parseErrorHandler);
+		query.include('course').include('members').find().then(successCallback, parseErrorHandler);
+
 	},
 	vote: function(event_id, value, successCallback) {
 		var hadUpvoted = false;
