@@ -62,6 +62,7 @@
 	background-color: #ddd;
 	text-align: center;
 	color: white;
+	text-shadow: 0 0 4px rgba(0,0,0,0.8);
 }
 
 .upvote-bar {
@@ -70,6 +71,12 @@
 
 .downvote-bar {
 	background-color: #c1272d;
+}
+
+.upvote-bar > span,
+.downvote-bar > span {
+	position: relative;
+	top: calc(50% - 1em/2); /* Vertically Center the span */
 }
 
 .error {

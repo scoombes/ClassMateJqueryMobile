@@ -322,11 +322,11 @@ function createEventElement(eventItem) {
 
 	display.find('.upvote-bar').css('height', upvotePercent + '%');
 	if (upvotes > 0) {
-		display.find('.upvote-bar').html(upvotes);
+		display.find('.upvote-bar').html('<span>' + upvotes + '</span>');
 	}
 	display.find('.downvote-bar').css('height', downvotePercent + '%');
 	if (downvotes > 0) {
-		display.find('.downvote-bar').html(downvotes);
+		display.find('.downvote-bar').html('<span>' + downvotes + '</span>');
 	}
 	display.appendTo(eventElement);
 
