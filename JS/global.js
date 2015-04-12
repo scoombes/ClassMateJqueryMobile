@@ -23,6 +23,7 @@ $(document).on("pagecontainerbeforeshow", function (event, ui) {
 	$("#logout-button").on("click", function (){User.logout()});
 	$("#add-course-form").hide();
 	$("#toggle-create-course").on("click", toggleCreateCourse);
+	$("#drop-course").on("click", dropCourse);
 
 	$.mobile.defaultPageTransition = 'none';
 });
@@ -203,6 +204,15 @@ function addExistingCourse() {
 	});
 }
 
+function dropCourse() {
+	var id = $(this).attr('data-course-id');
+	Course.drop(id, function() {
+		$.mobile.changePage('courses.html'); 
+	}, function(error) {
+		alert('You are not in this course');
+	});
+}
+
 //prepares courses that user is in into a course list
 function handleCoursesLoad(results) {
 	var courseList = $('.course-list');
@@ -255,6 +265,7 @@ function handleCourseDetail(course) {
 	$('.course-info .teacher-name').text(course.get('teacherName'));
 	$('.course-info .semester').text(course.get('semester').get('semesterName'));
 	$('.course-info .year').text(course.get('year'));
+	$('#drop-course').attr('data-course-id', course.id);
 
 	Event.getEventsForCourse(course.id, function(results) {
 		for (var i = 0; i < results.length; i++) {

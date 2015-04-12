@@ -66,23 +66,54 @@ var Event =
 
 	},
 	vote: function(event_id, value, successCallback) {
-		/*Event.get(event_id, function(event) {
-			if (value > 0) {
-				event.increment('upvotes');
-			} else {
-				event.increment('downvotes');
-			}
-		});*/
+		var hadUpvoted = false;
+		var hadDownvoted = false;
 
-		var ups = new Parse.Query(EventObject);
-		ups.equalTo("upvoters", Parse.User.current());
-		var downs = new Parse.Query(EventObject);
-		downs.equalTo("downvoters", Parse.User.current());
+		Event.read(event_id, function(event) {
+			var ups = event.relation('upvoters').query();
+			ups.equalTo("objectId", Parse.User.current().id);
 
-		var both = Parse.Query.or(ups, downs);
-		both.find().then(function (results) {
-			alert(results.get("upvoters"));
+			var downs = event.relation('downvoters').query();
+			downs.equalTo("objectId", Parse.User.current().id);
+
+			ups.count().then(function(upCount) {
+				hadUpvoted = upCount > 0;
+				return downs.count();
+			}).then(function(downCount) {
+				hadDownvoted = downCount > 0;
+
+				if (hadUpvoted || hadDownvoted) {
+					if (!hadDownvoted && hadUpvoted && value < 0) {
+						//Remove upvote, add downvote
+						event.increment('upvotes', -1);
+						event.increment('downvotes');
+						event.relation('upvoters').remove(Parse.User.current());
+						event.relation('downvoters').add(Parse.User.current());
+						event.save();
+					} else if (!hadUpvoted && hadDownvoted && value > 0) {
+						//Remove downvote, add upvote
+						event.increment('upvotes');
+						event.increment('downvotes', -1);
+						event.relation('upvoters').add(Parse.User.current());
+						event.relation('downvoters').remove(Parse.User.current());
+						event.save();
+					}
+				} else {
+					if (value > 0) {
+						//Add new upvote
+						event.increment('upvotes');
+						event.relation('upvoters').add(Parse.User.current());
+						event.save();
+					} else if (value < 0) {
+						//Add new downvote
+						event.increment('downvotes');
+						event.relation('downvoters').add(Parse.User.current());
+						event.save();
+					}
+				}
+			});
 		});
+
 
 		/*
 		var query = new Parse.Query(EventObject);

@@ -7,24 +7,6 @@ var CourseObject = Parse.Object.extend("Course");
 
 var Course =
 {
-	//Creates the course table
-	initialize: function() {
-		// db.transaction(function(transaction) {
-		// 	var sql = "CREATE TABLE IF NOT EXISTS course ("
-		// 		+ "id INTEGER PRIMARY KEY,"
-		// 		+ "course_code VARCHAR NOT NULL,"
-		// 		+ "section VARCHAR NOT NULL,"
-		// 		+ "name VARCHAR NOT NULL,"
-		// 		+ "semester_id INTEGER NOT NULL,"
-		// 		+ "year INTEGER NOT NULL,"
-		// 		+ "teacher_name VARCHAR,"
-		// 		+ "creator_id INTEGER"
-		// 		+ ")"; 
-
-		// 	transaction.executeSql(sql, [], null, errorHandler);
-
-		// }, errorHandler);
-	},
 	//Allows a course to be inserted into the database. Note: validate the values before calling the function
 	insert: function(course_code, section, name, semester_id, year, teacher_name, creator_id, successCallback) {
 		var course = new CourseObject();
@@ -66,6 +48,12 @@ var Course =
 			course.relation('members').add(Parse.User.current());
 			 course.save().then(successCallback, errorCallback);
 		});
+	},
+	drop: function(id, successCallback, errorCallback) {
+		Course.getCourse(id, function(course) {
+			course.relation('members').remove(Parse.User.current());
+			 course.save().then(successCallback, errorCallback);
+		});	
 	},
 	//Drops the table and re-initializes it.
 	nuke: function() {
